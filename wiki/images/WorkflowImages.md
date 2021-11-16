@@ -11,3 +11,5 @@
 # Invoice Customer Diagram
 ![Invoice Customer Workflow](https://user-images.githubusercontent.com/87525401/141997233-ac36555d-8519-4766-b22d-80000d564a6d.png)
 
+# Ticket Processing Diagram
+![ticket-proccessing-workflow](https://user-images.githubusercontent.com/88362571/141998294-120dee36-1cbb-4f5d-beb0-59f9dda1bd16.png)
