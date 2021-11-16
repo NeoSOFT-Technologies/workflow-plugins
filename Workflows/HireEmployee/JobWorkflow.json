@@ -1,0 +1,222 @@
+{
+  "$id": "1",
+  "definitionId": "6c586693827d4658a43faeae4a84f605",
+  "versionId": "f1a727093bec4a019b46039ae6e70bd0",
+  "displayName": "HireEmployee Job workflow",
+  "version": 2,
+  "variables": {
+    "$id": "2",
+    "data": {}
+  },
+  "customAttributes": {
+    "$id": "3",
+    "data": {}
+  },
+  "isSingleton": false,
+  "persistenceBehavior": "WorkflowBurst",
+  "deleteCompletedInstances": false,
+  "isPublished": true,
+  "isLatest": true,
+  "activities": [
+    {
+      "$id": "4",
+      "activityId": "15325833-fff0-404a-ab7a-c1c3fbd08d8b",
+      "type": "HttpEndpoint",
+      "displayName": "Job Added HTTP Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "5",
+          "name": "Path",
+          "expressions": {
+            "$id": "6",
+            "Literal": "/jobAdded"
+          }
+        },
+        {
+          "$id": "7",
+          "name": "Methods",
+          "expressions": {
+            "$id": "8",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "9",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "10",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "11",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "12"
+          }
+        },
+        {
+          "$id": "13",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "14"
+          }
+        },
+        {
+          "$id": "15",
+          "name": "Policy",
+          "expressions": {
+            "$id": "16"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "17",
+      "activityId": "fe9635df-c79d-451f-bfb6-636d66c1dff1",
+      "type": "SetVariable",
+      "displayName": "Job Object Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "18",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "19",
+            "Literal": "Job"
+          }
+        },
+        {
+          "$id": "20",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "21",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "22",
+      "activityId": "33b51232-e62b-48a2-a461-3fbd7ff70aa9",
+      "type": "SendEmail",
+      "displayName": "Send Email to HR",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "23",
+          "name": "From",
+          "expressions": {
+            "$id": "24",
+            "Literal": "system@admin.com"
+          }
+        },
+        {
+          "$id": "25",
+          "name": "To",
+          "expressions": {
+            "$id": "26",
+            "JavaScript": "",
+            "Json": "[\"hr@neosoft.com\"]"
+          }
+        },
+        {
+          "$id": "27",
+          "name": "Subject",
+          "expressions": {
+            "$id": "28",
+            "Literal": "New Job Added"
+          }
+        },
+        {
+          "$id": "29",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "30"
+          }
+        },
+        {
+          "$id": "31",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "32",
+            "Liquid": "New Job(Job Id:- {{Variables.Job.Id}}) Added with role {{Variables.Job.Designation}}"
+          }
+        },
+        {
+          "$id": "33",
+          "name": "Cc",
+          "expressions": {
+            "$id": "34"
+          }
+        },
+        {
+          "$id": "35",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "36"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "37",
+      "activityId": "f2825c6e-8c64-487c-a68b-a8b7dcf56977",
+      "type": "Finish",
+      "displayName": "Finish",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "38",
+          "name": "ActivityOutput",
+          "expressions": {
+            "$id": "39"
+          }
+        },
+        {
+          "$id": "40",
+          "name": "OutcomeNames",
+          "expressions": {
+            "$id": "41"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    }
+  ],
+  "connections": [
+    {
+      "$id": "42",
+      "sourceActivityId": "15325833-fff0-404a-ab7a-c1c3fbd08d8b",
+      "targetActivityId": "fe9635df-c79d-451f-bfb6-636d66c1dff1",
+      "outcome": "Done"
+    },
+    {
+      "$id": "43",
+      "sourceActivityId": "fe9635df-c79d-451f-bfb6-636d66c1dff1",
+      "targetActivityId": "33b51232-e62b-48a2-a461-3fbd7ff70aa9",
+      "outcome": "Done"
+    },
+    {
+      "$id": "44",
+      "sourceActivityId": "33b51232-e62b-48a2-a461-3fbd7ff70aa9",
+      "targetActivityId": "f2825c6e-8c64-487c-a68b-a8b7dcf56977",
+      "outcome": "Done"
+    }
+  ],
+  "id": "f1a727093bec4a019b46039ae6e70bd0"
+}

@@ -1,0 +1,2035 @@
+{
+  "$id": "1",
+  "definitionId": "4e2055908395484cb1a26da85eba08e6",
+  "versionId": "61b231389b09471b8e3260c3b3ca9ca8",
+  "displayName": "HireEmployee applicant workflow",
+  "version": 28,
+  "variables": {
+    "$id": "2",
+    "data": {}
+  },
+  "customAttributes": {
+    "$id": "3",
+    "data": {}
+  },
+  "isSingleton": false,
+  "persistenceBehavior": "WorkflowBurst",
+  "deleteCompletedInstances": false,
+  "isPublished": false,
+  "isLatest": true,
+  "activities": [
+    {
+      "$id": "4",
+      "activityId": "e12bce0d-29dc-44e5-94e9-ee5a38076136",
+      "type": "SendEmail",
+      "displayName": "Review Email to HR",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "5",
+          "name": "From",
+          "expressions": {
+            "$id": "6",
+            "Literal": "system@admin.com"
+          }
+        },
+        {
+          "$id": "7",
+          "name": "To",
+          "expressions": {
+            "$id": "8",
+            "Json": "[\"hr@neosoft.com\"]",
+            "JavaScript": ""
+          }
+        },
+        {
+          "$id": "9",
+          "name": "Subject",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "10",
+            "Literal": "Mail",
+            "Liquid": "HR--Review Application of Candidate ",
+            "JavaScript": ""
+          }
+        },
+        {
+          "$id": "11",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "12"
+          }
+        },
+        {
+          "$id": "13",
+          "name": "Body",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "14",
+            "Literal": "",
+            "Liquid": "",
+            "JavaScript": "`Please review application for ${Candidate.Designation} role by ${Candidate.Name}`"
+          }
+        },
+        {
+          "$id": "15",
+          "name": "Cc",
+          "expressions": {
+            "$id": "16"
+          }
+        },
+        {
+          "$id": "17",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "18"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "19",
+      "activityId": "d91599d9-65cc-48a9-9fef-df72860828c3",
+      "type": "SetVariable",
+      "displayName": "Candidate Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "20",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "21",
+            "Literal": "Candidate"
+          }
+        },
+        {
+          "$id": "22",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "23",
+            "Liquid": "{{Input}}",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "24",
+      "activityId": "f9323d4d-6e23-4abc-a829-2bc190bd15e1",
+      "type": "HttpEndpoint",
+      "displayName": "HTTP Endpoint handleReview",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "25",
+          "name": "Path",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "26",
+            "Liquid": "/handleReview"
+          }
+        },
+        {
+          "$id": "27",
+          "name": "Methods",
+          "expressions": {
+            "$id": "28",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "29",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "30",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "31",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "32"
+          }
+        },
+        {
+          "$id": "33",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "34"
+          }
+        },
+        {
+          "$id": "35",
+          "name": "Policy",
+          "expressions": {
+            "$id": "36"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "37",
+      "activityId": "a60eb67c-2f80-42ae-91e8-86789dca66d7",
+      "type": "SetVariable",
+      "displayName": "Update Candidate Variable",
+      "description": "handleReview",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "38",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "39",
+            "Literal": "Candidate"
+          }
+        },
+        {
+          "$id": "40",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "41",
+            "Liquid": "{{Input}}",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "42",
+      "activityId": "87f08cba-d763-4839-b7b1-294ace2be329",
+      "type": "If",
+      "displayName": "check HR Review status",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "43",
+          "name": "Condition",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "44",
+            "Liquid": "{{Variables.Candidate.Review}}",
+            "JavaScript": "Candidate.Review"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "45",
+      "activityId": "bd0e4e83-273c-4028-999b-d5703cc0887a",
+      "type": "SendEmail",
+      "displayName": "Rejection Mail",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "46",
+          "name": "From",
+          "expressions": {
+            "$id": "47",
+            "Literal": "system@admin.com"
+          }
+        },
+        {
+          "$id": "48",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "49",
+            "JavaScript": "[Candidate.Email]",
+            "Json": "[\"static@handleReview.com\"]"
+          }
+        },
+        {
+          "$id": "50",
+          "name": "Subject",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "51",
+            "Liquid": "CANDIDATE--Application Status for {{Variables.Candidate.Designation}}"
+          }
+        },
+        {
+          "$id": "52",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "53"
+          }
+        },
+        {
+          "$id": "54",
+          "name": "Body",
+          "expressions": {
+            "$id": "55",
+            "Literal": "You failed review process conducted by our HR\nPlease again later"
+          }
+        },
+        {
+          "$id": "56",
+          "name": "Cc",
+          "expressions": {
+            "$id": "57"
+          }
+        },
+        {
+          "$id": "58",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "59"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "60",
+      "activityId": "c45f4035-7e41-40b6-a9f4-d41f72491d76",
+      "type": "SendEmail",
+      "displayName": "Mail for handlePhoneScreening",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "61",
+          "name": "From",
+          "expressions": {
+            "$id": "62",
+            "Literal": "system@admin.com"
+          }
+        },
+        {
+          "$id": "63",
+          "name": "To",
+          "expressions": {
+            "$id": "64",
+            "Json": "[\"nikita@neosofttech.com\"]"
+          }
+        },
+        {
+          "$id": "65",
+          "name": "Subject",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "66",
+            "Liquid": "Phone Screening for ",
+            "JavaScript": "\"NIKITA -- Schedule Phone Screen for \"+ Candidate.Designation"
+          }
+        },
+        {
+          "$id": "67",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "68"
+          }
+        },
+        {
+          "$id": "69",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "70",
+            "Liquid": "Conduct a phone screening session tomorrow with {{Variables.Candidate.Designation}} at 2pm and update status on portal"
+          }
+        },
+        {
+          "$id": "71",
+          "name": "Cc",
+          "expressions": {
+            "$id": "72"
+          }
+        },
+        {
+          "$id": "73",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "74"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "75",
+      "activityId": "e4e84f27-c4c6-4e33-a0ad-3030fab6a1e0",
+      "type": "HttpEndpoint",
+      "displayName": "HTTP Endpoint handlePhoneScreening",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "76",
+          "name": "Path",
+          "expressions": {
+            "$id": "77",
+            "Literal": "/handlePhoneScreening",
+            "Liquid": ""
+          }
+        },
+        {
+          "$id": "78",
+          "name": "Methods",
+          "expressions": {
+            "$id": "79",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "80",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "81",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "82",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "83"
+          }
+        },
+        {
+          "$id": "84",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "85"
+          }
+        },
+        {
+          "$id": "86",
+          "name": "Policy",
+          "expressions": {
+            "$id": "87"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "88",
+      "activityId": "0f991bdc-fb2c-443d-b42a-d6830a26094e",
+      "type": "SetVariable",
+      "displayName": "Update Candidate Variable",
+      "description": "handlePhoneScreening",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "89",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "90",
+            "Literal": "Candidate"
+          }
+        },
+        {
+          "$id": "91",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "92",
+            "Liquid": "{{Input}}",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "93",
+      "activityId": "32d9c0ee-22c9-4862-bc9c-30dd0de60950",
+      "type": "If",
+      "displayName": "If/Else",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "94",
+          "name": "Condition",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "95",
+            "JavaScript": "Candidate.PhoneScreening"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "96",
+      "activityId": "96763376-2d1c-4fd2-82ed-c1c413e65650",
+      "type": "HttpEndpoint",
+      "displayName": "HTTP Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "97",
+          "name": "Path",
+          "expressions": {
+            "$id": "98",
+            "Literal": "/initiateHiring"
+          }
+        },
+        {
+          "$id": "99",
+          "name": "Methods",
+          "expressions": {
+            "$id": "100",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "101",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "102",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "103",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "104"
+          }
+        },
+        {
+          "$id": "105",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "106"
+          }
+        },
+        {
+          "$id": "107",
+          "name": "Policy",
+          "expressions": {
+            "$id": "108"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "109",
+      "activityId": "664b9a47-607e-4a91-89fd-ce72c8717108",
+      "type": "SendEmail",
+      "displayName": "Interview mail to Interviewer",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "110",
+          "name": "From",
+          "expressions": {
+            "$id": "111",
+            "Literal": "system@admin.com"
+          }
+        },
+        {
+          "$id": "112",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "113",
+            "Json": "[\"interviewer@neosofttech.com\"]",
+            "JavaScript": "[InterviewDetail.Email]"
+          }
+        },
+        {
+          "$id": "114",
+          "name": "Subject",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "115",
+            "JavaScript": "",
+            "Liquid": "INTERVIEWER--Interview scheduled for {{Variables.Candidate.Designation}} role"
+          }
+        },
+        {
+          "$id": "116",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "117"
+          }
+        },
+        {
+          "$id": "118",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "119",
+            "Liquid": "Hii {{Variables.InterviewDetail.Name}}\r\nA interview is scheduled on dateTime {{Variables.InterviewDetail.DateNTime}} with {{Variables.Candidate.Name}} for {{Variables.Candidate.Designation}} role."
+          }
+        },
+        {
+          "$id": "120",
+          "name": "Cc",
+          "expressions": {
+            "$id": "121"
+          }
+        },
+        {
+          "$id": "122",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "123"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "124",
+      "activityId": "211f9afa-3036-49bf-8a84-5d0979e86efc",
+      "type": "SendEmail",
+      "displayName": "Interview mail to Candidate",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "125",
+          "name": "From",
+          "expressions": {
+            "$id": "126",
+            "Literal": "system@admin.com"
+          }
+        },
+        {
+          "$id": "127",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "128",
+            "JavaScript": "[Candidate.Email]",
+            "Json": "[]"
+          }
+        },
+        {
+          "$id": "129",
+          "name": "Subject",
+          "expressions": {
+            "$id": "130",
+            "Literal": "CANDIDATE--Interview scheduled at NeoSOFT Technologies"
+          }
+        },
+        {
+          "$id": "131",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "132"
+          }
+        },
+        {
+          "$id": "133",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "134",
+            "Liquid": "You interview is scheduled on dateTime {{Variables.InterviewDetail.DateNTime}} with {{Variables.InterviewDetail.Name}} for {{Variables.Candidate.Designation}}\r\nPlease join 10 mins early"
+          }
+        },
+        {
+          "$id": "135",
+          "name": "Cc",
+          "expressions": {
+            "$id": "136"
+          }
+        },
+        {
+          "$id": "137",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "138"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "139",
+      "activityId": "e9567239-67ad-46e4-97b6-b2199d4269da",
+      "type": "SendEmail",
+      "displayName": "Rejection Email",
+      "description": "",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "140",
+          "name": "From",
+          "expressions": {
+            "$id": "141",
+            "Literal": "system@admin.com"
+          }
+        },
+        {
+          "$id": "142",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "143",
+            "JavaScript": "[Candidate.Email]",
+            "Json": "[]"
+          }
+        },
+        {
+          "$id": "144",
+          "name": "Subject",
+          "expressions": {
+            "$id": "145",
+            "Literal": "CANDIDATE--Job Application update for NeoSOFT"
+          }
+        },
+        {
+          "$id": "146",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "147"
+          }
+        },
+        {
+          "$id": "148",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "149",
+            "Liquid": "Based on your phone screening for {{Variables.Candidate.Job.Name}} you have been not selected.\r\nPlease try again later\r\nAll The Best "
+          }
+        },
+        {
+          "$id": "150",
+          "name": "Cc",
+          "expressions": {
+            "$id": "151"
+          }
+        },
+        {
+          "$id": "152",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "153"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "154",
+      "activityId": "7a7b19ad-0adc-45a6-8abb-bf2fde3e469b",
+      "type": "Correlate",
+      "displayName": "Correlate",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "155",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "156",
+            "JavaScript": "Candidate.Id"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "157",
+      "activityId": "4d42e405-d3a8-40f2-bab4-688d87b8badf",
+      "type": "HttpEndpoint",
+      "displayName": "HTTP Endpoint handleInterview",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "158",
+          "name": "Path",
+          "expressions": {
+            "$id": "159",
+            "Literal": "/handleInterview"
+          }
+        },
+        {
+          "$id": "160",
+          "name": "Methods",
+          "expressions": {
+            "$id": "161",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "162",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "163",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "164",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "165"
+          }
+        },
+        {
+          "$id": "166",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "167"
+          }
+        },
+        {
+          "$id": "168",
+          "name": "Policy",
+          "expressions": {
+            "$id": "169"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "170",
+      "activityId": "9701c957-4e65-4543-a0c5-6846c7eb2478",
+      "type": "SetVariable",
+      "displayName": "Update Candidate Variable",
+      "description": "handleInterview",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "171",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "172",
+            "Literal": "Candidate"
+          }
+        },
+        {
+          "$id": "173",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "174",
+            "Liquid": "{{Input}}",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "175",
+      "activityId": "1c350f7d-1383-438e-bd02-776cb9db05a8",
+      "type": "If",
+      "displayName": "check interview status",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "176",
+          "name": "Condition",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "177",
+            "JavaScript": "Candidate.Interview"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "178",
+      "activityId": "952a947f-c61c-4f90-bc6c-ba491dff9cc4",
+      "type": "SendEmail",
+      "displayName": "Rejection Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "179",
+          "name": "From",
+          "expressions": {
+            "$id": "180",
+            "Literal": "system@admin.com"
+          }
+        },
+        {
+          "$id": "181",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "182",
+            "JavaScript": "[Candidate.Email]",
+            "Json": "[\"staticRejectionMail@handleInterview.com\"]"
+          }
+        },
+        {
+          "$id": "183",
+          "name": "Subject",
+          "expressions": {
+            "$id": "184",
+            "Literal": "CANDIDATE--Job Application Update for NeoSOFT"
+          }
+        },
+        {
+          "$id": "185",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "186"
+          }
+        },
+        {
+          "$id": "187",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "188",
+            "Liquid": "Based on your interview you have been not selected for {{Variables.Candidate.Designation}} role in NeoSOFTn Technologies.\r\nPlease try again later\r\nAll the Best"
+          }
+        },
+        {
+          "$id": "189",
+          "name": "Cc",
+          "expressions": {
+            "$id": "190"
+          }
+        },
+        {
+          "$id": "191",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "192"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "193",
+      "activityId": "aeb6e679-585f-4ea2-8e61-9c7a70fd8dfd",
+      "type": "SendEmail",
+      "displayName": "Offer Letter Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "194",
+          "name": "From",
+          "expressions": {
+            "$id": "195",
+            "Literal": "system@admin.com"
+          }
+        },
+        {
+          "$id": "196",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "197",
+            "JavaScript": "[Candidate.Email]",
+            "Json": "[\"[\"]"
+          }
+        },
+        {
+          "$id": "198",
+          "name": "Subject",
+          "expressions": {
+            "$id": "199",
+            "Literal": "CANDIDATE--Offer Letter of NeoSOFT"
+          }
+        },
+        {
+          "$id": "200",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "201"
+          }
+        },
+        {
+          "$id": "202",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "203",
+            "Liquid": "Congratulations!!!\r\nYou have cleared interview at NeoSOFT Technologies for {{Variables.Candidate.Designation}}\r\nOffer letter is attached to this mail \r\nPlease choose below whether you accept the offer or not.\r\n<h1 style=\"background-color:green;\"><a href=\"{{ \"Accept\" | signal_url }}\">Accept</a></h1>   <h1 style=\"background-color:red;\"><a href=\"{{ \"Reject\" | signal_url }}\">Reject</a></h1>         "
+          }
+        },
+        {
+          "$id": "204",
+          "name": "Cc",
+          "expressions": {
+            "$id": "205"
+          }
+        },
+        {
+          "$id": "206",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "207"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "208",
+      "activityId": "96550082-df00-4e00-914e-53545881a9be",
+      "type": "Correlate",
+      "displayName": "Correlate",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "209",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "210",
+            "JavaScript": "Candidate.Id"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "211",
+      "activityId": "606282bb-cdcf-4634-af4f-1ff7aef282cd",
+      "type": "Correlate",
+      "displayName": "Correlate",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "212",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "213",
+            "JavaScript": "Candidate.Id"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "214",
+      "activityId": "87b066b1-dbc9-44ac-ad24-e68252f810da",
+      "type": "Finish",
+      "displayName": "Finish",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "215",
+          "name": "ActivityOutput",
+          "expressions": {
+            "$id": "216"
+          }
+        },
+        {
+          "$id": "217",
+          "name": "OutcomeNames",
+          "expressions": {
+            "$id": "218"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "219",
+      "activityId": "461dd334-8725-4abc-99f8-0b822ca5be71",
+      "type": "SendEmail",
+      "displayName": "Thankyou Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "220",
+          "name": "From",
+          "expressions": {
+            "$id": "221",
+            "Literal": "system@admin.com"
+          }
+        },
+        {
+          "$id": "222",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "223",
+            "JavaScript": "[Candidate.Email]"
+          }
+        },
+        {
+          "$id": "224",
+          "name": "Subject",
+          "expressions": {
+            "$id": "225",
+            "Literal": "CANDIDATE--Job Application update"
+          }
+        },
+        {
+          "$id": "226",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "227"
+          }
+        },
+        {
+          "$id": "228",
+          "name": "Body",
+          "expressions": {
+            "$id": "229",
+            "Literal": "You have rejected the offer letter.\nThankyou"
+          }
+        },
+        {
+          "$id": "230",
+          "name": "Cc",
+          "expressions": {
+            "$id": "231"
+          }
+        },
+        {
+          "$id": "232",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "233"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "234",
+      "activityId": "25612c60-547c-4e23-b5e1-ff538b61323b",
+      "type": "SendEmail",
+      "displayName": "Onboard Process Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "235",
+          "name": "From",
+          "expressions": {
+            "$id": "236",
+            "Literal": "Onboarding@admin.com"
+          }
+        },
+        {
+          "$id": "237",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "238",
+            "Json": "[\"[Can\"]",
+            "JavaScript": "[Candidate.Email]"
+          }
+        },
+        {
+          "$id": "239",
+          "name": "Subject",
+          "expressions": {
+            "$id": "240",
+            "Literal": "CANDIDATE--Welcome Onboard"
+          }
+        },
+        {
+          "$id": "241",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "242"
+          }
+        },
+        {
+          "$id": "243",
+          "name": "Body",
+          "expressions": {
+            "$id": "244",
+            "Literal": "Welcome to Onboarding process from now Onboard team will asist you..."
+          }
+        },
+        {
+          "$id": "245",
+          "name": "Cc",
+          "expressions": {
+            "$id": "246"
+          }
+        },
+        {
+          "$id": "247",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "248"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "249",
+      "activityId": "f95d604b-ba4c-4e6e-8086-5625f755f58e",
+      "type": "SendEmail",
+      "displayName": "Phone Screening Mail to Candidate",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "250",
+          "name": "From",
+          "expressions": {
+            "$id": "251",
+            "Literal": "system@admin.com"
+          }
+        },
+        {
+          "$id": "252",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "253",
+            "Json": "[\"[C\"]",
+            "JavaScript": "[Candidate.Email]"
+          }
+        },
+        {
+          "$id": "254",
+          "name": "Subject",
+          "expressions": {
+            "$id": "255",
+            "Literal": "CANDIDATE-- Neosoft Application Update"
+          }
+        },
+        {
+          "$id": "256",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "257"
+          }
+        },
+        {
+          "$id": "258",
+          "name": "Body",
+          "expressions": {
+            "$id": "259",
+            "Literal": "Your Phone Screening is scheduled for tomorrow at 2pm-2:30pm.\nPlease stay available"
+          }
+        },
+        {
+          "$id": "260",
+          "name": "Cc",
+          "expressions": {
+            "$id": "261"
+          }
+        },
+        {
+          "$id": "262",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "263"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "264",
+      "activityId": "06e85e76-6ce4-4b8d-8523-e649f2ca4369",
+      "type": "Fork",
+      "displayName": "Fork",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "265",
+          "name": "Branches",
+          "expressions": {
+            "$id": "266",
+            "Json": "[\"Accept\",\"Reject\"]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "267",
+      "activityId": "17e51b98-0b3b-44c6-8837-c533dfc6d31d",
+      "type": "SignalReceived",
+      "displayName": "Accept Signal Received",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "268",
+          "name": "Signal",
+          "expressions": {
+            "$id": "269",
+            "Literal": "Accept"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "270",
+      "activityId": "9b87ee14-3833-4eb1-a671-f3cb0bc43046",
+      "type": "SignalReceived",
+      "displayName": "Reject Signal Received",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "271",
+          "name": "Signal",
+          "expressions": {
+            "$id": "272",
+            "Literal": "Reject"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "273",
+      "activityId": "db6a4e90-84bb-4d31-bb48-63d006cd2e1d",
+      "type": "SendHttpRequest",
+      "displayName": "Send Reject Offer Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "274",
+          "name": "Url",
+          "expressions": {
+            "$id": "275",
+            "Literal": "https://localhost:44354/api/Candidate/setOfferAcceptedStatus?id={{Variables.Candidate.Id}}&status=false"
+          }
+        },
+        {
+          "$id": "276",
+          "name": "Method",
+          "expressions": {
+            "$id": "277",
+            "Literal": "PUT"
+          }
+        },
+        {
+          "$id": "278",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "279",
+            "Liquid": ""
+          }
+        },
+        {
+          "$id": "280",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "281",
+            "Literal": "application/json"
+          }
+        },
+        {
+          "$id": "282",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "283"
+          }
+        },
+        {
+          "$id": "284",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "285"
+          }
+        },
+        {
+          "$id": "286",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "287"
+          }
+        },
+        {
+          "$id": "288",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "289"
+          }
+        },
+        {
+          "$id": "290",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "291"
+          }
+        },
+        {
+          "$id": "292",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "293"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "294",
+      "activityId": "349b1f90-a960-4b56-b2bb-9f8add2728b2",
+      "type": "SendHttpRequest",
+      "displayName": "Send Accept Offer Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "295",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "296",
+            "Literal": "",
+            "Liquid": "https://localhost:44354/api/Candidate/setOfferAcceptedStatus?id={{Variables.Candidate.Id}}&status=true"
+          }
+        },
+        {
+          "$id": "297",
+          "name": "Method",
+          "expressions": {
+            "$id": "298",
+            "Literal": "PUT"
+          }
+        },
+        {
+          "$id": "299",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "300",
+            "Literal": "{{{",
+            "Liquid": ""
+          }
+        },
+        {
+          "$id": "301",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "302",
+            "Literal": "application/json"
+          }
+        },
+        {
+          "$id": "303",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "304"
+          }
+        },
+        {
+          "$id": "305",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "306"
+          }
+        },
+        {
+          "$id": "307",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "308"
+          }
+        },
+        {
+          "$id": "309",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "310"
+          }
+        },
+        {
+          "$id": "311",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "312"
+          }
+        },
+        {
+          "$id": "313",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "314"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "315",
+      "activityId": "93ee9a04-11d1-4a54-b270-fbafceec2147",
+      "type": "WriteHttpResponse",
+      "displayName": "HTTP Accept Response",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "316",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "317",
+            "Literal": "<h1>",
+            "Liquid": "<head></head>\r\n<body style=\"background-color:limegreen;\">\r\n<h1>Hii {{Variables.Candidate.Name}}</h1>\r\n<h3>Thankyou for accepting the offer, check your mail for further details</h3>\r\n</body>"
+          }
+        },
+        {
+          "$id": "318",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "319",
+            "Literal": "text/html"
+          }
+        },
+        {
+          "$id": "320",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "321"
+          }
+        },
+        {
+          "$id": "322",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "323"
+          }
+        },
+        {
+          "$id": "324",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "325"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "326",
+      "activityId": "645a0338-920d-4c03-9dcd-0b9ec7cee3ee",
+      "type": "WriteHttpResponse",
+      "displayName": "HTTP Reject Response",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "327",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "328",
+            "Liquid": "<head></head>\r\n<body style=\"background-color:yellow\">\r\n<h1>Hii {{Variables.Candidate.Name}}</h1>\r\n<h3>Thankyou for showing interest in NeoSoft</h3>\r\n</body>"
+          }
+        },
+        {
+          "$id": "329",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "330",
+            "Literal": "text/html"
+          }
+        },
+        {
+          "$id": "331",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "332"
+          }
+        },
+        {
+          "$id": "333",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "334"
+          }
+        },
+        {
+          "$id": "335",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "336"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "337",
+      "activityId": "627b1058-785b-4cba-a624-5d1f52955aad",
+      "type": "SetVariable",
+      "displayName": "InterviewDetail Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "338",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "339",
+            "Literal": "InterviewDetail"
+          }
+        },
+        {
+          "$id": "340",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "341",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "342",
+      "activityId": "ac941ad9-996f-45d8-bced-f539171ae1eb",
+      "type": "SendEmail",
+      "displayName": "Schedule Interview Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "343",
+          "name": "From",
+          "expressions": {
+            "$id": "344",
+            "Literal": "system@admin.com"
+          }
+        },
+        {
+          "$id": "345",
+          "name": "To",
+          "expressions": {
+            "$id": "346",
+            "Json": "[\"HR@neosoft.com\"]"
+          }
+        },
+        {
+          "$id": "347",
+          "name": "Subject",
+          "expressions": {
+            "$id": "348",
+            "Literal": "HR--Schedule Interview "
+          }
+        },
+        {
+          "$id": "349",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "350"
+          }
+        },
+        {
+          "$id": "351",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "352",
+            "Liquid": "Schedule Interview for {{Variables.Candidate.Designation}} role of {{Variables.Candidate.Name}} with Id {{Variables.Candidate.Id}}\r\n"
+          }
+        },
+        {
+          "$id": "353",
+          "name": "Cc",
+          "expressions": {
+            "$id": "354"
+          }
+        },
+        {
+          "$id": "355",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "356"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "357",
+      "activityId": "6ff02c1f-76c5-45b1-a3be-c1cbab2c8ae7",
+      "type": "Correlate",
+      "displayName": "Correlate",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "358",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "359",
+            "Literal": "Candid",
+            "Liquid": "",
+            "JavaScript": "Candidate.Id"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "360",
+      "activityId": "033d25a5-db32-4f75-85cf-388d71c5a5d3",
+      "type": "HttpEndpoint",
+      "displayName": "InterviewSchedule HTTP Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "361",
+          "name": "Path",
+          "expressions": {
+            "$id": "362",
+            "Literal": "/interviewSchedule"
+          }
+        },
+        {
+          "$id": "363",
+          "name": "Methods",
+          "expressions": {
+            "$id": "364",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "365",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "366",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "367",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "368"
+          }
+        },
+        {
+          "$id": "369",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "370"
+          }
+        },
+        {
+          "$id": "371",
+          "name": "Policy",
+          "expressions": {
+            "$id": "372"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    }
+  ],
+  "connections": [
+    {
+      "$id": "373",
+      "sourceActivityId": "d91599d9-65cc-48a9-9fef-df72860828c3",
+      "targetActivityId": "e12bce0d-29dc-44e5-94e9-ee5a38076136",
+      "outcome": "Done"
+    },
+    {
+      "$id": "374",
+      "sourceActivityId": "f9323d4d-6e23-4abc-a829-2bc190bd15e1",
+      "targetActivityId": "a60eb67c-2f80-42ae-91e8-86789dca66d7",
+      "outcome": "Done"
+    },
+    {
+      "$id": "375",
+      "sourceActivityId": "a60eb67c-2f80-42ae-91e8-86789dca66d7",
+      "targetActivityId": "87f08cba-d763-4839-b7b1-294ace2be329",
+      "outcome": "Done"
+    },
+    {
+      "$id": "376",
+      "sourceActivityId": "87f08cba-d763-4839-b7b1-294ace2be329",
+      "targetActivityId": "bd0e4e83-273c-4028-999b-d5703cc0887a",
+      "outcome": "False"
+    },
+    {
+      "$id": "377",
+      "sourceActivityId": "87f08cba-d763-4839-b7b1-294ace2be329",
+      "targetActivityId": "c45f4035-7e41-40b6-a9f4-d41f72491d76",
+      "outcome": "True"
+    },
+    {
+      "$id": "378",
+      "sourceActivityId": "e4e84f27-c4c6-4e33-a0ad-3030fab6a1e0",
+      "targetActivityId": "0f991bdc-fb2c-443d-b42a-d6830a26094e",
+      "outcome": "Done"
+    },
+    {
+      "$id": "379",
+      "sourceActivityId": "0f991bdc-fb2c-443d-b42a-d6830a26094e",
+      "targetActivityId": "32d9c0ee-22c9-4862-bc9c-30dd0de60950",
+      "outcome": "Done"
+    },
+    {
+      "$id": "380",
+      "sourceActivityId": "96763376-2d1c-4fd2-82ed-c1c413e65650",
+      "targetActivityId": "d91599d9-65cc-48a9-9fef-df72860828c3",
+      "outcome": "Done"
+    },
+    {
+      "$id": "381",
+      "sourceActivityId": "32d9c0ee-22c9-4862-bc9c-30dd0de60950",
+      "targetActivityId": "e9567239-67ad-46e4-97b6-b2199d4269da",
+      "outcome": "False"
+    },
+    {
+      "$id": "382",
+      "sourceActivityId": "664b9a47-607e-4a91-89fd-ce72c8717108",
+      "targetActivityId": "211f9afa-3036-49bf-8a84-5d0979e86efc",
+      "outcome": "Done"
+    },
+    {
+      "$id": "383",
+      "sourceActivityId": "211f9afa-3036-49bf-8a84-5d0979e86efc",
+      "targetActivityId": "7a7b19ad-0adc-45a6-8abb-bf2fde3e469b",
+      "outcome": "Done"
+    },
+    {
+      "$id": "384",
+      "sourceActivityId": "7a7b19ad-0adc-45a6-8abb-bf2fde3e469b",
+      "targetActivityId": "4d42e405-d3a8-40f2-bab4-688d87b8badf",
+      "outcome": "Done"
+    },
+    {
+      "$id": "385",
+      "sourceActivityId": "4d42e405-d3a8-40f2-bab4-688d87b8badf",
+      "targetActivityId": "9701c957-4e65-4543-a0c5-6846c7eb2478",
+      "outcome": "Done"
+    },
+    {
+      "$id": "386",
+      "sourceActivityId": "9701c957-4e65-4543-a0c5-6846c7eb2478",
+      "targetActivityId": "1c350f7d-1383-438e-bd02-776cb9db05a8",
+      "outcome": "Done"
+    },
+    {
+      "$id": "387",
+      "sourceActivityId": "1c350f7d-1383-438e-bd02-776cb9db05a8",
+      "targetActivityId": "952a947f-c61c-4f90-bc6c-ba491dff9cc4",
+      "outcome": "False"
+    },
+    {
+      "$id": "388",
+      "sourceActivityId": "1c350f7d-1383-438e-bd02-776cb9db05a8",
+      "targetActivityId": "aeb6e679-585f-4ea2-8e61-9c7a70fd8dfd",
+      "outcome": "True"
+    },
+    {
+      "$id": "389",
+      "sourceActivityId": "96550082-df00-4e00-914e-53545881a9be",
+      "targetActivityId": "e4e84f27-c4c6-4e33-a0ad-3030fab6a1e0",
+      "outcome": "Done"
+    },
+    {
+      "$id": "390",
+      "sourceActivityId": "e12bce0d-29dc-44e5-94e9-ee5a38076136",
+      "targetActivityId": "606282bb-cdcf-4634-af4f-1ff7aef282cd",
+      "outcome": "Done"
+    },
+    {
+      "$id": "391",
+      "sourceActivityId": "606282bb-cdcf-4634-af4f-1ff7aef282cd",
+      "targetActivityId": "f9323d4d-6e23-4abc-a829-2bc190bd15e1",
+      "outcome": "Done"
+    },
+    {
+      "$id": "392",
+      "sourceActivityId": "952a947f-c61c-4f90-bc6c-ba491dff9cc4",
+      "targetActivityId": "87b066b1-dbc9-44ac-ad24-e68252f810da",
+      "outcome": "Done"
+    },
+    {
+      "$id": "393",
+      "sourceActivityId": "461dd334-8725-4abc-99f8-0b822ca5be71",
+      "targetActivityId": "87b066b1-dbc9-44ac-ad24-e68252f810da",
+      "outcome": "Done"
+    },
+    {
+      "$id": "394",
+      "sourceActivityId": "25612c60-547c-4e23-b5e1-ff538b61323b",
+      "targetActivityId": "87b066b1-dbc9-44ac-ad24-e68252f810da",
+      "outcome": "Done"
+    },
+    {
+      "$id": "395",
+      "sourceActivityId": "e9567239-67ad-46e4-97b6-b2199d4269da",
+      "targetActivityId": "87b066b1-dbc9-44ac-ad24-e68252f810da",
+      "outcome": "Done"
+    },
+    {
+      "$id": "396",
+      "sourceActivityId": "bd0e4e83-273c-4028-999b-d5703cc0887a",
+      "targetActivityId": "87b066b1-dbc9-44ac-ad24-e68252f810da",
+      "outcome": "Done"
+    },
+    {
+      "$id": "397",
+      "sourceActivityId": "c45f4035-7e41-40b6-a9f4-d41f72491d76",
+      "targetActivityId": "f95d604b-ba4c-4e6e-8086-5625f755f58e",
+      "outcome": "Done"
+    },
+    {
+      "$id": "398",
+      "sourceActivityId": "f95d604b-ba4c-4e6e-8086-5625f755f58e",
+      "targetActivityId": "96550082-df00-4e00-914e-53545881a9be",
+      "outcome": "Done"
+    },
+    {
+      "$id": "399",
+      "sourceActivityId": "aeb6e679-585f-4ea2-8e61-9c7a70fd8dfd",
+      "targetActivityId": "06e85e76-6ce4-4b8d-8523-e649f2ca4369",
+      "outcome": "Done"
+    },
+    {
+      "$id": "400",
+      "sourceActivityId": "06e85e76-6ce4-4b8d-8523-e649f2ca4369",
+      "targetActivityId": "17e51b98-0b3b-44c6-8837-c533dfc6d31d",
+      "outcome": "Accept"
+    },
+    {
+      "$id": "401",
+      "sourceActivityId": "06e85e76-6ce4-4b8d-8523-e649f2ca4369",
+      "targetActivityId": "9b87ee14-3833-4eb1-a671-f3cb0bc43046",
+      "outcome": "Reject"
+    },
+    {
+      "$id": "402",
+      "sourceActivityId": "9b87ee14-3833-4eb1-a671-f3cb0bc43046",
+      "targetActivityId": "db6a4e90-84bb-4d31-bb48-63d006cd2e1d",
+      "outcome": "Done"
+    },
+    {
+      "$id": "403",
+      "sourceActivityId": "17e51b98-0b3b-44c6-8837-c533dfc6d31d",
+      "targetActivityId": "349b1f90-a960-4b56-b2bb-9f8add2728b2",
+      "outcome": "Done"
+    },
+    {
+      "$id": "404",
+      "sourceActivityId": "349b1f90-a960-4b56-b2bb-9f8add2728b2",
+      "targetActivityId": "93ee9a04-11d1-4a54-b270-fbafceec2147",
+      "outcome": "Done"
+    },
+    {
+      "$id": "405",
+      "sourceActivityId": "93ee9a04-11d1-4a54-b270-fbafceec2147",
+      "targetActivityId": "25612c60-547c-4e23-b5e1-ff538b61323b",
+      "outcome": "Done"
+    },
+    {
+      "$id": "406",
+      "sourceActivityId": "db6a4e90-84bb-4d31-bb48-63d006cd2e1d",
+      "targetActivityId": "645a0338-920d-4c03-9dcd-0b9ec7cee3ee",
+      "outcome": "Done"
+    },
+    {
+      "$id": "407",
+      "sourceActivityId": "645a0338-920d-4c03-9dcd-0b9ec7cee3ee",
+      "targetActivityId": "461dd334-8725-4abc-99f8-0b822ca5be71",
+      "outcome": "Done"
+    },
+    {
+      "$id": "408",
+      "sourceActivityId": "627b1058-785b-4cba-a624-5d1f52955aad",
+      "targetActivityId": "664b9a47-607e-4a91-89fd-ce72c8717108",
+      "outcome": "Done"
+    },
+    {
+      "$id": "409",
+      "sourceActivityId": "32d9c0ee-22c9-4862-bc9c-30dd0de60950",
+      "targetActivityId": "ac941ad9-996f-45d8-bced-f539171ae1eb",
+      "outcome": "True"
+    },
+    {
+      "$id": "410",
+      "sourceActivityId": "ac941ad9-996f-45d8-bced-f539171ae1eb",
+      "targetActivityId": "6ff02c1f-76c5-45b1-a3be-c1cbab2c8ae7",
+      "outcome": "Done"
+    },
+    {
+      "$id": "411",
+      "sourceActivityId": "6ff02c1f-76c5-45b1-a3be-c1cbab2c8ae7",
+      "targetActivityId": "033d25a5-db32-4f75-85cf-388d71c5a5d3",
+      "outcome": "Done"
+    },
+    {
+      "$id": "412",
+      "sourceActivityId": "033d25a5-db32-4f75-85cf-388d71c5a5d3",
+      "targetActivityId": "627b1058-785b-4cba-a624-5d1f52955aad",
+      "outcome": "Done"
+    }
+  ],
+  "id": "61b231389b09471b8e3260c3b3ca9ca8"
+}
