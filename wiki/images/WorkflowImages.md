@@ -4,3 +4,6 @@
 
 # Hire Employee Diagram
 ![Hire Employee-Diagram](https://user-images.githubusercontent.com/92164758/141993074-74b14936-e846-471d-bc12-bfeb8d9bdbe1.png)
+
+# Customer Account Diagram
+![CustomerAccount Workflow](https://user-images.githubusercontent.com/92291258/141996306-53aa6170-55e7-42f1-b246-7941154c0511.png)
