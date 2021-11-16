@@ -29,7 +29,8 @@ namespace HireEmployee.Controllers
             candidate.PhoneScreening = false;
             candidate.Interview = false;
             candidate.OfferAccepted = false;
-            var candidateResult =await _candidateRepository.AddCandidate(candidate);
+            var candidateResult = await _candidateRepository.AddCandidate(candidate);
+            //HttpClient is used to send response to workflow instance
             using (HttpClient client = new HttpClient())
             {
                 string json = JsonSerializer.Serialize(candidateResult);
@@ -42,14 +43,15 @@ namespace HireEmployee.Controllers
         }
 
         [HttpPost("setReviewStatus")]
-        public async Task<bool> UpdateReview(Guid id,bool status)
+        public async Task<bool> UpdateReview(Guid id, bool status)
         {
-            Candidate candidate =await _candidateRepository.GetByIdAsync(id);
+            Candidate candidate = await _candidateRepository.GetByIdAsync(id);
             candidate.Review = status;
             await _candidateRepository.UpdateAsync(candidate);
             using (HttpClient client = new HttpClient())
             {
                 string json = JsonSerializer.Serialize(candidate);
+                //Headers are used to specify candidate Id for corelate in workflow instance
                 client.DefaultRequestHeaders.Add("X-Correlation-Id", candidate.Id.ToString());
                 StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response1 = client.PostAsync("https://localhost:5001/handleReview", httpContent).Result;
@@ -73,11 +75,29 @@ namespace HireEmployee.Controllers
             return status;
         }
 
+
+        [HttpPost("ScheduleInterview")]
+        public void ScheduleInterview(Guid id, string interviewerName, string interviewerEmail, string dateTime)
+        {
+            Interview detail = new Interview() { };
+            detail.Name = interviewerName;
+            detail.Email = interviewerEmail;
+            detail.DateNTime = dateTime;
+            using (HttpClient client = new HttpClient())
+            {
+                string json = JsonSerializer.Serialize(detail);
+                client.DefaultRequestHeaders.Add("X-Correlation-Id", id.ToString());
+                StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                HttpResponseMessage response1 = client.PostAsync("https://localhost:5001/interviewSchedule", httpContent).Result;
+            }
+        }
+
         [HttpPost("setInterviewStatus")]
-        public async Task<bool> UpdateInterview(Guid id, bool status)
+        public async Task<bool> UpdateInterview(Guid id, bool status, string comment)
         {
             Candidate candidate = await _candidateRepository.GetByIdAsync(id);
             candidate.Interview = status;
+            //comment can be processed as required
             await _candidateRepository.UpdateAsync(candidate);
             using (HttpClient client = new HttpClient())
             {
@@ -89,22 +109,6 @@ namespace HireEmployee.Controllers
             return status;
         }
 
-        [HttpGet("ScheduleInterview")]
-        public void ScheduleInterview(Guid id)
-        {
-            Interview detail = new Interview() {};
-            detail.Name = "Shreedhar";
-            detail.Email = "shreedhar@neosoft.com";
-            detail.DateNTime = DateTime.Now;
-            using (HttpClient client = new HttpClient())
-            {
-                string json = JsonSerializer.Serialize(detail);
-                client.DefaultRequestHeaders.Add("X-Correlation-Id", id.ToString());
-                StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response1 = client.PostAsync("https://localhost:5001/interviewSchedule", httpContent).Result;
-            }
-        }
-
         [HttpPut("setOfferAcceptedStatus")]
         public async Task<bool> UpdateOfferAccepted(Guid id, bool status)
         {
@@ -114,27 +118,11 @@ namespace HireEmployee.Controllers
             return status;
         }
 
-
-        [HttpPost("GetAllCandidateById")]
-        public async Task<IEnumerable<Candidate>> allCandidate(Guid id)
-        {
-            return await _candidateRepository.getAllCandidate(id);
-        }
-        
-        [HttpPost("ConductPhoneScreening")]
-        public void phoneScreening(string idString)
-        {
-            Guid id = Guid.Parse(idString);
-            //Place request to conduct phone screening
-        }
-
-
-
     }
     public class Interview
     {
         public string Name { get; set; }
         public string Email { get; set; }
-        public DateTime DateNTime { get; set; }
+        public string DateNTime { get; set; }
     }
 }
