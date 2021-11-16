@@ -7,3 +7,7 @@
 
 # Customer Account Diagram
 ![CustomerAccount Workflow](https://user-images.githubusercontent.com/92291258/141996306-53aa6170-55e7-42f1-b246-7941154c0511.png)
+
+# Invoice Customer Diagram
+![Invoice Customer Workflow](![InvoiceCustomer](https://user-images.githubusercontent.com/87525401/141997233-ac36555d-8519-4766-b22d-80000d564a6d.png)
+
