@@ -33,7 +33,7 @@ namespace NewProjectApprovalAPI.Controllers
 
                 StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response1 = client.PostAsync("https://localhost:44391/project-approval", httpContent).Result;
+                HttpResponseMessage response1 = client.PostAsync("https://localhost:5001/project-approval", httpContent).Result;
             }
 
 
