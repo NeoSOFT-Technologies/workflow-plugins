@@ -1,0 +1,1395 @@
+{
+  "$id": "1",
+  "definitionId": "23b94c3fd93b4e31b0dfac72e8d14ba2",
+  "versionId": "aa6981ef6bf34acea53ed5cc5a72adae",
+  "displayName": "Invoice Customer",
+  "version": 19,
+  "variables": {
+    "$id": "2",
+    "data": {}
+  },
+  "customAttributes": {
+    "$id": "3",
+    "data": {}
+  },
+  "isSingleton": false,
+  "persistenceBehavior": "WorkflowBurst",
+  "deleteCompletedInstances": false,
+  "isPublished": true,
+  "isLatest": true,
+  "activities": [
+    {
+      "$id": "4",
+      "activityId": "5079dbf4-f399-46bc-83e6-78ab99453d73",
+      "type": "HttpEndpoint",
+      "displayName": "Add Invoice HTTP Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "5",
+          "name": "Path",
+          "expressions": {
+            "$id": "6",
+            "Literal": "/addinvoices",
+            "JavaScript": ""
+          }
+        },
+        {
+          "$id": "7",
+          "name": "Methods",
+          "expressions": {
+            "$id": "8",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "9",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "10",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "11",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "12"
+          }
+        },
+        {
+          "$id": "13",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "14"
+          }
+        },
+        {
+          "$id": "15",
+          "name": "Policy",
+          "expressions": {
+            "$id": "16"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "17",
+      "activityId": "ee7dcedb-77b7-4496-bda7-8095acca7caa",
+      "type": "SetVariable",
+      "displayName": "Invoice Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "18",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "19",
+            "Literal": "invoice"
+          }
+        },
+        {
+          "$id": "20",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "21",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "22",
+      "activityId": "ebac70e0-93a5-4518-89f7-3b5117141aa8",
+      "type": "SendHttpRequest",
+      "name": "clientData",
+      "displayName": "Client HTTP Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "23",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "24",
+            "Liquid": "https://localhost:44341/api/Client/GetClienytById?id={{Variables.invoice.ClientId}}"
+          }
+        },
+        {
+          "$id": "25",
+          "name": "Method",
+          "expressions": {
+            "$id": "26"
+          }
+        },
+        {
+          "$id": "27",
+          "name": "Content",
+          "expressions": {
+            "$id": "28"
+          }
+        },
+        {
+          "$id": "29",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "30",
+            "Literal": ""
+          }
+        },
+        {
+          "$id": "31",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "32",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "33",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "34",
+            "Literal": ".NET Type"
+          }
+        },
+        {
+          "$id": "35",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "36"
+          }
+        },
+        {
+          "$id": "37",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "38"
+          }
+        },
+        {
+          "$id": "39",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "40"
+          }
+        },
+        {
+          "$id": "41",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "42"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "43",
+      "activityId": "b8be8e75-6c44-41da-abb2-125a63ee58fe",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "44",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "45",
+            "Literal": "client"
+          }
+        },
+        {
+          "$id": "46",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "47",
+            "JavaScript": "activities.clientData.ResponseContent()"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "48",
+      "activityId": "c7e8b51e-e9a1-461a-924d-9d54fb3225f4",
+      "type": "SendEmail",
+      "displayName": "Send Email for Invoice",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "49",
+          "name": "From",
+          "expressions": {
+            "$id": "50",
+            "Literal": "workflow@abc.com"
+          }
+        },
+        {
+          "$id": "51",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "52",
+            "JavaScript": "[client.email]"
+          }
+        },
+        {
+          "$id": "53",
+          "name": "Subject",
+          "expressions": {
+            "$id": "54",
+            "Literal": "Invoice "
+          }
+        },
+        {
+          "$id": "55",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "56"
+          }
+        },
+        {
+          "$id": "57",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "58",
+            "Liquid": "<p>Hello, {{Variables.client.clientName}}!</p>\r\n<p>Number Of Resourse :-{{Variables.invoice.NumberofResource}}</p>\r\n<p>Your Invoice Amount is {{Variables.invoice.Amount}}</p>\r\n<p>Please pay within the 24 hours</p>"
+          }
+        },
+        {
+          "$id": "59",
+          "name": "Cc",
+          "expressions": {
+            "$id": "60"
+          }
+        },
+        {
+          "$id": "61",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "62"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "63",
+      "activityId": "368e0a12-7e17-476c-9a73-4a0a8c60fc70",
+      "type": "Fork",
+      "displayName": "Fork",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "64",
+          "name": "Branches",
+          "expressions": {
+            "$id": "65",
+            "Json": "[\"Paid\",\"NotPaid\"]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "66",
+      "activityId": "2ec06340-d07f-462d-ac2d-4fc7da0b26c0",
+      "type": "SendEmail",
+      "displayName": "Send Confirmation Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "67",
+          "name": "From",
+          "expressions": {
+            "$id": "68",
+            "Literal": "workflow@abc.com"
+          }
+        },
+        {
+          "$id": "69",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "70",
+            "JavaScript": "[client.email]"
+          }
+        },
+        {
+          "$id": "71",
+          "name": "Subject",
+          "expressions": {
+            "$id": "72",
+            "Literal": "Confirmation Email!!"
+          }
+        },
+        {
+          "$id": "73",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "74"
+          }
+        },
+        {
+          "$id": "75",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "76",
+            "Liquid": "<p>ThankYou {{Variables.client.clientName}},We have received your payment</p>"
+          }
+        },
+        {
+          "$id": "77",
+          "name": "Cc",
+          "expressions": {
+            "$id": "78"
+          }
+        },
+        {
+          "$id": "79",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "80"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "81",
+      "activityId": "28791c07-5b28-4165-bb9b-a7e0b005be20",
+      "type": "Timer",
+      "displayName": "Timer",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "82",
+          "name": "Timeout",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "83",
+            "JavaScript": "durationFromMinutes(1)"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "84",
+      "activityId": "9b92d798-00a4-4360-99e8-6320538f2256",
+      "type": "SendEmail",
+      "displayName": "Send Remainder Email to Pay",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "85",
+          "name": "From",
+          "expressions": {
+            "$id": "86",
+            "Literal": "workflow@abc.com"
+          }
+        },
+        {
+          "$id": "87",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "88",
+            "JavaScript": "[client.email]"
+          }
+        },
+        {
+          "$id": "89",
+          "name": "Subject",
+          "expressions": {
+            "$id": "90",
+            "Literal": "Remainder Email"
+          }
+        },
+        {
+          "$id": "91",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "92"
+          }
+        },
+        {
+          "$id": "93",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "94",
+            "Liquid": "<p>{{Variables.client.clientName}}</p>\r\n<p>Number Of Resourse :-{{Variables.invoice.NumberofResource}}</p>\r\n<p>Your Invoice Amount is {{Variables.invoice.Amount}}\r\n<p>Don't forget to pay </p> "
+          }
+        },
+        {
+          "$id": "95",
+          "name": "Cc",
+          "expressions": {
+            "$id": "96"
+          }
+        },
+        {
+          "$id": "97",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "98"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "99",
+      "activityId": "599f53c5-c3ca-4ead-8826-90f8ee1a9826",
+      "type": "Finish",
+      "displayName": "Finish",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "100",
+          "name": "ActivityOutput",
+          "expressions": {
+            "$id": "101"
+          }
+        },
+        {
+          "$id": "102",
+          "name": "OutcomeNames",
+          "expressions": {
+            "$id": "103"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "104",
+      "activityId": "442ee5b8-ecbe-4d99-8f70-01b4a4393482",
+      "type": "Correlate",
+      "displayName": "Correlate",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "105",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "106",
+            "JavaScript": "invoice.InvoiceId"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "107",
+      "activityId": "cc2c92eb-d1d9-41d5-a66e-4938c3469acc",
+      "type": "SendEmail",
+      "displayName": "Send Email to Update Invoice",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "108",
+          "name": "From",
+          "expressions": {
+            "$id": "109",
+            "Literal": "workflow@abc.com"
+          }
+        },
+        {
+          "$id": "110",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "111",
+            "JavaScript": "[managerEmail1]",
+            "Json": "[]"
+          }
+        },
+        {
+          "$id": "112",
+          "name": "Subject",
+          "expressions": {
+            "$id": "113",
+            "Literal": "Update Invoice"
+          }
+        },
+        {
+          "$id": "114",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "115"
+          }
+        },
+        {
+          "$id": "116",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "117",
+            "Liquid": "<p>Please update Invoice before 2 hours</p>\r\n<p>{{Variables.commentUpdate}}</p>"
+          }
+        },
+        {
+          "$id": "118",
+          "name": "Cc",
+          "expressions": {
+            "$id": "119"
+          }
+        },
+        {
+          "$id": "120",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "121"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "122",
+      "activityId": "74b89f3e-5865-4e61-921c-56990a8bfe15",
+      "type": "Fork",
+      "displayName": "Fork",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "123",
+          "name": "Branches",
+          "expressions": {
+            "$id": "124",
+            "Json": "[\"Timeout\",\"Update\"]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "125",
+      "activityId": "f126d1e3-5732-4890-9cfe-0f8e9ae3b954",
+      "type": "Timer",
+      "displayName": "Timer",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "126",
+          "name": "Timeout",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "127",
+            "JavaScript": "durationFromMinutes(2)"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "128",
+      "activityId": "47bec09e-a17f-4e6f-affd-449cf03e2315",
+      "type": "SendEmail",
+      "displayName": "Send Remainder Email to Update",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "129",
+          "name": "From",
+          "expressions": {
+            "$id": "130",
+            "Literal": "workflow@abc.com"
+          }
+        },
+        {
+          "$id": "131",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "132",
+            "Json": "[]",
+            "JavaScript": "[managerEmail1]"
+          }
+        },
+        {
+          "$id": "133",
+          "name": "Subject",
+          "expressions": {
+            "$id": "134",
+            "Literal": "Remainder to Update Invoice"
+          }
+        },
+        {
+          "$id": "135",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "136"
+          }
+        },
+        {
+          "$id": "137",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "138",
+            "Liquid": "<p>Update before 2 hours</p>\r\n<p>{{Variables.commentUpdate}}</p>"
+          }
+        },
+        {
+          "$id": "139",
+          "name": "Cc",
+          "expressions": {
+            "$id": "140"
+          }
+        },
+        {
+          "$id": "141",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "142"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "143",
+      "activityId": "f5f09c53-4e7d-446e-a911-17922e19c9ce",
+      "type": "HttpEndpoint",
+      "displayName": "Update HTTP Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "144",
+          "name": "Path",
+          "expressions": {
+            "$id": "145",
+            "Literal": "/updateAmountInvoice"
+          }
+        },
+        {
+          "$id": "146",
+          "name": "Methods",
+          "expressions": {
+            "$id": "147",
+            "Json": "[\"PUT\"]"
+          }
+        },
+        {
+          "$id": "148",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "149",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "150",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "151"
+          }
+        },
+        {
+          "$id": "152",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "153"
+          }
+        },
+        {
+          "$id": "154",
+          "name": "Policy",
+          "expressions": {
+            "$id": "155"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "156",
+      "activityId": "4226ea1a-c98e-47c0-a9e1-470fe9dd485a",
+      "type": "SendEmail",
+      "displayName": "Send Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "157",
+          "name": "From",
+          "expressions": {
+            "$id": "158",
+            "Literal": "workflow@abc.com"
+          }
+        },
+        {
+          "$id": "159",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "160",
+            "Json": "[]",
+            "JavaScript": "[managerEmail1]"
+          }
+        },
+        {
+          "$id": "161",
+          "name": "Subject",
+          "expressions": {
+            "$id": "162",
+            "Literal": "invoice Generated"
+          }
+        },
+        {
+          "$id": "163",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "164"
+          }
+        },
+        {
+          "$id": "165",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "166",
+            "JavaScript": "",
+            "Liquid": "<p>Hello</p>\r\n<p>The Invoice for {{Variables.client.clientName}}</p>\r\n<ol>\r\n    <li>Amount:- {{Variables.invoice.Amount}}</li>\r\n    <li>Number Of Resourse :-{{Variables.invoice.NumberofResource}}</li>\r\n    <li>Date :-{{Variables.invoice.Date}}</li>\r\n</ol>\r\n<p><a href=\"{{ \"Approve\" | signal_url }}\">Approve</a> or <a href=\"{{ \"Reject\" | signal_url }}\">Reject</a></p>\r\n\r\n\r\n    "
+          }
+        },
+        {
+          "$id": "167",
+          "name": "Cc",
+          "expressions": {
+            "$id": "168"
+          }
+        },
+        {
+          "$id": "169",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "170"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "171",
+      "activityId": "8bf85ac8-65f9-4f0e-92c0-e371202aec4b",
+      "type": "SendHttpRequest",
+      "name": "managerEmail",
+      "displayName": "Client HTTP Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "172",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "173",
+            "Liquid": "https://localhost:44341/api/Client/GetManagerEmail?id={{Variables.invoice.ClientId}}"
+          }
+        },
+        {
+          "$id": "174",
+          "name": "Method",
+          "expressions": {
+            "$id": "175"
+          }
+        },
+        {
+          "$id": "176",
+          "name": "Content",
+          "expressions": {
+            "$id": "177"
+          }
+        },
+        {
+          "$id": "178",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "179"
+          }
+        },
+        {
+          "$id": "180",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "181",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "182",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "183",
+            "Literal": "Plain Text"
+          }
+        },
+        {
+          "$id": "184",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "185"
+          }
+        },
+        {
+          "$id": "186",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "187"
+          }
+        },
+        {
+          "$id": "188",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "189"
+          }
+        },
+        {
+          "$id": "190",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "191"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "192",
+      "activityId": "905cbaee-1f4c-412f-bdda-ee66a96abbb5",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "193",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "194",
+            "Literal": "managerEmail1"
+          }
+        },
+        {
+          "$id": "195",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "196",
+            "JavaScript": "activities.managerEmail.ResponseContent()"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "197",
+      "activityId": "e152fcc0-b052-41ae-8901-adac819cac33",
+      "type": "SignalReceived",
+      "displayName": "Signal Received",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "198",
+          "name": "Signal",
+          "expressions": {
+            "$id": "199",
+            "Literal": "Reject"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "200",
+      "activityId": "b7894851-286a-464b-9317-e637153311bb",
+      "type": "Fork",
+      "displayName": "Fork",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "201",
+          "name": "Branches",
+          "expressions": {
+            "$id": "202",
+            "Json": "[\"Approve\",\"Reject\"]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "203",
+      "activityId": "171e539d-9ba8-466b-b063-6e4ac81582e2",
+      "type": "WriteHttpResponse",
+      "displayName": "HTTP Response",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "204",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "205",
+            "Literal": "<p>Your Invoice is Approve Now you can pay the invoice",
+            "Liquid": "<p>The Invoice is Approve </p>"
+          }
+        },
+        {
+          "$id": "206",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "207",
+            "Literal": "text/html"
+          }
+        },
+        {
+          "$id": "208",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "209"
+          }
+        },
+        {
+          "$id": "210",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "211"
+          }
+        },
+        {
+          "$id": "212",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "213"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "214",
+      "activityId": "bd23c984-5821-4b75-952a-890f9ec6c780",
+      "type": "SignalReceived",
+      "displayName": "Signal Received",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "215",
+          "name": "Signal",
+          "expressions": {
+            "$id": "216",
+            "Literal": "Approve"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "217",
+      "activityId": "6651a1e1-b832-4c78-9a44-8f20643c15e0",
+      "type": "Redirect",
+      "displayName": "Redirect",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "218",
+          "name": "Location",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "219",
+            "Liquid": "https://localhost:5001/CommentToUpdate/{{Variables.invoice.InvoiceId}}"
+          }
+        },
+        {
+          "$id": "220",
+          "name": "Permanent",
+          "expressions": {
+            "$id": "221"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "222",
+      "activityId": "9372d6bb-8e0c-4773-b68a-de4510fed872",
+      "type": "HttpEndpoint",
+      "name": "commentUp",
+      "displayName": "HTTP Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "223",
+          "name": "Path",
+          "expressions": {
+            "$id": "224",
+            "Literal": "/comments"
+          }
+        },
+        {
+          "$id": "225",
+          "name": "Methods",
+          "expressions": {
+            "$id": "226",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "227",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "228",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "229",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "230"
+          }
+        },
+        {
+          "$id": "231",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "232"
+          }
+        },
+        {
+          "$id": "233",
+          "name": "Policy",
+          "expressions": {
+            "$id": "234"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "235",
+      "activityId": "922fa78a-c8e4-4fde-9fb7-7942540d65c4",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "236",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "237",
+            "Literal": "commentUpdate"
+          }
+        },
+        {
+          "$id": "238",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "239",
+            "Literal": "activities",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "240",
+      "activityId": "df27d337-c9e2-4b4f-ad31-09b30e917be6",
+      "type": "HttpEndpoint",
+      "displayName": "Update HTTP Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "241",
+          "name": "Path",
+          "expressions": {
+            "$id": "242",
+            "Literal": "/UpdateIsPaid"
+          }
+        },
+        {
+          "$id": "243",
+          "name": "Methods",
+          "expressions": {
+            "$id": "244",
+            "Json": "[\"PUT\"]"
+          }
+        },
+        {
+          "$id": "245",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "246",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "247",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "248"
+          }
+        },
+        {
+          "$id": "249",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "250"
+          }
+        },
+        {
+          "$id": "251",
+          "name": "Policy",
+          "expressions": {
+            "$id": "252"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    }
+  ],
+  "connections": [
+    {
+      "$id": "253",
+      "sourceActivityId": "5079dbf4-f399-46bc-83e6-78ab99453d73",
+      "targetActivityId": "ee7dcedb-77b7-4496-bda7-8095acca7caa",
+      "outcome": "Done"
+    },
+    {
+      "$id": "254",
+      "sourceActivityId": "ebac70e0-93a5-4518-89f7-3b5117141aa8",
+      "targetActivityId": "b8be8e75-6c44-41da-abb2-125a63ee58fe",
+      "outcome": "Done"
+    },
+    {
+      "$id": "255",
+      "sourceActivityId": "b8be8e75-6c44-41da-abb2-125a63ee58fe",
+      "targetActivityId": "c7e8b51e-e9a1-461a-924d-9d54fb3225f4",
+      "outcome": "Done"
+    },
+    {
+      "$id": "256",
+      "sourceActivityId": "c7e8b51e-e9a1-461a-924d-9d54fb3225f4",
+      "targetActivityId": "368e0a12-7e17-476c-9a73-4a0a8c60fc70",
+      "outcome": "Done"
+    },
+    {
+      "$id": "257",
+      "sourceActivityId": "368e0a12-7e17-476c-9a73-4a0a8c60fc70",
+      "targetActivityId": "28791c07-5b28-4165-bb9b-a7e0b005be20",
+      "outcome": "NotPaid"
+    },
+    {
+      "$id": "258",
+      "sourceActivityId": "28791c07-5b28-4165-bb9b-a7e0b005be20",
+      "targetActivityId": "9b92d798-00a4-4360-99e8-6320538f2256",
+      "outcome": "Done"
+    },
+    {
+      "$id": "259",
+      "sourceActivityId": "ee7dcedb-77b7-4496-bda7-8095acca7caa",
+      "targetActivityId": "442ee5b8-ecbe-4d99-8f70-01b4a4393482",
+      "outcome": "Done"
+    },
+    {
+      "$id": "260",
+      "sourceActivityId": "cc2c92eb-d1d9-41d5-a66e-4938c3469acc",
+      "targetActivityId": "74b89f3e-5865-4e61-921c-56990a8bfe15",
+      "outcome": "Done"
+    },
+    {
+      "$id": "261",
+      "sourceActivityId": "74b89f3e-5865-4e61-921c-56990a8bfe15",
+      "targetActivityId": "f126d1e3-5732-4890-9cfe-0f8e9ae3b954",
+      "outcome": "Timeout"
+    },
+    {
+      "$id": "262",
+      "sourceActivityId": "f126d1e3-5732-4890-9cfe-0f8e9ae3b954",
+      "targetActivityId": "47bec09e-a17f-4e6f-affd-449cf03e2315",
+      "outcome": "Done"
+    },
+    {
+      "$id": "263",
+      "sourceActivityId": "47bec09e-a17f-4e6f-affd-449cf03e2315",
+      "targetActivityId": "f126d1e3-5732-4890-9cfe-0f8e9ae3b954",
+      "outcome": "Done"
+    },
+    {
+      "$id": "264",
+      "sourceActivityId": "74b89f3e-5865-4e61-921c-56990a8bfe15",
+      "targetActivityId": "f5f09c53-4e7d-446e-a911-17922e19c9ce",
+      "outcome": "Update"
+    },
+    {
+      "$id": "265",
+      "sourceActivityId": "9b92d798-00a4-4360-99e8-6320538f2256",
+      "targetActivityId": "28791c07-5b28-4165-bb9b-a7e0b005be20",
+      "outcome": "Done"
+    },
+    {
+      "$id": "266",
+      "sourceActivityId": "442ee5b8-ecbe-4d99-8f70-01b4a4393482",
+      "targetActivityId": "8bf85ac8-65f9-4f0e-92c0-e371202aec4b",
+      "outcome": "Done"
+    },
+    {
+      "$id": "267",
+      "sourceActivityId": "8bf85ac8-65f9-4f0e-92c0-e371202aec4b",
+      "targetActivityId": "905cbaee-1f4c-412f-bdda-ee66a96abbb5",
+      "outcome": "Done"
+    },
+    {
+      "$id": "268",
+      "sourceActivityId": "905cbaee-1f4c-412f-bdda-ee66a96abbb5",
+      "targetActivityId": "4226ea1a-c98e-47c0-a9e1-470fe9dd485a",
+      "outcome": "Done"
+    },
+    {
+      "$id": "269",
+      "sourceActivityId": "4226ea1a-c98e-47c0-a9e1-470fe9dd485a",
+      "targetActivityId": "b7894851-286a-464b-9317-e637153311bb",
+      "outcome": "Done"
+    },
+    {
+      "$id": "270",
+      "sourceActivityId": "b7894851-286a-464b-9317-e637153311bb",
+      "targetActivityId": "e152fcc0-b052-41ae-8901-adac819cac33",
+      "outcome": "Reject"
+    },
+    {
+      "$id": "271",
+      "sourceActivityId": "171e539d-9ba8-466b-b063-6e4ac81582e2",
+      "targetActivityId": "ebac70e0-93a5-4518-89f7-3b5117141aa8",
+      "outcome": "Done"
+    },
+    {
+      "$id": "272",
+      "sourceActivityId": "b7894851-286a-464b-9317-e637153311bb",
+      "targetActivityId": "bd23c984-5821-4b75-952a-890f9ec6c780",
+      "outcome": "Approve"
+    },
+    {
+      "$id": "273",
+      "sourceActivityId": "bd23c984-5821-4b75-952a-890f9ec6c780",
+      "targetActivityId": "171e539d-9ba8-466b-b063-6e4ac81582e2",
+      "outcome": "Done"
+    },
+    {
+      "$id": "274",
+      "sourceActivityId": "f5f09c53-4e7d-446e-a911-17922e19c9ce",
+      "targetActivityId": "ee7dcedb-77b7-4496-bda7-8095acca7caa",
+      "outcome": "Done"
+    },
+    {
+      "$id": "275",
+      "sourceActivityId": "e152fcc0-b052-41ae-8901-adac819cac33",
+      "targetActivityId": "6651a1e1-b832-4c78-9a44-8f20643c15e0",
+      "outcome": "Done"
+    },
+    {
+      "$id": "276",
+      "sourceActivityId": "9372d6bb-8e0c-4773-b68a-de4510fed872",
+      "targetActivityId": "922fa78a-c8e4-4fde-9fb7-7942540d65c4",
+      "outcome": "Done"
+    },
+    {
+      "$id": "277",
+      "sourceActivityId": "922fa78a-c8e4-4fde-9fb7-7942540d65c4",
+      "targetActivityId": "cc2c92eb-d1d9-41d5-a66e-4938c3469acc",
+      "outcome": "Done"
+    },
+    {
+      "$id": "278",
+      "sourceActivityId": "6651a1e1-b832-4c78-9a44-8f20643c15e0",
+      "targetActivityId": "9372d6bb-8e0c-4773-b68a-de4510fed872",
+      "outcome": "Done"
+    },
+    {
+      "$id": "279",
+      "sourceActivityId": "368e0a12-7e17-476c-9a73-4a0a8c60fc70",
+      "targetActivityId": "df27d337-c9e2-4b4f-ad31-09b30e917be6",
+      "outcome": "Paid"
+    },
+    {
+      "$id": "280",
+      "sourceActivityId": "df27d337-c9e2-4b4f-ad31-09b30e917be6",
+      "targetActivityId": "2ec06340-d07f-462d-ac2d-4fc7da0b26c0",
+      "outcome": "Done"
+    },
+    {
+      "$id": "281",
+      "sourceActivityId": "2ec06340-d07f-462d-ac2d-4fc7da0b26c0",
+      "targetActivityId": "599f53c5-c3ca-4ead-8826-90f8ee1a9826",
+      "outcome": "Done"
+    }
+  ],
+  "id": "aa6981ef6bf34acea53ed5cc5a72adae"
+}

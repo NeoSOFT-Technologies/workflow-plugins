@@ -1,0 +1,1859 @@
+{
+  "$id": "1",
+  "definitionId": "281e196d043149b5a37c47ef8fd62948",
+  "versionId": "94ae0c6409b54dcdac7ccbce88d58b5e",
+  "displayName": "Order Filling",
+  "version": 70,
+  "variables": {
+    "$id": "2",
+    "data": {}
+  },
+  "customAttributes": {
+    "$id": "3",
+    "data": {}
+  },
+  "isSingleton": false,
+  "persistenceBehavior": "WorkflowBurst",
+  "deleteCompletedInstances": false,
+  "isPublished": true,
+  "isLatest": true,
+  "activities": [
+    {
+      "$id": "4",
+      "activityId": "5a608526-e1a6-422d-a1c4-8d96d91ae848",
+      "type": "HttpEndpoint",
+      "displayName": "Receive Order",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "5",
+          "name": "Path",
+          "expressions": {
+            "$id": "6",
+            "Literal": "/PostEntity2"
+          }
+        },
+        {
+          "$id": "7",
+          "name": "Methods",
+          "expressions": {
+            "$id": "8",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "9",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "10",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "11",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "12"
+          }
+        },
+        {
+          "$id": "13",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "14"
+          }
+        },
+        {
+          "$id": "15",
+          "name": "Policy",
+          "expressions": {
+            "$id": "16"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "17",
+      "activityId": "e60c76d7-f453-4efb-b902-3b56085415ff",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "18",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "19",
+            "Literal": "Order"
+          }
+        },
+        {
+          "$id": "20",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "21",
+            "Literal": "",
+            "JavaScript": "input.Body",
+            "Liquid": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "22",
+      "activityId": "04a4845e-13c9-439b-bfac-bd8801af3d27",
+      "type": "SendHttpRequest",
+      "name": "checkCredit",
+      "displayName": "Request to  Check Credit",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "23",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "24",
+            "Liquid": "https://localhost:44332/api/OrderFilling/CheckCredit?ProductId={{Variables.Order.ProductId}}&id={{Variables.Order.UserId}}"
+          }
+        },
+        {
+          "$id": "25",
+          "name": "Method",
+          "expressions": {
+            "$id": "26"
+          }
+        },
+        {
+          "$id": "27",
+          "name": "Content",
+          "expressions": {
+            "$id": "28"
+          }
+        },
+        {
+          "$id": "29",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "30"
+          }
+        },
+        {
+          "$id": "31",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "32",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "33",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "34",
+            "Literal": ".NET Type"
+          }
+        },
+        {
+          "$id": "35",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "36"
+          }
+        },
+        {
+          "$id": "37",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "38"
+          }
+        },
+        {
+          "$id": "39",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "40"
+          }
+        },
+        {
+          "$id": "41",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "42"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "43",
+      "activityId": "89151c9f-58e2-4bae-802f-869bf06a0bd1",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "44",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "45",
+            "Literal": "creditResult"
+          }
+        },
+        {
+          "$id": "46",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "47",
+            "JavaScript": "activities.checkCredit.ResponseContent()"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "48",
+      "activityId": "eec02f1d-de34-4a14-be47-8f4c91af3038",
+      "type": "If",
+      "displayName": "Credit sufficent or not check",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "49",
+          "name": "Condition",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "50",
+            "JavaScript": "creditResult"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "51",
+      "activityId": "25eebb66-94a9-4ce7-927b-567c987a5eaf",
+      "type": "SendHttpRequest",
+      "name": "checkInventory",
+      "displayName": "Request to check Inventory",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "52",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "53",
+            "Liquid": "https://localhost:44332/api/OrderFilling/CheckInventory?ProductId={{Variables.Order.ProductId}}"
+          }
+        },
+        {
+          "$id": "54",
+          "name": "Method",
+          "expressions": {
+            "$id": "55"
+          }
+        },
+        {
+          "$id": "56",
+          "name": "Content",
+          "expressions": {
+            "$id": "57"
+          }
+        },
+        {
+          "$id": "58",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "59",
+            "Literal": ""
+          }
+        },
+        {
+          "$id": "60",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "61",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "62",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "63",
+            "Literal": ".NET Type"
+          }
+        },
+        {
+          "$id": "64",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "65"
+          }
+        },
+        {
+          "$id": "66",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "67"
+          }
+        },
+        {
+          "$id": "68",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "69"
+          }
+        },
+        {
+          "$id": "70",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "71"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "72",
+      "activityId": "df38334a-8b44-4d79-a552-a1e81651faac",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "73",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "74",
+            "Literal": "InventoryResult"
+          }
+        },
+        {
+          "$id": "75",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "76",
+            "Literal": "activities",
+            "Liquid": "",
+            "JavaScript": "activities.checkInventory.ResponseContent()"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "77",
+      "activityId": "e9e4148f-b660-4e0d-9b76-531ced604d75",
+      "type": "If",
+      "name": "",
+      "displayName": "Is Product In Inventory?",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "78",
+          "name": "Condition",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "79",
+            "JavaScript": "InventoryResult"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "80",
+      "activityId": "399ac32d-daea-4d5f-8c28-a2d12b54cf4e",
+      "type": "SendHttpRequest",
+      "name": "scheduleTime",
+      "displayName": "Schedule Shipment",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "81",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "82",
+            "Liquid": "https://localhost:44332/api/OrderFilling/ScheduleShipment?OrderId={{Variables.Order.OrderId}}"
+          }
+        },
+        {
+          "$id": "83",
+          "name": "Method",
+          "expressions": {
+            "$id": "84"
+          }
+        },
+        {
+          "$id": "85",
+          "name": "Content",
+          "expressions": {
+            "$id": "86"
+          }
+        },
+        {
+          "$id": "87",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "88",
+            "Literal": "application/json"
+          }
+        },
+        {
+          "$id": "89",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "90",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "91",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "92",
+            "Literal": ".NET Type"
+          }
+        },
+        {
+          "$id": "93",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "94"
+          }
+        },
+        {
+          "$id": "95",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "96"
+          }
+        },
+        {
+          "$id": "97",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "98"
+          }
+        },
+        {
+          "$id": "99",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "100"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "101",
+      "activityId": "673209d3-1399-4950-a971-117d6ed4d04d",
+      "type": "SendHttpRequest",
+      "name": "ShipProduct",
+      "displayName": "Ship Prdouct",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "102",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "103",
+            "Literal": "https://localhost:44321/api/User/DeleteUser?id={{Variables.User.UserId}}",
+            "Liquid": "https://localhost:44332/api/OrderFilling/ShipPrdouct?OrderId={{Variables.Order.OrderId}}"
+          }
+        },
+        {
+          "$id": "104",
+          "name": "Method",
+          "expressions": {
+            "$id": "105",
+            "Literal": "GET"
+          }
+        },
+        {
+          "$id": "106",
+          "name": "Content",
+          "expressions": {
+            "$id": "107"
+          }
+        },
+        {
+          "$id": "108",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "109"
+          }
+        },
+        {
+          "$id": "110",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "111",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "112",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "113",
+            "Literal": ".NET Type"
+          }
+        },
+        {
+          "$id": "114",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "115"
+          }
+        },
+        {
+          "$id": "116",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "117"
+          }
+        },
+        {
+          "$id": "118",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "119"
+          }
+        },
+        {
+          "$id": "120",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "121"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "122",
+      "activityId": "c3cf4a7f-6ddf-40a2-aa43-8cd78827c50e",
+      "type": "SendHttpRequest",
+      "name": "bill",
+      "displayName": "Prepare Order Bill",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "123",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "124",
+            "Liquid": "https://localhost:44332/api/OrderFilling/prepareBill?OrderId={{Variables.Order.OrderId}}&ProductId={{Variables.Order.ProductId}}&Quantity={{Variables.Order.Quantity}}"
+          }
+        },
+        {
+          "$id": "125",
+          "name": "Method",
+          "expressions": {
+            "$id": "126"
+          }
+        },
+        {
+          "$id": "127",
+          "name": "Content",
+          "expressions": {
+            "$id": "128"
+          }
+        },
+        {
+          "$id": "129",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "130"
+          }
+        },
+        {
+          "$id": "131",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "132",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "133",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "134",
+            "Literal": ".NET Type"
+          }
+        },
+        {
+          "$id": "135",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "136"
+          }
+        },
+        {
+          "$id": "137",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "138"
+          }
+        },
+        {
+          "$id": "139",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "140"
+          }
+        },
+        {
+          "$id": "141",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "142"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "143",
+      "activityId": "cf761a2d-c7fe-4290-9647-e8492144ed13",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "144",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "145",
+            "Literal": "orderbill"
+          }
+        },
+        {
+          "$id": "146",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "147",
+            "JavaScript": "activities.bill.ResponseContent()"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "148",
+      "activityId": "6fbe28c0-388b-4989-872d-f2c7c7d4d3ab",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "149",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "150",
+            "Literal": "ordertime"
+          }
+        },
+        {
+          "$id": "151",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "152",
+            "Liquid": "",
+            "JavaScript": "activities.scheduleTime.ResponseContent()"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "153",
+      "activityId": "de8a3cd6-c355-47ca-b2e1-8d0ea83a6b37",
+      "type": "SendEmail",
+      "displayName": "Send Invoice on Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "154",
+          "name": "From",
+          "expressions": {
+            "$id": "155",
+            "Literal": "alfaizkhan147@gmail.com"
+          }
+        },
+        {
+          "$id": "156",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "157",
+            "Json": "[\"alkaifkhan123@gmail.com\"]",
+            "JavaScript": "[userDetail1.email]"
+          }
+        },
+        {
+          "$id": "158",
+          "name": "Subject",
+          "expressions": {
+            "$id": "159",
+            "Literal": "Order Invoice"
+          }
+        },
+        {
+          "$id": "160",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "161"
+          }
+        },
+        {
+          "$id": "162",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "163",
+            "Literal": "<p>Hi {{ Variables.User.Username }},</p>\n<p>Thanks for activating your account!</p>",
+            "Liquid": "<p>Your Invoice</p>\r\n<p>OrderId:{{ Variables.orderbill.orderId }},</p>\r\n<p>ProductId:{{Variables.orderbill.productId}},</p>\r\n<P>OrderDate:{{Variables.orderbill.orderDateTime}}</P>\r\n<p>Thanks for visiting us</p>"
+          }
+        },
+        {
+          "$id": "164",
+          "name": "Cc",
+          "expressions": {
+            "$id": "165"
+          }
+        },
+        {
+          "$id": "166",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "167"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "168",
+      "activityId": "1258a3a2-f94c-442b-ac28-c06ce2ffdd13",
+      "type": "SendHttpRequest",
+      "name": "checkMaterialInventory",
+      "displayName": "Get Material Detail",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "169",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "170",
+            "Literal": "https://localhost:44321/api/User/DeleteUser?id={{Variables.User.UserId}}",
+            "Liquid": "https://localhost:44332/api/OrderFilling/CheckMaterialInventory?Id={{Variables.Order.ProductId}}"
+          }
+        },
+        {
+          "$id": "171",
+          "name": "Method",
+          "expressions": {
+            "$id": "172"
+          }
+        },
+        {
+          "$id": "173",
+          "name": "Content",
+          "expressions": {
+            "$id": "174"
+          }
+        },
+        {
+          "$id": "175",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "176"
+          }
+        },
+        {
+          "$id": "177",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "178",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "179",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "180",
+            "Literal": ".NET Type"
+          }
+        },
+        {
+          "$id": "181",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "182"
+          }
+        },
+        {
+          "$id": "183",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "184"
+          }
+        },
+        {
+          "$id": "185",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "186"
+          }
+        },
+        {
+          "$id": "187",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "188"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "189",
+      "activityId": "f8b6a2d2-efc5-491c-bdb1-da751ac28d09",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "190",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "191",
+            "Literal": "materialResult"
+          }
+        },
+        {
+          "$id": "192",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "193",
+            "JavaScript": "activities.checkMaterialInventory.ResponseContent()"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "194",
+      "activityId": "b6ff1cb4-55dd-4079-8836-4a3b1493b880",
+      "type": "If",
+      "displayName": "Check Material in Inventory",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "195",
+          "name": "Condition",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "196",
+            "Literal": "materialResultt",
+            "JavaScript": "materialResult.materialInventory"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "197",
+      "activityId": "88977da9-8d28-45de-9453-f65bbf8190e0",
+      "type": "Timer",
+      "displayName": "Timer",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "198",
+          "name": "Timeout",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "199",
+            "Literal": "Dura",
+            "Liquid": "",
+            "JavaScript": "Duration.FromSeconds(10)"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "200",
+      "activityId": "d5bcccde-ac8c-49cf-b789-c1a60d1dcdc3",
+      "type": "WriteHttpResponse",
+      "displayName": "Make Product",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "201",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "202",
+            "JavaScript": "<p>",
+            "Liquid": "<p>your product is ready</p>"
+          }
+        },
+        {
+          "$id": "203",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "204",
+            "Literal": "text/html"
+          }
+        },
+        {
+          "$id": "205",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "206"
+          }
+        },
+        {
+          "$id": "207",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "208"
+          }
+        },
+        {
+          "$id": "209",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "210"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "211",
+      "activityId": "1b60243b-b124-4cff-8059-997ab82e8fbd",
+      "type": "SendEmail",
+      "displayName": "Quality Checking mail",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "212",
+          "name": "From",
+          "expressions": {
+            "$id": "213",
+            "Literal": "alfaizkhan147@gmail.com"
+          }
+        },
+        {
+          "$id": "214",
+          "name": "To",
+          "expressions": {
+            "$id": "215",
+            "Json": "[\"Shivam32@gmail.com\"]"
+          }
+        },
+        {
+          "$id": "216",
+          "name": "Subject",
+          "expressions": {
+            "$id": "217",
+            "Literal": "Please Check product quality"
+          }
+        },
+        {
+          "$id": "218",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "219"
+          }
+        },
+        {
+          "$id": "220",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "221",
+            "JavaScript": "",
+            "Liquid": "<p>Please check Product Quality</p>\r\n<p>Please check product<a href=\"{{ \"GoodProduct\" | signal_url }}\"> Good </a>or<a href=\"{{ \"BadProduct\" | signal_url }}\"> Bad </a></p>"
+          }
+        },
+        {
+          "$id": "222",
+          "name": "Cc",
+          "expressions": {
+            "$id": "223"
+          }
+        },
+        {
+          "$id": "224",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "225"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "226",
+      "activityId": "e34ee9f4-8059-48d3-8627-f0ace2d652bc",
+      "type": "Fork",
+      "displayName": "Fork",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "227",
+          "name": "Branches",
+          "expressions": {
+            "$id": "228",
+            "Json": "[\"Good\",\"Bad\"]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "229",
+      "activityId": "48a8820f-6897-4c7a-9152-70fbed27308a",
+      "type": "SignalReceived",
+      "displayName": "Signal Received",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "230",
+          "name": "Signal",
+          "expressions": {
+            "$id": "231",
+            "Literal": "GoodProduct",
+            "JavaScript": "Activate"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "232",
+      "activityId": "4cc06793-7fe7-47fc-bd22-bade3b4e60d7",
+      "type": "SendEmail",
+      "displayName": "Send delivery status Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "233",
+          "name": "From",
+          "expressions": {
+            "$id": "234",
+            "Literal": "alfaizkhan147@gmail.com"
+          }
+        },
+        {
+          "$id": "235",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "236",
+            "Json": "[\"alkaifkhan123@gmail.com\"]",
+            "JavaScript": "[userDetail1.email]"
+          }
+        },
+        {
+          "$id": "237",
+          "name": "Subject",
+          "expressions": {
+            "$id": "238",
+            "Literal": "Order Track mail"
+          }
+        },
+        {
+          "$id": "239",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "240"
+          }
+        },
+        {
+          "$id": "241",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "242",
+            "Liquid": "<p>Your order has been recived and scheduled</p>\r\n<p>It will be deliver to you till{{Variables.ordertime.deliveryBy}}</p>"
+          }
+        },
+        {
+          "$id": "243",
+          "name": "Cc",
+          "expressions": {
+            "$id": "244"
+          }
+        },
+        {
+          "$id": "245",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "246"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "247",
+      "activityId": "40532514-0902-4756-ac90-a7b504060d2e",
+      "type": "Finish",
+      "displayName": "Finish",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "248",
+          "name": "ActivityOutput",
+          "expressions": {
+            "$id": "249"
+          }
+        },
+        {
+          "$id": "250",
+          "name": "OutcomeNames",
+          "expressions": {
+            "$id": "251"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "252",
+      "activityId": "e2670188-cd43-41fc-9d63-eb7792b2720c",
+      "type": "SendHttpRequest",
+      "name": "materialOrder",
+      "displayName": "Order Material",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "253",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "254",
+            "Literal": "https://localhost:44321/api/User/DeleteUser?id={{Variables.User.UserId}}",
+            "Liquid": "https://localhost:44332/api/OrderFilling/OrderMaterial"
+          }
+        },
+        {
+          "$id": "255",
+          "name": "Method",
+          "expressions": {
+            "$id": "256"
+          }
+        },
+        {
+          "$id": "257",
+          "name": "Content",
+          "expressions": {
+            "$id": "258"
+          }
+        },
+        {
+          "$id": "259",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "260"
+          }
+        },
+        {
+          "$id": "261",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "262",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "263",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "264",
+            "Literal": ".NET Type"
+          }
+        },
+        {
+          "$id": "265",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "266"
+          }
+        },
+        {
+          "$id": "267",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "268"
+          }
+        },
+        {
+          "$id": "269",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "270"
+          }
+        },
+        {
+          "$id": "271",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "272"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "273",
+      "activityId": "918c518f-25fe-4f00-8dad-f7a987c6a2f1",
+      "type": "Timer",
+      "displayName": "Timer",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "274",
+          "name": "Timeout",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "275",
+            "JavaScript": "Duration.FromSeconds(10)"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "276",
+      "activityId": "e6cd55ab-fc5b-4262-94ef-f01d464a6128",
+      "type": "SendEmail",
+      "displayName": "Check Ordered Material",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "277",
+          "name": "From",
+          "expressions": {
+            "$id": "278",
+            "Literal": "alfaizkhan147@gmail.com"
+          }
+        },
+        {
+          "$id": "279",
+          "name": "To",
+          "expressions": {
+            "$id": "280",
+            "Json": "[\"Vivek963@gmail.com\"]"
+          }
+        },
+        {
+          "$id": "281",
+          "name": "Subject",
+          "expressions": {
+            "$id": "282",
+            "Literal": "Order Material Inspection"
+          }
+        },
+        {
+          "$id": "283",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "284"
+          }
+        },
+        {
+          "$id": "285",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "286",
+            "Liquid": "<p><b>Inspect Your Ordered Material</b></p>\r\n<p><a href=\"{{ \"Good\" | signal_url }}\"> Good </a>or<a href=\"{{ \"Bad\" | signal_url }}\"> Bad </a>"
+          }
+        },
+        {
+          "$id": "287",
+          "name": "Cc",
+          "expressions": {
+            "$id": "288"
+          }
+        },
+        {
+          "$id": "289",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "290"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "291",
+      "activityId": "db1a982d-c5d5-45c8-b513-0034687f9c4c",
+      "type": "Fork",
+      "displayName": "Fork",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "292",
+          "name": "Branches",
+          "expressions": {
+            "$id": "293",
+            "Json": "[\"Good\",\"Bad\"]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "294",
+      "activityId": "acf99b1c-2824-422e-a0e0-08dcebf963ef",
+      "type": "SignalReceived",
+      "displayName": "Signal Received",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "295",
+          "name": "Signal",
+          "expressions": {
+            "$id": "296",
+            "Literal": "Good"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "297",
+      "activityId": "c6910ff9-a270-4a8d-ae99-23860a064571",
+      "type": "SendHttpRequest",
+      "name": "userDetails",
+      "displayName": "Get User Detail",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "298",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "299",
+            "Literal": "https://localhost:44321/api/User/DeleteUser?id={{Variables.User.UserId}}",
+            "JavaScript": "",
+            "Liquid": "https://localhost:44332/api/OrderFilling/GetUserDetail?Id={{Variables.Order.UserId}}"
+          }
+        },
+        {
+          "$id": "300",
+          "name": "Method",
+          "expressions": {
+            "$id": "301"
+          }
+        },
+        {
+          "$id": "302",
+          "name": "Content",
+          "expressions": {
+            "$id": "303"
+          }
+        },
+        {
+          "$id": "304",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "305"
+          }
+        },
+        {
+          "$id": "306",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "307",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "308",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "309",
+            "Literal": ".NET Type"
+          }
+        },
+        {
+          "$id": "310",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "311"
+          }
+        },
+        {
+          "$id": "312",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "313"
+          }
+        },
+        {
+          "$id": "314",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "315"
+          }
+        },
+        {
+          "$id": "316",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "317"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "318",
+      "activityId": "f1d3d665-240b-4028-a0db-ca5f39d55497",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "319",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "320",
+            "Literal": "userDetail1"
+          }
+        },
+        {
+          "$id": "321",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "322",
+            "JavaScript": "activities.userDetails.ResponseContent()"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "323",
+      "activityId": "c9750739-5bf6-4e6a-8c5a-a45cebd111ec",
+      "type": "SendEmail",
+      "displayName": "Send Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "324",
+          "name": "From",
+          "expressions": {
+            "$id": "325",
+            "Literal": "alfaizkhan147@gmail.com"
+          }
+        },
+        {
+          "$id": "326",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "327",
+            "JavaScript": "[userDetail1.email]"
+          }
+        },
+        {
+          "$id": "328",
+          "name": "Subject",
+          "expressions": {
+            "$id": "329",
+            "Literal": "Regarding Ordering Product"
+          }
+        },
+        {
+          "$id": "330",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "331"
+          }
+        },
+        {
+          "$id": "332",
+          "name": "Body",
+          "expressions": {
+            "$id": "333",
+            "Literal": "Due to Insufficient balance you cant order"
+          }
+        },
+        {
+          "$id": "334",
+          "name": "Cc",
+          "expressions": {
+            "$id": "335"
+          }
+        },
+        {
+          "$id": "336",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "337"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "338",
+      "activityId": "14078ab7-979b-4571-9a20-a291470090e9",
+      "type": "SignalReceived",
+      "displayName": "Signal Received",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "339",
+          "name": "Signal",
+          "expressions": {
+            "$id": "340",
+            "Literal": "Bad"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "341",
+      "activityId": "837c0ff0-64b2-4dcc-af7e-275008520f40",
+      "type": "SignalReceived",
+      "displayName": "Signal Received",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "342",
+          "name": "Signal",
+          "expressions": {
+            "$id": "343",
+            "Literal": "BadProduct"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    }
+  ],
+  "connections": [
+    {
+      "$id": "344",
+      "sourceActivityId": "5a608526-e1a6-422d-a1c4-8d96d91ae848",
+      "targetActivityId": "e60c76d7-f453-4efb-b902-3b56085415ff",
+      "outcome": "Done"
+    },
+    {
+      "$id": "345",
+      "sourceActivityId": "e60c76d7-f453-4efb-b902-3b56085415ff",
+      "targetActivityId": "04a4845e-13c9-439b-bfac-bd8801af3d27",
+      "outcome": "Done"
+    },
+    {
+      "$id": "346",
+      "sourceActivityId": "04a4845e-13c9-439b-bfac-bd8801af3d27",
+      "targetActivityId": "89151c9f-58e2-4bae-802f-869bf06a0bd1",
+      "outcome": "Done"
+    },
+    {
+      "$id": "347",
+      "sourceActivityId": "eec02f1d-de34-4a14-be47-8f4c91af3038",
+      "targetActivityId": "25eebb66-94a9-4ce7-927b-567c987a5eaf",
+      "outcome": "True"
+    },
+    {
+      "$id": "348",
+      "sourceActivityId": "25eebb66-94a9-4ce7-927b-567c987a5eaf",
+      "targetActivityId": "df38334a-8b44-4d79-a552-a1e81651faac",
+      "outcome": "Done"
+    },
+    {
+      "$id": "349",
+      "sourceActivityId": "df38334a-8b44-4d79-a552-a1e81651faac",
+      "targetActivityId": "e9e4148f-b660-4e0d-9b76-531ced604d75",
+      "outcome": "Done"
+    },
+    {
+      "$id": "350",
+      "sourceActivityId": "e9e4148f-b660-4e0d-9b76-531ced604d75",
+      "targetActivityId": "399ac32d-daea-4d5f-8c28-a2d12b54cf4e",
+      "outcome": "True"
+    },
+    {
+      "$id": "351",
+      "sourceActivityId": "673209d3-1399-4950-a971-117d6ed4d04d",
+      "targetActivityId": "c3cf4a7f-6ddf-40a2-aa43-8cd78827c50e",
+      "outcome": "Done"
+    },
+    {
+      "$id": "352",
+      "sourceActivityId": "c3cf4a7f-6ddf-40a2-aa43-8cd78827c50e",
+      "targetActivityId": "cf761a2d-c7fe-4290-9647-e8492144ed13",
+      "outcome": "Done"
+    },
+    {
+      "$id": "353",
+      "sourceActivityId": "399ac32d-daea-4d5f-8c28-a2d12b54cf4e",
+      "targetActivityId": "6fbe28c0-388b-4989-872d-f2c7c7d4d3ab",
+      "outcome": "Done"
+    },
+    {
+      "$id": "354",
+      "sourceActivityId": "cf761a2d-c7fe-4290-9647-e8492144ed13",
+      "targetActivityId": "de8a3cd6-c355-47ca-b2e1-8d0ea83a6b37",
+      "outcome": "Done"
+    },
+    {
+      "$id": "355",
+      "sourceActivityId": "e9e4148f-b660-4e0d-9b76-531ced604d75",
+      "targetActivityId": "1258a3a2-f94c-442b-ac28-c06ce2ffdd13",
+      "outcome": "False"
+    },
+    {
+      "$id": "356",
+      "sourceActivityId": "1258a3a2-f94c-442b-ac28-c06ce2ffdd13",
+      "targetActivityId": "f8b6a2d2-efc5-491c-bdb1-da751ac28d09",
+      "outcome": "Done"
+    },
+    {
+      "$id": "357",
+      "sourceActivityId": "f8b6a2d2-efc5-491c-bdb1-da751ac28d09",
+      "targetActivityId": "b6ff1cb4-55dd-4079-8836-4a3b1493b880",
+      "outcome": "Done"
+    },
+    {
+      "$id": "358",
+      "sourceActivityId": "b6ff1cb4-55dd-4079-8836-4a3b1493b880",
+      "targetActivityId": "88977da9-8d28-45de-9453-f65bbf8190e0",
+      "outcome": "True"
+    },
+    {
+      "$id": "359",
+      "sourceActivityId": "88977da9-8d28-45de-9453-f65bbf8190e0",
+      "targetActivityId": "d5bcccde-ac8c-49cf-b789-c1a60d1dcdc3",
+      "outcome": "Done"
+    },
+    {
+      "$id": "360",
+      "sourceActivityId": "d5bcccde-ac8c-49cf-b789-c1a60d1dcdc3",
+      "targetActivityId": "1b60243b-b124-4cff-8059-997ab82e8fbd",
+      "outcome": "Done"
+    },
+    {
+      "$id": "361",
+      "sourceActivityId": "1b60243b-b124-4cff-8059-997ab82e8fbd",
+      "targetActivityId": "e34ee9f4-8059-48d3-8627-f0ace2d652bc",
+      "outcome": "Done"
+    },
+    {
+      "$id": "362",
+      "sourceActivityId": "e34ee9f4-8059-48d3-8627-f0ace2d652bc",
+      "targetActivityId": "48a8820f-6897-4c7a-9152-70fbed27308a",
+      "outcome": "Good"
+    },
+    {
+      "$id": "363",
+      "sourceActivityId": "48a8820f-6897-4c7a-9152-70fbed27308a",
+      "targetActivityId": "399ac32d-daea-4d5f-8c28-a2d12b54cf4e",
+      "outcome": "Done"
+    },
+    {
+      "$id": "364",
+      "sourceActivityId": "6fbe28c0-388b-4989-872d-f2c7c7d4d3ab",
+      "targetActivityId": "4cc06793-7fe7-47fc-bd22-bade3b4e60d7",
+      "outcome": "Done"
+    },
+    {
+      "$id": "365",
+      "sourceActivityId": "4cc06793-7fe7-47fc-bd22-bade3b4e60d7",
+      "targetActivityId": "673209d3-1399-4950-a971-117d6ed4d04d",
+      "outcome": "Done"
+    },
+    {
+      "$id": "366",
+      "sourceActivityId": "de8a3cd6-c355-47ca-b2e1-8d0ea83a6b37",
+      "targetActivityId": "40532514-0902-4756-ac90-a7b504060d2e",
+      "outcome": "Done"
+    },
+    {
+      "$id": "367",
+      "sourceActivityId": "b6ff1cb4-55dd-4079-8836-4a3b1493b880",
+      "targetActivityId": "e2670188-cd43-41fc-9d63-eb7792b2720c",
+      "outcome": "False"
+    },
+    {
+      "$id": "368",
+      "sourceActivityId": "e2670188-cd43-41fc-9d63-eb7792b2720c",
+      "targetActivityId": "918c518f-25fe-4f00-8dad-f7a987c6a2f1",
+      "outcome": "Done"
+    },
+    {
+      "$id": "369",
+      "sourceActivityId": "918c518f-25fe-4f00-8dad-f7a987c6a2f1",
+      "targetActivityId": "e6cd55ab-fc5b-4262-94ef-f01d464a6128",
+      "outcome": "Done"
+    },
+    {
+      "$id": "370",
+      "sourceActivityId": "e6cd55ab-fc5b-4262-94ef-f01d464a6128",
+      "targetActivityId": "db1a982d-c5d5-45c8-b513-0034687f9c4c",
+      "outcome": "Done"
+    },
+    {
+      "$id": "371",
+      "sourceActivityId": "db1a982d-c5d5-45c8-b513-0034687f9c4c",
+      "targetActivityId": "acf99b1c-2824-422e-a0e0-08dcebf963ef",
+      "outcome": "Good"
+    },
+    {
+      "$id": "372",
+      "sourceActivityId": "acf99b1c-2824-422e-a0e0-08dcebf963ef",
+      "targetActivityId": "d5bcccde-ac8c-49cf-b789-c1a60d1dcdc3",
+      "outcome": "Done"
+    },
+    {
+      "$id": "373",
+      "sourceActivityId": "89151c9f-58e2-4bae-802f-869bf06a0bd1",
+      "targetActivityId": "c6910ff9-a270-4a8d-ae99-23860a064571",
+      "outcome": "Done"
+    },
+    {
+      "$id": "374",
+      "sourceActivityId": "c6910ff9-a270-4a8d-ae99-23860a064571",
+      "targetActivityId": "f1d3d665-240b-4028-a0db-ca5f39d55497",
+      "outcome": "Done"
+    },
+    {
+      "$id": "375",
+      "sourceActivityId": "f1d3d665-240b-4028-a0db-ca5f39d55497",
+      "targetActivityId": "eec02f1d-de34-4a14-be47-8f4c91af3038",
+      "outcome": "Done"
+    },
+    {
+      "$id": "376",
+      "sourceActivityId": "eec02f1d-de34-4a14-be47-8f4c91af3038",
+      "targetActivityId": "c9750739-5bf6-4e6a-8c5a-a45cebd111ec",
+      "outcome": "False"
+    },
+    {
+      "$id": "377",
+      "sourceActivityId": "db1a982d-c5d5-45c8-b513-0034687f9c4c",
+      "targetActivityId": "14078ab7-979b-4571-9a20-a291470090e9",
+      "outcome": "Bad"
+    },
+    {
+      "$id": "378",
+      "sourceActivityId": "14078ab7-979b-4571-9a20-a291470090e9",
+      "targetActivityId": "e2670188-cd43-41fc-9d63-eb7792b2720c",
+      "outcome": "Done"
+    },
+    {
+      "$id": "379",
+      "sourceActivityId": "e34ee9f4-8059-48d3-8627-f0ace2d652bc",
+      "targetActivityId": "837c0ff0-64b2-4dcc-af7e-275008520f40",
+      "outcome": "Bad"
+    },
+    {
+      "$id": "380",
+      "sourceActivityId": "837c0ff0-64b2-4dcc-af7e-275008520f40",
+      "targetActivityId": "d5bcccde-ac8c-49cf-b789-c1a60d1dcdc3",
+      "outcome": "Done"
+    }
+  ],
+  "id": "94ae0c6409b54dcdac7ccbce88d58b5e"
+}

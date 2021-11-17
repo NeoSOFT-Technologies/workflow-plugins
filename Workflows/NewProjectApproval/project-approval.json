@@ -1,0 +1,1158 @@
+{
+  "$id": "1",
+  "definitionId": "8143f96802f74760af6f522f63c3a446",
+  "versionId": "1b8243674fe24bd1b267b4157a286516",
+  "name": "ProjectApproval",
+  "displayName": "Project Approval",
+  "version": 37,
+  "variables": {
+    "$id": "2",
+    "data": {}
+  },
+  "customAttributes": {
+    "$id": "3",
+    "data": {}
+  },
+  "isSingleton": false,
+  "persistenceBehavior": "WorkflowBurst",
+  "deleteCompletedInstances": false,
+  "isPublished": true,
+  "isLatest": true,
+  "activities": [
+    {
+      "$id": "4",
+      "activityId": "d3c45d50-ef7c-4760-a8de-106015033b83",
+      "type": "HttpEndpoint",
+      "displayName": "HTTP Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "5",
+          "name": "Path",
+          "expressions": {
+            "$id": "6",
+            "Literal": "/project-approval"
+          }
+        },
+        {
+          "$id": "7",
+          "name": "Methods",
+          "expressions": {
+            "$id": "8",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "9",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "10",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "11",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "12"
+          }
+        },
+        {
+          "$id": "13",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "14"
+          }
+        },
+        {
+          "$id": "15",
+          "name": "Policy",
+          "expressions": {
+            "$id": "16"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "17",
+      "activityId": "cf2860ec-159d-47e8-a40f-bcb0fdd43f1e",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "18",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "19",
+            "Literal": "Project"
+          }
+        },
+        {
+          "$id": "20",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "21",
+            "Literal": "input.Body",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "22",
+      "activityId": "6d7a2380-6cff-4d65-92f9-1f70c02f3b2a",
+      "type": "SendHttpRequest",
+      "name": "GetManagerDetails",
+      "displayName": "Send HTTP Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "23",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "24",
+            "Liquid": "https://localhost:44300/api/Project/GetManagerDetails?projectTechnology={{Variables.Project.ProjectTechnology}}"
+          }
+        },
+        {
+          "$id": "25",
+          "name": "Method",
+          "expressions": {
+            "$id": "26",
+            "Literal": "GET"
+          }
+        },
+        {
+          "$id": "27",
+          "name": "Content",
+          "expressions": {
+            "$id": "28"
+          }
+        },
+        {
+          "$id": "29",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "30",
+            "Literal": "application/json"
+          }
+        },
+        {
+          "$id": "31",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "32",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "33",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "34",
+            "Literal": ".NET Type"
+          }
+        },
+        {
+          "$id": "35",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "36"
+          }
+        },
+        {
+          "$id": "37",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "38"
+          }
+        },
+        {
+          "$id": "39",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "40"
+          }
+        },
+        {
+          "$id": "41",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "42"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "43",
+      "activityId": "b7f42912-b0fe-4ccb-8f7f-7b53fd927c17",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "44",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "45",
+            "Literal": "Managers"
+          }
+        },
+        {
+          "$id": "46",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "47",
+            "Literal": "input.Body",
+            "JavaScript": "activities.GetManagerDetails.ResponseContent()"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "48",
+      "activityId": "05a7d83c-2a3b-4180-b03a-e98e0f908078",
+      "type": "SendEmail",
+      "displayName": "Send Email To Department Manager",
+      "description": "Send Email To Department Manager For Project Approval",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "49",
+          "name": "From",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "50",
+            "Literal": "",
+            "JavaScript": "Project.SubmitterEmail"
+          }
+        },
+        {
+          "$id": "51",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "52",
+            "JavaScript": "[Managers.deptManagerEmail]",
+            "Json": "[\"vaibhav.kulkarni@neosoftmail.com\"]"
+          }
+        },
+        {
+          "$id": "53",
+          "name": "Subject",
+          "expressions": {
+            "$id": "54",
+            "Literal": "Project Approval Email To Department Manager"
+          }
+        },
+        {
+          "$id": "55",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "56"
+          }
+        },
+        {
+          "$id": "57",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "58",
+            "Liquid": "<p>Hello, {{Variables.Managers.deptManagerName}}.</p>\r\n<p>I am writing to request approval for Project {{ Variables.Project.ProjectName }}, which is set to begin on {{ Variables.Project.StartDate }}. </p>\r\n<p>Please <a href=\"{{ \"ApproveDept\" | signal_url }}\">click here </a> to approve this project.</p>\r\n<p>Please <a href=\"{{ \"RejectDept\" | signal_url }}\">click here </a> to reject this project.</p>"
+          }
+        },
+        {
+          "$id": "59",
+          "name": "Cc",
+          "expressions": {
+            "$id": "60"
+          }
+        },
+        {
+          "$id": "61",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "62"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "63",
+      "activityId": "09edd9d1-317a-480d-8fc6-f16eaf3aaaa0",
+      "type": "Fork",
+      "displayName": "Fork",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "64",
+          "name": "Branches",
+          "expressions": {
+            "$id": "65",
+            "Json": "[\"Approved\",\"NotApproved\"]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "66",
+      "activityId": "01444e64-2c6e-4bc6-87cd-f4e4d29df612",
+      "type": "SendEmail",
+      "displayName": "Send Email To IT Manager",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "67",
+          "name": "From",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "68",
+            "Literal": "vaibhav.kulkarni@neosoftmail.com",
+            "JavaScript": "Managers.deptManagerEmail"
+          }
+        },
+        {
+          "$id": "69",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "70",
+            "JavaScript": "[Managers.itManagerEmail]",
+            "Json": "[\"neha.haridas@neosoftmail.com\"]"
+          }
+        },
+        {
+          "$id": "71",
+          "name": "Subject",
+          "expressions": {
+            "$id": "72",
+            "Literal": "Project Approval Email To IT Manager"
+          }
+        },
+        {
+          "$id": "73",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "74"
+          }
+        },
+        {
+          "$id": "75",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "76",
+            "Literal": "<p>Hello, {{ Variables.Managers.DeptManagerName }}!</p>\n<p>I am writing to request approval for Project {{ Variables.Project.ProjectName }}, which is set to begin on {{ Variables.Project.StartDate }}. </p>",
+            "Liquid": "<p>Hello, {{Variables.Managers.itManagerName}}!</p>\r\n<p>I am writing to request approval for Project {{ Variables.Project.ProjectName }}, which is set to begin on {{ Variables.Project.StartDate }}. </p>\r\n<p>Please <a href=\"{{ \"ApproveIT\" | signal_url }}\">click here </a> to approve this project.</p>\r\n<p>Please <a href=\"{{ \"RejectIT\" | signal_url }}\">click here </a> to reject this project.</p>"
+          }
+        },
+        {
+          "$id": "77",
+          "name": "Cc",
+          "expressions": {
+            "$id": "78"
+          }
+        },
+        {
+          "$id": "79",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "80"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "81",
+      "activityId": "06fa4b71-65c9-49b1-92b6-1b8e7b1d99ab",
+      "type": "Fork",
+      "displayName": "Fork",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "82",
+          "name": "Branches",
+          "expressions": {
+            "$id": "83",
+            "Json": "[\"Approved\",\"NotApproved\"]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "84",
+      "activityId": "84194429-d803-4f7f-9c41-2b24c0d9e2b7",
+      "type": "SendEmail",
+      "displayName": "Send Not Approvedl Email To User",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "85",
+          "name": "From",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "86",
+            "Literal": "vaibhav.kulkarni@neosoftmail.com",
+            "JavaScript": "Managers.deptManagerEmail",
+            "Liquid": ""
+          }
+        },
+        {
+          "$id": "87",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "88",
+            "Json": "[]",
+            "JavaScript": "[Project.SubmitterEmail]"
+          }
+        },
+        {
+          "$id": "89",
+          "name": "Subject",
+          "expressions": {
+            "$id": "90",
+            "Literal": "Project Not Approved By Department Manager"
+          }
+        },
+        {
+          "$id": "91",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "92"
+          }
+        },
+        {
+          "$id": "93",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "94",
+            "Literal": "<p>Hello, Ankita!</p>\n<p>The {{ Variables.Project.ProjectName}} project is not approved.</p>",
+            "JavaScript": "<p>Hello </p>",
+            "Liquid": "<p>Hello, {{ Variables.Project.SubmitterName}}</p>\r\n<p>The {{ Variables.Project.ProjectName}} project is not approved by Department manager.</p>"
+          }
+        },
+        {
+          "$id": "95",
+          "name": "Cc",
+          "expressions": {
+            "$id": "96"
+          }
+        },
+        {
+          "$id": "97",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "98"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "99",
+      "activityId": "4624691d-6691-4bc1-add2-0576c2606711",
+      "type": "SendEmail",
+      "displayName": "Send Not Approved Email To Department Manager",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "100",
+          "name": "From",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "101",
+            "JavaScript": "Managers.itManagerEmail",
+            "Literal": "neha.haridas@neosoftmail.com"
+          }
+        },
+        {
+          "$id": "102",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "103",
+            "Json": "[\"vaibhav.kulkarni@neosoftmail.com\"]",
+            "JavaScript": "[Managers.deptManagerEmail]"
+          }
+        },
+        {
+          "$id": "104",
+          "name": "Subject",
+          "expressions": {
+            "$id": "105",
+            "Literal": "Project Not Approved By IT Manager"
+          }
+        },
+        {
+          "$id": "106",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "107"
+          }
+        },
+        {
+          "$id": "108",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "109",
+            "Liquid": "<p>Hello, {{Variables.Managers.deptManagerName}}!</p>\r\n<p>The {{ Variables.Project.ProjectName}} project is not approved by IT manager.</p>"
+          }
+        },
+        {
+          "$id": "110",
+          "name": "Cc",
+          "expressions": {
+            "$id": "111"
+          }
+        },
+        {
+          "$id": "112",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "113"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "114",
+      "activityId": "bd11faf9-13e5-4024-97a5-dd314894a975",
+      "type": "Finish",
+      "displayName": "Finish",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "115",
+          "name": "ActivityOutput",
+          "expressions": {
+            "$id": "116"
+          }
+        },
+        {
+          "$id": "117",
+          "name": "OutcomeNames",
+          "expressions": {
+            "$id": "118"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "119",
+      "activityId": "de82d3cf-a3f4-4b48-9f7b-9eeffc118182",
+      "type": "SignalReceived",
+      "displayName": "Approval By Department Manager",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "120",
+          "name": "Signal",
+          "expressions": {
+            "$id": "121",
+            "Literal": "ApproveDept"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "122",
+      "activityId": "36fe4801-150c-4389-92b0-1d377005b87e",
+      "type": "SignalReceived",
+      "displayName": "Approval By IT Manager",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "123",
+          "name": "Signal",
+          "expressions": {
+            "$id": "124",
+            "Literal": "ApproveIT"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "125",
+      "activityId": "6d3b7262-6027-4d31-9857-d306bfaeb8f7",
+      "type": "SignalReceived",
+      "displayName": "Rejected By Department Manager",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "126",
+          "name": "Signal",
+          "expressions": {
+            "$id": "127",
+            "Literal": "RejectDept"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "128",
+      "activityId": "a5600da3-5c5d-4cfc-8f1e-c95d9c653556",
+      "type": "SignalReceived",
+      "displayName": "Rejected By IT Manager",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "129",
+          "name": "Signal",
+          "expressions": {
+            "$id": "130",
+            "Literal": "RejectIT"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "131",
+      "activityId": "4783fc8e-d368-40ae-955f-16d1722f9838",
+      "type": "SendEmail",
+      "displayName": "Send Approval Email To User",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "132",
+          "name": "From",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "133",
+            "Literal": "vaibhav.kulkarni@neosoftmail.com",
+            "JavaScript": "Managers.deptManagerEmail"
+          }
+        },
+        {
+          "$id": "134",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "135",
+            "Json": "[\"ankita.dwivedi@neosoftmail.com\"]",
+            "JavaScript": "[Project.SubmitterEmail]"
+          }
+        },
+        {
+          "$id": "136",
+          "name": "Subject",
+          "expressions": {
+            "$id": "137",
+            "Literal": "Project Approval Email"
+          }
+        },
+        {
+          "$id": "138",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "139"
+          }
+        },
+        {
+          "$id": "140",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "141",
+            "Literal": "",
+            "Liquid": "<p>Hello, {{ Variables.Project.SubmitterName}}</p>\r\n<p>The {{ Variables.Project.ProjectName}} project is approved by Department and IT managers.</p>"
+          }
+        },
+        {
+          "$id": "142",
+          "name": "Cc",
+          "expressions": {
+            "$id": "143"
+          }
+        },
+        {
+          "$id": "144",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "145"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "146",
+      "activityId": "a4d8a9b6-4320-4246-aff8-60e2b6103d13",
+      "type": "SendEmail",
+      "displayName": "Send Not Approved Email To User",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "147",
+          "name": "From",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "148",
+            "Literal": "vaibhav.kulkarni@neosoftmail.com",
+            "JavaScript": "Managers.deptManagerEmail"
+          }
+        },
+        {
+          "$id": "149",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "150",
+            "Json": "[\"ankita.dwivedi@neosoftmail.com\"]",
+            "JavaScript": "[Project.SubmitterEmail]"
+          }
+        },
+        {
+          "$id": "151",
+          "name": "Subject",
+          "expressions": {
+            "$id": "152",
+            "Literal": "Project Not Approved By IT Manager"
+          }
+        },
+        {
+          "$id": "153",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "154"
+          }
+        },
+        {
+          "$id": "155",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "156",
+            "Liquid": "<p>Hello, {{ Variables.Project.SubmitterName}}</p>\r\n<p>The {{ Variables.Project.ProjectName}} project is not approved by IT manager.</p>"
+          }
+        },
+        {
+          "$id": "157",
+          "name": "Cc",
+          "expressions": {
+            "$id": "158"
+          }
+        },
+        {
+          "$id": "159",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "160"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "161",
+      "activityId": "c661ac32-3dbc-480c-801f-3c4fe8c57c5d",
+      "type": "WriteHttpResponse",
+      "displayName": "Display Project Rejected Page",
+      "description": "Display a page confirming that the project has been rejected.",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "162",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "163",
+            "Liquid": "<p>Project rejected by Department Manager.</p>"
+          }
+        },
+        {
+          "$id": "164",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "165",
+            "Literal": "text/html"
+          }
+        },
+        {
+          "$id": "166",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "167"
+          }
+        },
+        {
+          "$id": "168",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "169"
+          }
+        },
+        {
+          "$id": "170",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "171"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "172",
+      "activityId": "81a98489-082f-4059-a94e-676404da89ed",
+      "type": "WriteHttpResponse",
+      "name": "",
+      "displayName": "Display Project Approved Page",
+      "description": "Display a page confirming that the project has been approved.",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "173",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "174",
+            "Liquid": "<p>Project approved by both the managers.</p>"
+          }
+        },
+        {
+          "$id": "175",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "176",
+            "Literal": "text/html"
+          }
+        },
+        {
+          "$id": "177",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "178"
+          }
+        },
+        {
+          "$id": "179",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "180"
+          }
+        },
+        {
+          "$id": "181",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "182"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "183",
+      "activityId": "3cdda54c-65d5-405d-b06a-c0fccdb2a382",
+      "type": "WriteHttpResponse",
+      "displayName": "Display Project Rejected Page",
+      "description": "Display a page confirming that the project has been rejected.",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "184",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "185",
+            "Liquid": "<p>Project is rejected by IT manager.</p>"
+          }
+        },
+        {
+          "$id": "186",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "187",
+            "Literal": "text/html"
+          }
+        },
+        {
+          "$id": "188",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "189"
+          }
+        },
+        {
+          "$id": "190",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "191"
+          }
+        },
+        {
+          "$id": "192",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "193"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "194",
+      "activityId": "71f4c3e8-9ee1-47c4-a670-39df4c4ff24d",
+      "type": "SendEmail",
+      "displayName": "Send Approved Email To Department Manager",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "195",
+          "name": "From",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "196",
+            "JavaScript": "Managers.itManagerEmail"
+          }
+        },
+        {
+          "$id": "197",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "198",
+            "JavaScript": "[Managers.deptManagerEmail]"
+          }
+        },
+        {
+          "$id": "199",
+          "name": "Subject",
+          "expressions": {
+            "$id": "200",
+            "Literal": "Project Approved By IT Manager"
+          }
+        },
+        {
+          "$id": "201",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "202"
+          }
+        },
+        {
+          "$id": "203",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "204",
+            "Liquid": "<p>Hello, {{Variables.Managers.deptManagerName}}!</p>\r\n<p>The {{ Variables.Project.ProjectName}} project is approved by IT manager.</p>"
+          }
+        },
+        {
+          "$id": "205",
+          "name": "Cc",
+          "expressions": {
+            "$id": "206"
+          }
+        },
+        {
+          "$id": "207",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "208"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    }
+  ],
+  "connections": [
+    {
+      "$id": "209",
+      "sourceActivityId": "d3c45d50-ef7c-4760-a8de-106015033b83",
+      "targetActivityId": "cf2860ec-159d-47e8-a40f-bcb0fdd43f1e",
+      "outcome": "Done"
+    },
+    {
+      "$id": "210",
+      "sourceActivityId": "cf2860ec-159d-47e8-a40f-bcb0fdd43f1e",
+      "targetActivityId": "6d7a2380-6cff-4d65-92f9-1f70c02f3b2a",
+      "outcome": "Done"
+    },
+    {
+      "$id": "211",
+      "sourceActivityId": "6d7a2380-6cff-4d65-92f9-1f70c02f3b2a",
+      "targetActivityId": "b7f42912-b0fe-4ccb-8f7f-7b53fd927c17",
+      "outcome": "Done"
+    },
+    {
+      "$id": "212",
+      "sourceActivityId": "b7f42912-b0fe-4ccb-8f7f-7b53fd927c17",
+      "targetActivityId": "05a7d83c-2a3b-4180-b03a-e98e0f908078",
+      "outcome": "Done"
+    },
+    {
+      "$id": "213",
+      "sourceActivityId": "05a7d83c-2a3b-4180-b03a-e98e0f908078",
+      "targetActivityId": "09edd9d1-317a-480d-8fc6-f16eaf3aaaa0",
+      "outcome": "Done"
+    },
+    {
+      "$id": "214",
+      "sourceActivityId": "01444e64-2c6e-4bc6-87cd-f4e4d29df612",
+      "targetActivityId": "06fa4b71-65c9-49b1-92b6-1b8e7b1d99ab",
+      "outcome": "Done"
+    },
+    {
+      "$id": "215",
+      "sourceActivityId": "09edd9d1-317a-480d-8fc6-f16eaf3aaaa0",
+      "targetActivityId": "de82d3cf-a3f4-4b48-9f7b-9eeffc118182",
+      "outcome": "Approved"
+    },
+    {
+      "$id": "216",
+      "sourceActivityId": "de82d3cf-a3f4-4b48-9f7b-9eeffc118182",
+      "targetActivityId": "01444e64-2c6e-4bc6-87cd-f4e4d29df612",
+      "outcome": "Done"
+    },
+    {
+      "$id": "217",
+      "sourceActivityId": "06fa4b71-65c9-49b1-92b6-1b8e7b1d99ab",
+      "targetActivityId": "36fe4801-150c-4389-92b0-1d377005b87e",
+      "outcome": "Approved"
+    },
+    {
+      "$id": "218",
+      "sourceActivityId": "09edd9d1-317a-480d-8fc6-f16eaf3aaaa0",
+      "targetActivityId": "6d3b7262-6027-4d31-9857-d306bfaeb8f7",
+      "outcome": "NotApproved"
+    },
+    {
+      "$id": "219",
+      "sourceActivityId": "6d3b7262-6027-4d31-9857-d306bfaeb8f7",
+      "targetActivityId": "84194429-d803-4f7f-9c41-2b24c0d9e2b7",
+      "outcome": "Done"
+    },
+    {
+      "$id": "220",
+      "sourceActivityId": "06fa4b71-65c9-49b1-92b6-1b8e7b1d99ab",
+      "targetActivityId": "a5600da3-5c5d-4cfc-8f1e-c95d9c653556",
+      "outcome": "NotApproved"
+    },
+    {
+      "$id": "221",
+      "sourceActivityId": "a5600da3-5c5d-4cfc-8f1e-c95d9c653556",
+      "targetActivityId": "4624691d-6691-4bc1-add2-0576c2606711",
+      "outcome": "Done"
+    },
+    {
+      "$id": "222",
+      "sourceActivityId": "84194429-d803-4f7f-9c41-2b24c0d9e2b7",
+      "targetActivityId": "c661ac32-3dbc-480c-801f-3c4fe8c57c5d",
+      "outcome": "Done"
+    },
+    {
+      "$id": "223",
+      "sourceActivityId": "c661ac32-3dbc-480c-801f-3c4fe8c57c5d",
+      "targetActivityId": "bd11faf9-13e5-4024-97a5-dd314894a975",
+      "outcome": "Done"
+    },
+    {
+      "$id": "224",
+      "sourceActivityId": "4783fc8e-d368-40ae-955f-16d1722f9838",
+      "targetActivityId": "81a98489-082f-4059-a94e-676404da89ed",
+      "outcome": "Done"
+    },
+    {
+      "$id": "225",
+      "sourceActivityId": "81a98489-082f-4059-a94e-676404da89ed",
+      "targetActivityId": "bd11faf9-13e5-4024-97a5-dd314894a975",
+      "outcome": "Done"
+    },
+    {
+      "$id": "226",
+      "sourceActivityId": "a4d8a9b6-4320-4246-aff8-60e2b6103d13",
+      "targetActivityId": "3cdda54c-65d5-405d-b06a-c0fccdb2a382",
+      "outcome": "Done"
+    },
+    {
+      "$id": "227",
+      "sourceActivityId": "3cdda54c-65d5-405d-b06a-c0fccdb2a382",
+      "targetActivityId": "bd11faf9-13e5-4024-97a5-dd314894a975",
+      "outcome": "Done"
+    },
+    {
+      "$id": "228",
+      "sourceActivityId": "71f4c3e8-9ee1-47c4-a670-39df4c4ff24d",
+      "targetActivityId": "4783fc8e-d368-40ae-955f-16d1722f9838",
+      "outcome": "Done"
+    },
+    {
+      "$id": "229",
+      "sourceActivityId": "4624691d-6691-4bc1-add2-0576c2606711",
+      "targetActivityId": "a4d8a9b6-4320-4246-aff8-60e2b6103d13",
+      "outcome": "Done"
+    },
+    {
+      "$id": "230",
+      "sourceActivityId": "36fe4801-150c-4389-92b0-1d377005b87e",
+      "targetActivityId": "71f4c3e8-9ee1-47c4-a670-39df4c4ff24d",
+      "outcome": "Done"
+    }
+  ],
+  "id": "1b8243674fe24bd1b267b4157a286516"
+}

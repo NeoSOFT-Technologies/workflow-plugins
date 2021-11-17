@@ -1,0 +1,1245 @@
+{
+  "$id": "1",
+  "definitionId": "d7aae37c56ec449bbad53407127b3bba",
+  "versionId": "2fe8da3dcdb94eefa29dd590bd94b04f",
+  "name": "TicketProccessing",
+  "displayName": "Ticket Proccessing",
+  "version": 8,
+  "variables": {
+    "$id": "2",
+    "data": {}
+  },
+  "customAttributes": {
+    "$id": "3",
+    "data": {}
+  },
+  "isSingleton": false,
+  "persistenceBehavior": "WorkflowBurst",
+  "deleteCompletedInstances": false,
+  "isPublished": true,
+  "isLatest": true,
+  "activities": [
+    {
+      "$id": "4",
+      "activityId": "f736ef2a-7ea2-443a-8164-5a10b0531d7a",
+      "type": "HttpEndpoint",
+      "displayName": "HTTP Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "5",
+          "name": "Path",
+          "expressions": {
+            "$id": "6",
+            "Literal": "/PostTicket"
+          }
+        },
+        {
+          "$id": "7",
+          "name": "Methods",
+          "expressions": {
+            "$id": "8",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "9",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "10",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "11",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "12"
+          }
+        },
+        {
+          "$id": "13",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "14"
+          }
+        },
+        {
+          "$id": "15",
+          "name": "Policy",
+          "expressions": {
+            "$id": "16"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "17",
+      "activityId": "84dc0616-37fb-4925-b25d-e64ba2705e02",
+      "type": "SetVariable",
+      "displayName": "User Ticket Data",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "18",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "19",
+            "Literal": "UserTicket"
+          }
+        },
+        {
+          "$id": "20",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "21",
+            "Literal": "i",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "22",
+      "activityId": "c4c3f286-6986-4e52-8249-d207d61c312e",
+      "type": "SendHttpRequest",
+      "name": "assignManagerData",
+      "displayName": "Assign Ticket based on working Hours",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "23",
+          "name": "Url",
+          "expressions": {
+            "$id": "24",
+            "Literal": "https://localhost:44331/api/Ticket/assignManager"
+          }
+        },
+        {
+          "$id": "25",
+          "name": "Method",
+          "expressions": {
+            "$id": "26",
+            "Literal": "PUT"
+          }
+        },
+        {
+          "$id": "27",
+          "name": "Content",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "28",
+            "JavaScript": "JSON.stringify(UserTicket)"
+          }
+        },
+        {
+          "$id": "29",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "30",
+            "Literal": "application/json"
+          }
+        },
+        {
+          "$id": "31",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "32",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "33",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "34",
+            "Literal": ".NET Type"
+          }
+        },
+        {
+          "$id": "35",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "36"
+          }
+        },
+        {
+          "$id": "37",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "38"
+          }
+        },
+        {
+          "$id": "39",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "40"
+          }
+        },
+        {
+          "$id": "41",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "42"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "43",
+      "activityId": "5316f75c-645f-4768-b08a-b5a69d650072",
+      "type": "SendEmail",
+      "displayName": "new ticket notification",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "44",
+          "name": "From",
+          "expressions": {
+            "$id": "45",
+            "Literal": "nikitabhoir@gmail.com"
+          }
+        },
+        {
+          "$id": "46",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "47",
+            "JavaScript": "[UpdatedTicket.assignManager]",
+            "Json": "[]"
+          }
+        },
+        {
+          "$id": "48",
+          "name": "Subject",
+          "expressions": {
+            "$id": "49",
+            "Literal": "New Ticket Raised"
+          }
+        },
+        {
+          "$id": "50",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "51"
+          }
+        },
+        {
+          "$id": "52",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "53",
+            "JavaScript": "",
+            "Liquid": "<p>Hello ,</p>\r\n<p>You have received new ticket from {{Variables.UpdatedTicket.createdBy}} with priority<b> {{Variables.UpdatedTicket.priority}} </b></p>\r\n\r\n"
+          }
+        },
+        {
+          "$id": "54",
+          "name": "Cc",
+          "expressions": {
+            "$id": "55"
+          }
+        },
+        {
+          "$id": "56",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "57"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "58",
+      "activityId": "b7856cd7-da20-4880-9448-c167af057b19",
+      "type": "SetVariable",
+      "displayName": "New Variable(UpdatedTicket)",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "59",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "60",
+            "Literal": "UpdatedTicket"
+          }
+        },
+        {
+          "$id": "61",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "62",
+            "JavaScript": "activities.assignManagerData.ResponseContent()"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "63",
+      "activityId": "d40146f0-ad26-4800-951f-39941a939ab5",
+      "type": "If",
+      "displayName": "ticket not assigned ?",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "64",
+          "name": "Condition",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "65",
+            "JavaScript": "IsAssigned"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "66",
+      "activityId": "1dd430c5-6109-4405-872f-6bcab092e23a",
+      "type": "If",
+      "displayName": "Priority-High",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "67",
+          "name": "Condition",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "68",
+            "JavaScript": "UpdatedTicket.priority==\"High\""
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "69",
+      "activityId": "bb34252a-d7ab-4980-989a-9cf036a51f54",
+      "type": "Timer",
+      "displayName": "Reminder after 15 Minutes",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "70",
+          "name": "Timeout",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "71",
+            "JavaScript": "Duration.FromMinutes(1)"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "72",
+      "activityId": "5ca3bb86-e1ca-4825-9360-af3f25ad9b50",
+      "type": "If",
+      "displayName": "Priority-Medium",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "73",
+          "name": "Condition",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "74",
+            "JavaScript": "UpdatedTicket.priority==\"Medium\""
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "75",
+      "activityId": "a72e3a26-108f-4ce4-a459-fdd71b09868d",
+      "type": "Timer",
+      "displayName": "Reminder after 30 Minutes",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "76",
+          "name": "Timeout",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "77",
+            "JavaScript": "Duration.FromMinutes(2)"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "78",
+      "activityId": "54bfd5f4-91c9-4bba-a352-aeb37f83bb04",
+      "type": "Timer",
+      "displayName": "Reminder after 1 Hour",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "79",
+          "name": "Timeout",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "80",
+            "JavaScript": "Duration.FromMinutes(4)"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "81",
+      "activityId": "94eb12cf-2384-40b4-8b21-440c88890677",
+      "type": "SendEmail",
+      "displayName": "Reminder to assign ticket to person",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "82",
+          "name": "From",
+          "expressions": {
+            "$id": "83",
+            "Literal": "nikitabhoir@gmail.com"
+          }
+        },
+        {
+          "$id": "84",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "85",
+            "JavaScript": "[UpdatedTicket.assignManager]"
+          }
+        },
+        {
+          "$id": "86",
+          "name": "Subject",
+          "expressions": {
+            "$id": "87",
+            "Literal": "Reminder to assign ticket"
+          }
+        },
+        {
+          "$id": "88",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "89"
+          }
+        },
+        {
+          "$id": "90",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "91",
+            "Literal": "",
+            "Liquid": "<p>Hi {{ Variables.UpdatedTicket.assignManager }}!</p>\r\n<p>Reminder to assign ticket...</p>\r\n<p>Please assign ticket with Id =<b>{{ Variables.UpdatedTicket.ticketId }}</b></p>"
+          }
+        },
+        {
+          "$id": "92",
+          "name": "Cc",
+          "expressions": {
+            "$id": "93"
+          }
+        },
+        {
+          "$id": "94",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "95"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "96",
+      "activityId": "f000cb96-3bc3-48e8-b2da-50621c6a9915",
+      "type": "SetVariable",
+      "displayName": "Set Variable(IsAssigned)",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "97",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "98",
+            "Literal": "IsAssigned"
+          }
+        },
+        {
+          "$id": "99",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "100",
+            "JavaScript": "false"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "101",
+      "activityId": "97c119ce-40ae-41e4-abb6-b6319171594a",
+      "type": "Fork",
+      "displayName": "Fork",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "102",
+          "name": "Branches",
+          "expressions": {
+            "$id": "103",
+            "Json": "[\"NotAssigned\",\"Assigned\"]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "104",
+      "activityId": "1ccfba94-7b6b-425d-b481-83de737439e5",
+      "type": "HttpEndpoint",
+      "displayName": "HTTP Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "105",
+          "name": "Path",
+          "expressions": {
+            "$id": "106",
+            "Literal": "/PutTicket"
+          }
+        },
+        {
+          "$id": "107",
+          "name": "Methods",
+          "expressions": {
+            "$id": "108",
+            "Json": "[\"PUT\"]"
+          }
+        },
+        {
+          "$id": "109",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "110",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "111",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "112"
+          }
+        },
+        {
+          "$id": "113",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "114"
+          }
+        },
+        {
+          "$id": "115",
+          "name": "Policy",
+          "expressions": {
+            "$id": "116"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "117",
+      "activityId": "3b7749e6-574d-4ed1-98e7-2c8b87b1862f",
+      "type": "SetVariable",
+      "displayName": "Set Variable(NewTicket)",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "118",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "119",
+            "Literal": "NewTicket"
+          }
+        },
+        {
+          "$id": "120",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "121",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "122",
+      "activityId": "664708d7-ffb8-4cc5-8894-936921f59981",
+      "type": "SetVariable",
+      "displayName": "Set Variable(IsAssigned=true)",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "123",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "124",
+            "Literal": "IsAssigned"
+          }
+        },
+        {
+          "$id": "125",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "126",
+            "Literal": "true",
+            "JavaScript": "true"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "127",
+      "activityId": "db9b0fb3-649d-4414-a6ed-75dfdebf7fe8",
+      "type": "Correlate",
+      "displayName": "Correlate",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "128",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "129",
+            "JavaScript": "UserTicket.TicketId"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "130",
+      "activityId": "e8148e4f-c36a-4525-a42f-074d2a867bdf",
+      "type": "SendEmail",
+      "displayName": "Reminder Email regarding  ticket",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "131",
+          "name": "From",
+          "expressions": {
+            "$id": "132",
+            "Literal": "nikitabhoir@gmail.com",
+            "JavaScript": "[NewTicket.assignManager]"
+          }
+        },
+        {
+          "$id": "133",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "134",
+            "JavaScript": "[NewTicket.assignPerson]"
+          }
+        },
+        {
+          "$id": "135",
+          "name": "Subject",
+          "expressions": {
+            "$id": "136",
+            "Literal": "Regarding Ticket"
+          }
+        },
+        {
+          "$id": "137",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "138"
+          }
+        },
+        {
+          "$id": "139",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "140",
+            "Liquid": "<p>Hello {{Variables.NewTicket.assignPerson}},</p>\r\n<p> Please review ticket by clicking <b> <a href=\"{{ \"Solved\"| signal_url}}\">here</a> </b>\r\n    .</p>\r\n\r\n    <p><b>Ticket Id</b> : {{Variables.NewTicket.TicketId}}</p>\r\n    <p><b>Priority</b> : {{Variables.NewTicket.Priority}}</p><br>\r\n<p> Once you done with review update the ticket status , if issue is <b>resolved</b>\r\n    .</p>"
+          }
+        },
+        {
+          "$id": "141",
+          "name": "Cc",
+          "expressions": {
+            "$id": "142"
+          }
+        },
+        {
+          "$id": "143",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "144"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "145",
+      "activityId": "380adce7-c746-468e-82c6-d429101d30e6",
+      "type": "Fork",
+      "displayName": "Fork",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "146",
+          "name": "Branches",
+          "expressions": {
+            "$id": "147",
+            "Json": "[\"Solved\",\"InProcess\"]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "148",
+      "activityId": "23d569a1-690b-4187-a1a1-acd24275f880",
+      "type": "SendEmail",
+      "displayName": "follow Up Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "149",
+          "name": "From",
+          "expressions": {
+            "$id": "150",
+            "Literal": "nikitabhoir@gmail.com"
+          }
+        },
+        {
+          "$id": "151",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "152",
+            "JavaScript": "[NewTicket.createdBy]"
+          }
+        },
+        {
+          "$id": "153",
+          "name": "Subject",
+          "expressions": {
+            "$id": "154",
+            "Literal": "Update from support team"
+          }
+        },
+        {
+          "$id": "155",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "156"
+          }
+        },
+        {
+          "$id": "157",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "158",
+            "Liquid": "<p>Hello {{ Variables.NewTicket.createdBy }},</p>\r\n<p>Your issue is resolved now, if any query contact us again ...!</p>"
+          }
+        },
+        {
+          "$id": "159",
+          "name": "Cc",
+          "expressions": {
+            "$id": "160"
+          }
+        },
+        {
+          "$id": "161",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "162"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "163",
+      "activityId": "e2371079-68dc-4453-bd91-8990dfcb678f",
+      "type": "Finish",
+      "displayName": "Finish",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "164",
+          "name": "ActivityOutput",
+          "expressions": {
+            "$id": "165"
+          }
+        },
+        {
+          "$id": "166",
+          "name": "OutcomeNames",
+          "expressions": {
+            "$id": "167"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "168",
+      "activityId": "a23be1bf-f5b8-445c-8b80-ccef1ce45eb7",
+      "type": "Timer",
+      "displayName": "Reminder after 15 Minutes",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "169",
+          "name": "Timeout",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "170",
+            "JavaScript": "Duration.FromMinutes(1)"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "171",
+      "activityId": "8c3903df-c2ae-4a86-8d49-789e31ca843c",
+      "type": "If",
+      "displayName": "If/Else",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "172",
+          "name": "Condition",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "173",
+            "Literal": "IsAssigned",
+            "JavaScript": "IsAssigned"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "174",
+      "activityId": "000061b1-f6e3-457f-b0f0-35715fde6775",
+      "type": "If",
+      "displayName": "If/Else",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "175",
+          "name": "Condition",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "176",
+            "Literal": "IsAssigned",
+            "JavaScript": "IsAssigned"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "177",
+      "activityId": "72bd7816-e47e-4088-a1d3-b131fffa8d88",
+      "type": "If",
+      "displayName": "If/Else",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "178",
+          "name": "Condition",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "179",
+            "JavaScript": "IsAssigned"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "180",
+      "activityId": "11b725a6-2644-4ca2-b32d-c83b8d7096ce",
+      "type": "HttpEndpoint",
+      "displayName": "HTTP Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "181",
+          "name": "Path",
+          "expressions": {
+            "$id": "182",
+            "Literal": "/PutStatus"
+          }
+        },
+        {
+          "$id": "183",
+          "name": "Methods",
+          "expressions": {
+            "$id": "184",
+            "Json": "[\"PUT\"]"
+          }
+        },
+        {
+          "$id": "185",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "186",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "187",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "188"
+          }
+        },
+        {
+          "$id": "189",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "190"
+          }
+        },
+        {
+          "$id": "191",
+          "name": "Policy",
+          "expressions": {
+            "$id": "192"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "193",
+      "activityId": "5049e527-80ac-4c3f-add7-3fb58b32c686",
+      "type": "SignalReceived",
+      "displayName": "Signal Received",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "194",
+          "name": "Signal",
+          "expressions": {
+            "$id": "195",
+            "Literal": "Solved"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "196",
+      "activityId": "25e59df8-275b-40a4-8a72-314df28bf38c",
+      "type": "Redirect",
+      "displayName": "Redirect",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "197",
+          "name": "Location",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "198",
+            "Liquid": "https://localhost:5001/GetTicketById/{{Variables.NewTicket.TicketId}}"
+          }
+        },
+        {
+          "$id": "199",
+          "name": "Permanent",
+          "expressions": {
+            "$id": "200"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    }
+  ],
+  "connections": [
+    {
+      "$id": "201",
+      "sourceActivityId": "f736ef2a-7ea2-443a-8164-5a10b0531d7a",
+      "targetActivityId": "84dc0616-37fb-4925-b25d-e64ba2705e02",
+      "outcome": "Done"
+    },
+    {
+      "$id": "202",
+      "sourceActivityId": "b7856cd7-da20-4880-9448-c167af057b19",
+      "targetActivityId": "5316f75c-645f-4768-b08a-b5a69d650072",
+      "outcome": "Done"
+    },
+    {
+      "$id": "203",
+      "sourceActivityId": "d40146f0-ad26-4800-951f-39941a939ab5",
+      "targetActivityId": "1dd430c5-6109-4405-872f-6bcab092e23a",
+      "outcome": "False"
+    },
+    {
+      "$id": "204",
+      "sourceActivityId": "1dd430c5-6109-4405-872f-6bcab092e23a",
+      "targetActivityId": "bb34252a-d7ab-4980-989a-9cf036a51f54",
+      "outcome": "True"
+    },
+    {
+      "$id": "205",
+      "sourceActivityId": "1dd430c5-6109-4405-872f-6bcab092e23a",
+      "targetActivityId": "5ca3bb86-e1ca-4825-9360-af3f25ad9b50",
+      "outcome": "False"
+    },
+    {
+      "$id": "206",
+      "sourceActivityId": "5ca3bb86-e1ca-4825-9360-af3f25ad9b50",
+      "targetActivityId": "a72e3a26-108f-4ce4-a459-fdd71b09868d",
+      "outcome": "True"
+    },
+    {
+      "$id": "207",
+      "sourceActivityId": "5ca3bb86-e1ca-4825-9360-af3f25ad9b50",
+      "targetActivityId": "54bfd5f4-91c9-4bba-a352-aeb37f83bb04",
+      "outcome": "False"
+    },
+    {
+      "$id": "208",
+      "sourceActivityId": "5316f75c-645f-4768-b08a-b5a69d650072",
+      "targetActivityId": "f000cb96-3bc3-48e8-b2da-50621c6a9915",
+      "outcome": "Done"
+    },
+    {
+      "$id": "209",
+      "sourceActivityId": "f000cb96-3bc3-48e8-b2da-50621c6a9915",
+      "targetActivityId": "97c119ce-40ae-41e4-abb6-b6319171594a",
+      "outcome": "Done"
+    },
+    {
+      "$id": "210",
+      "sourceActivityId": "97c119ce-40ae-41e4-abb6-b6319171594a",
+      "targetActivityId": "1ccfba94-7b6b-425d-b481-83de737439e5",
+      "outcome": "Assigned"
+    },
+    {
+      "$id": "211",
+      "sourceActivityId": "1ccfba94-7b6b-425d-b481-83de737439e5",
+      "targetActivityId": "3b7749e6-574d-4ed1-98e7-2c8b87b1862f",
+      "outcome": "Done"
+    },
+    {
+      "$id": "212",
+      "sourceActivityId": "3b7749e6-574d-4ed1-98e7-2c8b87b1862f",
+      "targetActivityId": "664708d7-ffb8-4cc5-8894-936921f59981",
+      "outcome": "Done"
+    },
+    {
+      "$id": "213",
+      "sourceActivityId": "84dc0616-37fb-4925-b25d-e64ba2705e02",
+      "targetActivityId": "db9b0fb3-649d-4414-a6ed-75dfdebf7fe8",
+      "outcome": "Done"
+    },
+    {
+      "$id": "214",
+      "sourceActivityId": "db9b0fb3-649d-4414-a6ed-75dfdebf7fe8",
+      "targetActivityId": "c4c3f286-6986-4e52-8249-d207d61c312e",
+      "outcome": "Done"
+    },
+    {
+      "$id": "215",
+      "sourceActivityId": "c4c3f286-6986-4e52-8249-d207d61c312e",
+      "targetActivityId": "b7856cd7-da20-4880-9448-c167af057b19",
+      "outcome": "Done"
+    },
+    {
+      "$id": "216",
+      "sourceActivityId": "97c119ce-40ae-41e4-abb6-b6319171594a",
+      "targetActivityId": "d40146f0-ad26-4800-951f-39941a939ab5",
+      "outcome": "NotAssigned"
+    },
+    {
+      "$id": "217",
+      "sourceActivityId": "94eb12cf-2384-40b4-8b21-440c88890677",
+      "targetActivityId": "d40146f0-ad26-4800-951f-39941a939ab5",
+      "outcome": "Done"
+    },
+    {
+      "$id": "218",
+      "sourceActivityId": "664708d7-ffb8-4cc5-8894-936921f59981",
+      "targetActivityId": "e8148e4f-c36a-4525-a42f-074d2a867bdf",
+      "outcome": "Done"
+    },
+    {
+      "$id": "219",
+      "sourceActivityId": "e8148e4f-c36a-4525-a42f-074d2a867bdf",
+      "targetActivityId": "380adce7-c746-468e-82c6-d429101d30e6",
+      "outcome": "Done"
+    },
+    {
+      "$id": "220",
+      "sourceActivityId": "380adce7-c746-468e-82c6-d429101d30e6",
+      "targetActivityId": "a23be1bf-f5b8-445c-8b80-ccef1ce45eb7",
+      "outcome": "InProcess"
+    },
+    {
+      "$id": "221",
+      "sourceActivityId": "a23be1bf-f5b8-445c-8b80-ccef1ce45eb7",
+      "targetActivityId": "e8148e4f-c36a-4525-a42f-074d2a867bdf",
+      "outcome": "Done"
+    },
+    {
+      "$id": "222",
+      "sourceActivityId": "bb34252a-d7ab-4980-989a-9cf036a51f54",
+      "targetActivityId": "8c3903df-c2ae-4a86-8d49-789e31ca843c",
+      "outcome": "Done"
+    },
+    {
+      "$id": "223",
+      "sourceActivityId": "8c3903df-c2ae-4a86-8d49-789e31ca843c",
+      "targetActivityId": "94eb12cf-2384-40b4-8b21-440c88890677",
+      "outcome": "False"
+    },
+    {
+      "$id": "224",
+      "sourceActivityId": "a72e3a26-108f-4ce4-a459-fdd71b09868d",
+      "targetActivityId": "000061b1-f6e3-457f-b0f0-35715fde6775",
+      "outcome": "Done"
+    },
+    {
+      "$id": "225",
+      "sourceActivityId": "54bfd5f4-91c9-4bba-a352-aeb37f83bb04",
+      "targetActivityId": "72bd7816-e47e-4088-a1d3-b131fffa8d88",
+      "outcome": "Done"
+    },
+    {
+      "$id": "226",
+      "sourceActivityId": "72bd7816-e47e-4088-a1d3-b131fffa8d88",
+      "targetActivityId": "94eb12cf-2384-40b4-8b21-440c88890677",
+      "outcome": "False"
+    },
+    {
+      "$id": "227",
+      "sourceActivityId": "000061b1-f6e3-457f-b0f0-35715fde6775",
+      "targetActivityId": "94eb12cf-2384-40b4-8b21-440c88890677",
+      "outcome": "False"
+    },
+    {
+      "$id": "228",
+      "sourceActivityId": "380adce7-c746-468e-82c6-d429101d30e6",
+      "targetActivityId": "5049e527-80ac-4c3f-add7-3fb58b32c686",
+      "outcome": "Solved"
+    },
+    {
+      "$id": "229",
+      "sourceActivityId": "5049e527-80ac-4c3f-add7-3fb58b32c686",
+      "targetActivityId": "25e59df8-275b-40a4-8a72-314df28bf38c",
+      "outcome": "Done"
+    },
+    {
+      "$id": "230",
+      "sourceActivityId": "25e59df8-275b-40a4-8a72-314df28bf38c",
+      "targetActivityId": "11b725a6-2644-4ca2-b32d-c83b8d7096ce",
+      "outcome": "Done"
+    },
+    {
+      "$id": "231",
+      "sourceActivityId": "23d569a1-690b-4187-a1a1-acd24275f880",
+      "targetActivityId": "e2371079-68dc-4453-bd91-8990dfcb678f",
+      "outcome": "Done"
+    },
+    {
+      "$id": "232",
+      "sourceActivityId": "11b725a6-2644-4ca2-b32d-c83b8d7096ce",
+      "targetActivityId": "23d569a1-690b-4187-a1a1-acd24275f880",
+      "outcome": "Done"
+    }
+  ],
+  "id": "2fe8da3dcdb94eefa29dd590bd94b04f"
+}
