@@ -71,6 +71,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketProcessingRestApi.IRe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketProcessingRestApi.Repository", "src\Api\TicketProcessing\TicketProcessingRestApi.Repository\TicketProcessingRestApi.Repository.csproj", "{3E6D142A-391F-46EF-9F47-6021152A31C1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExpenseClaim.Api", "ExpenseClaim.Api", "{0F60493A-9EC0-47C1-A35D-40C002C71FDD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseClaim.Api", "..\..\ElsaWorkflowProjectDemo\ExpenseClaim.Api\ExpenseClaim.Api\ExpenseClaim.Api.csproj", "{8F53B1D9-12CF-49CD-8B9F-0416A9814AAA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseClaim.Entities", "..\..\ElsaWorkflowProjectDemo\ExpenseClaim.Api\ExpenseClaim.Entities\ExpenseClaim.Entities.csproj", "{3E367B9B-B357-4C8C-9A81-B434E0FB284E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseClaim.IRepositories", "..\..\ElsaWorkflowProjectDemo\ExpenseClaim.Api\ExpenseClaim.IRepositories\ExpenseClaim.IRepositories.csproj", "{89D5138B-730E-4C95-BC7B-0B3F93264D0B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpenseClaim.Repositories", "..\..\ElsaWorkflowProjectDemo\ExpenseClaim.Api\ExpenseClaim.Repositories\ExpenseClaim.Repositories.csproj", "{FF70507A-2CE2-427E-A25A-F8747F23E0DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -177,6 +187,22 @@ Global
 		{3E6D142A-391F-46EF-9F47-6021152A31C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E6D142A-391F-46EF-9F47-6021152A31C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E6D142A-391F-46EF-9F47-6021152A31C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F53B1D9-12CF-49CD-8B9F-0416A9814AAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F53B1D9-12CF-49CD-8B9F-0416A9814AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F53B1D9-12CF-49CD-8B9F-0416A9814AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F53B1D9-12CF-49CD-8B9F-0416A9814AAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E367B9B-B357-4C8C-9A81-B434E0FB284E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E367B9B-B357-4C8C-9A81-B434E0FB284E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E367B9B-B357-4C8C-9A81-B434E0FB284E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E367B9B-B357-4C8C-9A81-B434E0FB284E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89D5138B-730E-4C95-BC7B-0B3F93264D0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89D5138B-730E-4C95-BC7B-0B3F93264D0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89D5138B-730E-4C95-BC7B-0B3F93264D0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89D5138B-730E-4C95-BC7B-0B3F93264D0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF70507A-2CE2-427E-A25A-F8747F23E0DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF70507A-2CE2-427E-A25A-F8747F23E0DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF70507A-2CE2-427E-A25A-F8747F23E0DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF70507A-2CE2-427E-A25A-F8747F23E0DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -215,6 +241,11 @@ Global
 		{29628EC9-F2C2-485F-A16E-4D18C9FA9CD8} = {A1EC55AE-B664-4F23-A8D2-C440F193D4FB}
 		{5A84C134-AA0C-4740-BF8E-CAF92578239A} = {A1EC55AE-B664-4F23-A8D2-C440F193D4FB}
 		{3E6D142A-391F-46EF-9F47-6021152A31C1} = {A1EC55AE-B664-4F23-A8D2-C440F193D4FB}
+		{0F60493A-9EC0-47C1-A35D-40C002C71FDD} = {17714B01-B679-4EEC-B7E2-94C452BDA6DF}
+		{8F53B1D9-12CF-49CD-8B9F-0416A9814AAA} = {0F60493A-9EC0-47C1-A35D-40C002C71FDD}
+		{3E367B9B-B357-4C8C-9A81-B434E0FB284E} = {0F60493A-9EC0-47C1-A35D-40C002C71FDD}
+		{89D5138B-730E-4C95-BC7B-0B3F93264D0B} = {0F60493A-9EC0-47C1-A35D-40C002C71FDD}
+		{FF70507A-2CE2-427E-A25A-F8747F23E0DE} = {0F60493A-9EC0-47C1-A35D-40C002C71FDD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EEA2D7F2-AB9D-43DF-B36C-B073504D9D24}
