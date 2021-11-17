@@ -169,8 +169,16 @@ namespace TicketProcessingRestApi.Controllers
         [HttpPut("IsIssueResloved")]
         public async Task<ActionResult> IssueResolve(Ticket ticketEntity)
         {
-            ticketEntity.isResolved = true;
+           // ticketEntity.isResolved = true;
             await ticketRepository.UpdateAsync(ticketEntity);
+            using (HttpClient httpClient = new HttpClient())
+            {
+                string JsonResult = JsonConvert.SerializeObject(ticketEntity);
+
+                StringContent stringContent = new StringContent(JsonResult, System.Text.Encoding.UTF8, "application/json");
+                httpClient.DefaultRequestHeaders.Add("X-Correlation-Id", ticketEntity.TicketId.ToString());
+                HttpResponseMessage httpResponse = httpClient.PutAsync("https://localhost:5001/PutStatus", stringContent).Result;
+            }
             return Ok(ticketEntity);
         }
     }
