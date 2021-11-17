@@ -1,1 +1,931 @@
 
+{
+  "$id": "1",
+  "definitionId": "f8ba29e078d94ceaa507941423ed4d09",
+  "versionId": "dc6d0246320742fe965e2206d38650c3",
+  "displayName": "Customer Account",
+  "version": 1,
+  "variables": {
+    "$id": "2",
+    "data": {}
+  },
+  "customAttributes": {
+    "$id": "3",
+    "data": {}
+  },
+  "isSingleton": false,
+  "persistenceBehavior": "WorkflowBurst",
+  "deleteCompletedInstances": false,
+  "isPublished": true,
+  "isLatest": true,
+  "activities": [
+    {
+      "$id": "4",
+      "activityId": "3355e22a-f6e3-4929-a7c6-ff099da198e2",
+      "type": "HttpEndpoint",
+      "displayName": "Receive Post Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "5",
+          "name": "Path",
+          "expressions": {
+            "$id": "6",
+            "Literal": "/PostEntity"
+          }
+        },
+        {
+          "$id": "7",
+          "name": "Methods",
+          "expressions": {
+            "$id": "8",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "9",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "10",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "11",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "12"
+          }
+        },
+        {
+          "$id": "13",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "14"
+          }
+        },
+        {
+          "$id": "15",
+          "name": "Policy",
+          "expressions": {
+            "$id": "16"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "17",
+      "activityId": "9330a52c-4d9c-43c3-8853-7bcd3bfc9db1",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "18",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "19",
+            "Literal": "UserDetails"
+          }
+        },
+        {
+          "$id": "20",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "21",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "22",
+      "activityId": "28485eac-6075-48f4-9d80-49a9c4355fe0",
+      "type": "SendEmail",
+      "displayName": "Send Application to manager",
+      "description": "Send an email to manager to evaluate documents",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "23",
+          "name": "From",
+          "expressions": {
+            "$id": "24",
+            "Literal": "bankportal@xyz.com"
+          }
+        },
+        {
+          "$id": "25",
+          "name": "To",
+          "expressions": {
+            "$id": "26",
+            "JavaScript": "[UserDetails.Email]",
+            "Json": "[\"manager@xyx.com\"]"
+          }
+        },
+        {
+          "$id": "27",
+          "name": "Subject",
+          "expressions": {
+            "$id": "28",
+            "Literal": "Evaluate Application"
+          }
+        },
+        {
+          "$id": "29",
+          "name": "Attachments",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "30",
+            "Literal": "",
+            "JavaScript": "null"
+          }
+        },
+        {
+          "$id": "31",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "32",
+            "Liquid": "<p>Dear Manager please evaluate application and check supporting documents</p>\r\n<p>Supporing documents are corrects?<a href = \"{{\"Accept\" | signal_url}}\">Accepts request</a>  or <a href=\"{{\"Reject\" | signal_url}}\" >Reject request</a> </p>"
+          }
+        },
+        {
+          "$id": "33",
+          "name": "Cc",
+          "expressions": {
+            "$id": "34"
+          }
+        },
+        {
+          "$id": "35",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "36"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "37",
+      "activityId": "98872273-9928-43c3-8702-0a81f9081120",
+      "type": "Fork",
+      "displayName": "Fork",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "38",
+          "name": "Branches",
+          "expressions": {
+            "$id": "39",
+            "Json": "[\"Accept\",\"Reject\"]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "40",
+      "activityId": "3096222e-043f-4d14-bacd-b8433b20a568",
+      "type": "SignalReceived",
+      "displayName": "Application accepted",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "41",
+          "name": "Signal",
+          "expressions": {
+            "$id": "42",
+            "Literal": "Accept"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "43",
+      "activityId": "731b868a-adbd-454e-a3c6-47281be377a0",
+      "type": "SendEmail",
+      "displayName": "Send Welcome Pack",
+      "description": "",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "44",
+          "name": "From",
+          "expressions": {
+            "$id": "45",
+            "Literal": "manager@xyz.com"
+          }
+        },
+        {
+          "$id": "46",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "47",
+            "JavaScript": "[UserDetails.Email]"
+          }
+        },
+        {
+          "$id": "48",
+          "name": "Subject",
+          "expressions": {
+            "$id": "49",
+            "Literal": "Congratulations you application request is accepted"
+          }
+        },
+        {
+          "$id": "50",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "51"
+          }
+        },
+        {
+          "$id": "52",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "53",
+            "JavaScript": "",
+            "Liquid": "<p>Hi {{ Variables.UserDetails.Name }},</p>\r\n<p>Welcome to XYZ bank, Your account is activated.</p>\r\n"
+          }
+        },
+        {
+          "$id": "54",
+          "name": "Cc",
+          "expressions": {
+            "$id": "55"
+          }
+        },
+        {
+          "$id": "56",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "57"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "58",
+      "activityId": "68e4f35c-f22f-4170-b900-e185818ab1cc",
+      "type": "Finish",
+      "displayName": "Finish",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "59",
+          "name": "ActivityOutput",
+          "expressions": {
+            "$id": "60"
+          }
+        },
+        {
+          "$id": "61",
+          "name": "OutcomeNames",
+          "expressions": {
+            "$id": "62"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "63",
+      "activityId": "3b8e7798-d602-4808-abc8-073f50e75277",
+      "type": "SendHttpRequest",
+      "displayName": "Send Accept Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "64",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "65",
+            "Literal": "https://localhost:44328/api/User/AssignAccountNumber",
+            "Liquid": "https://localhost:44328/api/User/AssignAccountNumber"
+          }
+        },
+        {
+          "$id": "66",
+          "name": "Method",
+          "expressions": {
+            "$id": "67",
+            "Literal": "PUT"
+          }
+        },
+        {
+          "$id": "68",
+          "name": "Content",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "69",
+            "JavaScript": "JSON.stringify(UserDetails)"
+          }
+        },
+        {
+          "$id": "70",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "71",
+            "Literal": "application/json"
+          }
+        },
+        {
+          "$id": "72",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "73"
+          }
+        },
+        {
+          "$id": "74",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "75"
+          }
+        },
+        {
+          "$id": "76",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "77"
+          }
+        },
+        {
+          "$id": "78",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "79"
+          }
+        },
+        {
+          "$id": "80",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "81"
+          }
+        },
+        {
+          "$id": "82",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "83"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "84",
+      "activityId": "f64b4dc7-b9b6-4d46-bd8e-3f7b162dfbd3",
+      "type": "SendEmail",
+      "displayName": "Send Bank Card",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "85",
+          "name": "From",
+          "expressions": {
+            "$id": "86",
+            "Literal": "manager@xyz.com"
+          }
+        },
+        {
+          "$id": "87",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "88",
+            "JavaScript": "[UserDetails.Email]"
+          }
+        },
+        {
+          "$id": "89",
+          "name": "Subject",
+          "expressions": {
+            "$id": "90",
+            "Literal": "Bank Card"
+          }
+        },
+        {
+          "$id": "91",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "92"
+          }
+        },
+        {
+          "$id": "93",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "94",
+            "Liquid": "<p>Hi {{Variables.UserDetails.Name}}</p>\r\n<p>Your card number ending with ********1234 is send via abc courier</p>"
+          }
+        },
+        {
+          "$id": "95",
+          "name": "Cc",
+          "expressions": {
+            "$id": "96"
+          }
+        },
+        {
+          "$id": "97",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "98"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "99",
+      "activityId": "cff37fe8-24ea-4514-8d15-3183932816e9",
+      "type": "SendHttpRequest",
+      "displayName": "Send Delete Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "100",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "101",
+            "Literal": "https://localhost:44328/api/User/{{ Variables.UserDetails.Id }}",
+            "Liquid": "https://localhost:44328/api/User/DeleteApplication?id={{ Variables.UserDetails.UserId }}"
+          }
+        },
+        {
+          "$id": "102",
+          "name": "Method",
+          "expressions": {
+            "$id": "103",
+            "Literal": "DELETE"
+          }
+        },
+        {
+          "$id": "104",
+          "name": "Content",
+          "expressions": {
+            "$id": "105"
+          }
+        },
+        {
+          "$id": "106",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "107"
+          }
+        },
+        {
+          "$id": "108",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "109"
+          }
+        },
+        {
+          "$id": "110",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "111"
+          }
+        },
+        {
+          "$id": "112",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "113"
+          }
+        },
+        {
+          "$id": "114",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "115"
+          }
+        },
+        {
+          "$id": "116",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "117"
+          }
+        },
+        {
+          "$id": "118",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "119"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "120",
+      "activityId": "21ba5d95-a0d8-43f8-8aee-239bada5703f",
+      "type": "SendEmail",
+      "displayName": "Send Reject Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "121",
+          "name": "From",
+          "expressions": {
+            "$id": "122",
+            "Literal": "manager@xyz.com"
+          }
+        },
+        {
+          "$id": "123",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "124",
+            "JavaScript": "[UserDetails.Email]"
+          }
+        },
+        {
+          "$id": "125",
+          "name": "Subject",
+          "expressions": {
+            "$id": "126",
+            "Literal": "Invalid Documents"
+          }
+        },
+        {
+          "$id": "127",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "128"
+          }
+        },
+        {
+          "$id": "129",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "130",
+            "Liquid": "<p>Hi {{ Variables.UserDetails.Name }},</p>\r\n<p>Your supporting documents are invalid, Reapply with valid documents to get your account open</p>"
+          }
+        },
+        {
+          "$id": "131",
+          "name": "Cc",
+          "expressions": {
+            "$id": "132"
+          }
+        },
+        {
+          "$id": "133",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "134"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "135",
+      "activityId": "8c9f64dc-f1e8-452a-90ba-46c37f068315",
+      "type": "SignalReceived",
+      "displayName": "Reject Signal Received",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "136",
+          "name": "Signal",
+          "expressions": {
+            "$id": "137",
+            "Literal": "Reject"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "138",
+      "activityId": "7344ec93-5857-4bec-ab7b-967c53645681",
+      "type": "WriteHttpResponse",
+      "displayName": "Display Delete Confirmation",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "139",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "140",
+            "Liquid": "<p> You rejected Application of {{ Variables.UserDetails.Name }}</p>"
+          }
+        },
+        {
+          "$id": "141",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "142",
+            "Literal": "text/html"
+          }
+        },
+        {
+          "$id": "143",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "144"
+          }
+        },
+        {
+          "$id": "145",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "146"
+          }
+        },
+        {
+          "$id": "147",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "148"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "149",
+      "activityId": "c5baaecd-4c94-4a3c-a1a4-0c704c2abd77",
+      "type": "WriteHttpResponse",
+      "displayName": "Display Activation Confirmation Page",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "150",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "151",
+            "Liquid": "<p>Account number assigned</p>"
+          }
+        },
+        {
+          "$id": "152",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "153",
+            "Literal": "text/html"
+          }
+        },
+        {
+          "$id": "154",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "155"
+          }
+        },
+        {
+          "$id": "156",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "157"
+          }
+        },
+        {
+          "$id": "158",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "159"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "160",
+      "activityId": "93bd7fab-8fe3-4485-9ebc-49615536cff3",
+      "type": "Timer",
+      "displayName": "Timer",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "161",
+          "name": "Timeout",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "162",
+            "JavaScript": "Duration.FromSeconds(20)"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "163",
+      "activityId": "ab9ee725-1b65-4fa1-9ab6-f1836b0ef51a",
+      "type": "SendEmail",
+      "displayName": "Send Confirmation Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "164",
+          "name": "From",
+          "expressions": {
+            "$id": "165",
+            "Literal": "manager.xyz.com"
+          }
+        },
+        {
+          "$id": "166",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "167",
+            "JavaScript": "[UserDetails.Email]"
+          }
+        },
+        {
+          "$id": "168",
+          "name": "Subject",
+          "expressions": {
+            "$id": "169",
+            "Literal": "Confirmation"
+          }
+        },
+        {
+          "$id": "170",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "171"
+          }
+        },
+        {
+          "$id": "172",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "173",
+            "Liquid": "<p>This is Confirmation Email regarding your request for opening a bank account</p>"
+          }
+        },
+        {
+          "$id": "174",
+          "name": "Cc",
+          "expressions": {
+            "$id": "175"
+          }
+        },
+        {
+          "$id": "176",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "177"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    }
+  ],
+  "connections": [
+    {
+      "$id": "178",
+      "sourceActivityId": "3355e22a-f6e3-4929-a7c6-ff099da198e2",
+      "targetActivityId": "9330a52c-4d9c-43c3-8853-7bcd3bfc9db1",
+      "outcome": "Done"
+    },
+    {
+      "$id": "179",
+      "sourceActivityId": "9330a52c-4d9c-43c3-8853-7bcd3bfc9db1",
+      "targetActivityId": "28485eac-6075-48f4-9d80-49a9c4355fe0",
+      "outcome": "Done"
+    },
+    {
+      "$id": "180",
+      "sourceActivityId": "28485eac-6075-48f4-9d80-49a9c4355fe0",
+      "targetActivityId": "98872273-9928-43c3-8702-0a81f9081120",
+      "outcome": "Done"
+    },
+    {
+      "$id": "181",
+      "sourceActivityId": "98872273-9928-43c3-8702-0a81f9081120",
+      "targetActivityId": "3096222e-043f-4d14-bacd-b8433b20a568",
+      "outcome": "Accept"
+    },
+    {
+      "$id": "182",
+      "sourceActivityId": "3096222e-043f-4d14-bacd-b8433b20a568",
+      "targetActivityId": "3b8e7798-d602-4808-abc8-073f50e75277",
+      "outcome": "Done"
+    },
+    {
+      "$id": "183",
+      "sourceActivityId": "731b868a-adbd-454e-a3c6-47281be377a0",
+      "targetActivityId": "f64b4dc7-b9b6-4d46-bd8e-3f7b162dfbd3",
+      "outcome": "Done"
+    },
+    {
+      "$id": "184",
+      "sourceActivityId": "21ba5d95-a0d8-43f8-8aee-239bada5703f",
+      "targetActivityId": "68e4f35c-f22f-4170-b900-e185818ab1cc",
+      "outcome": "Done"
+    },
+    {
+      "$id": "185",
+      "sourceActivityId": "98872273-9928-43c3-8702-0a81f9081120",
+      "targetActivityId": "8c9f64dc-f1e8-452a-90ba-46c37f068315",
+      "outcome": "Reject"
+    },
+    {
+      "$id": "186",
+      "sourceActivityId": "8c9f64dc-f1e8-452a-90ba-46c37f068315",
+      "targetActivityId": "cff37fe8-24ea-4514-8d15-3183932816e9",
+      "outcome": "Done"
+    },
+    {
+      "$id": "187",
+      "sourceActivityId": "cff37fe8-24ea-4514-8d15-3183932816e9",
+      "targetActivityId": "7344ec93-5857-4bec-ab7b-967c53645681",
+      "outcome": "Done"
+    },
+    {
+      "$id": "188",
+      "sourceActivityId": "7344ec93-5857-4bec-ab7b-967c53645681",
+      "targetActivityId": "21ba5d95-a0d8-43f8-8aee-239bada5703f",
+      "outcome": "Done"
+    },
+    {
+      "$id": "189",
+      "sourceActivityId": "3b8e7798-d602-4808-abc8-073f50e75277",
+      "targetActivityId": "c5baaecd-4c94-4a3c-a1a4-0c704c2abd77",
+      "outcome": "Done"
+    },
+    {
+      "$id": "190",
+      "sourceActivityId": "c5baaecd-4c94-4a3c-a1a4-0c704c2abd77",
+      "targetActivityId": "731b868a-adbd-454e-a3c6-47281be377a0",
+      "outcome": "Done"
+    },
+    {
+      "$id": "191",
+      "sourceActivityId": "f64b4dc7-b9b6-4d46-bd8e-3f7b162dfbd3",
+      "targetActivityId": "93bd7fab-8fe3-4485-9ebc-49615536cff3",
+      "outcome": "Done"
+    },
+    {
+      "$id": "192",
+      "sourceActivityId": "93bd7fab-8fe3-4485-9ebc-49615536cff3",
+      "targetActivityId": "ab9ee725-1b65-4fa1-9ab6-f1836b0ef51a",
+      "outcome": "Done"
+    },
+    {
+      "$id": "193",
+      "sourceActivityId": "ab9ee725-1b65-4fa1-9ab6-f1836b0ef51a",
+      "targetActivityId": "68e4f35c-f22f-4170-b900-e185818ab1cc",
+      "outcome": "Done"
+    }
+  ],
+  "id": "dc6d0246320742fe965e2206d38650c3"
+}
