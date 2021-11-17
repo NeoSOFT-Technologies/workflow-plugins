@@ -1,0 +1,994 @@
+{
+  "$id": "1",
+  "definitionId": "a24ea81e689746d0a8496a57f5c73be3",
+  "versionId": "ed66c7cebaf24bbaab9517e0829aca12",
+  "name": "ExpenseClaim",
+  "displayName": "Expense Claim",
+  "version": 57,
+  "variables": {
+    "$id": "2",
+    "data": {}
+  },
+  "customAttributes": {
+    "$id": "3",
+    "data": {}
+  },
+  "isSingleton": false,
+  "persistenceBehavior": "WorkflowBurst",
+  "deleteCompletedInstances": false,
+  "isPublished": true,
+  "isLatest": true,
+  "activities": [
+    {
+      "$id": "4",
+      "activityId": "4cdd5a7a-a8b6-4107-9421-a16127d2ce02",
+      "type": "HttpEndpoint",
+      "displayName": "HTTP Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "5",
+          "name": "Path",
+          "expressions": {
+            "$id": "6",
+            "Literal": "/approve-expense-claim"
+          }
+        },
+        {
+          "$id": "7",
+          "name": "Methods",
+          "expressions": {
+            "$id": "8",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "9",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "10",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "11",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "12"
+          }
+        },
+        {
+          "$id": "13",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "14"
+          }
+        },
+        {
+          "$id": "15",
+          "name": "Policy",
+          "expressions": {
+            "$id": "16"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "17",
+      "activityId": "e091eaf2-607b-44ce-bb21-ddb044230587",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "18",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "19",
+            "Literal": "ExpenseClaim"
+          }
+        },
+        {
+          "$id": "20",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "21",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "22",
+      "activityId": "f880e631-4e41-411a-aa2a-eae53dcdd019",
+      "type": "SendEmail",
+      "displayName": "Send Email To Manager",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "23",
+          "name": "From",
+          "expressions": {
+            "$id": "24",
+            "Literal": "user@gmail.com"
+          }
+        },
+        {
+          "$id": "25",
+          "name": "To",
+          "expressions": {
+            "$id": "26",
+            "Json": "[\"manager@gmail.com\"]"
+          }
+        },
+        {
+          "$id": "27",
+          "name": "Subject",
+          "expressions": {
+            "$id": "28",
+            "Literal": " Reimbursement Claim Email"
+          }
+        },
+        {
+          "$id": "29",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "30"
+          }
+        },
+        {
+          "$id": "31",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "32",
+            "Literal": "",
+            "Liquid": "<p>Hello</p>\r\n<p>I would like to bring to your notice that I have spent Rs. {{Variables.ExpenseClaim.TotalClaimAmount}} for the official work purpose.</p>\r\n<p>With this email, I am seeking reimbursement for the amount. My Cliam Id is {{Variables.ExpenseClaim.ClaimId}}</p>\r\n<p>Please <a href=\"{{ \"ClaimApproved\" | signal_url }}\">click here </a> to approve this claim.</p>\r\n<p>Please <a href=\"{{ \"ClaimRejected\" | signal_url }}\">click here </a> to reject this claim.</p>\r\n<p>Please <a href=\"{{ \"RejectItems\" | signal_url }}\">click here </a> to reject items in this claim.</p>",
+            "JavaScript": ""
+          }
+        },
+        {
+          "$id": "33",
+          "name": "Cc",
+          "expressions": {
+            "$id": "34"
+          }
+        },
+        {
+          "$id": "35",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "36"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "37",
+      "activityId": "6324ffbf-faa6-4f35-bd51-ad39d833ae8f",
+      "type": "Fork",
+      "displayName": "Fork",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "38",
+          "name": "Branches",
+          "expressions": {
+            "$id": "39",
+            "Json": "[\"ClaimApproved\",\"ClaimRejected\",\"ItemRejected\"]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "40",
+      "activityId": "54a0be20-982c-4043-9962-41aa2336b7bd",
+      "type": "SignalReceived",
+      "displayName": "Claim Rejected Signal",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "41",
+          "name": "Signal",
+          "expressions": {
+            "$id": "42",
+            "Literal": "ClaimRejected"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "43",
+      "activityId": "8a7c0c2f-6f3b-4a0d-bb59-1125287782a2",
+      "type": "SignalReceived",
+      "displayName": "Claim Approved Signal",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "44",
+          "name": "Signal",
+          "expressions": {
+            "$id": "45",
+            "Literal": "ClaimApproved"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "46",
+      "activityId": "2f15bff1-dc62-4ef9-8790-25e903a3bfba",
+      "type": "Finish",
+      "displayName": "Finish",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "47",
+          "name": "ActivityOutput",
+          "expressions": {
+            "$id": "48"
+          }
+        },
+        {
+          "$id": "49",
+          "name": "OutcomeNames",
+          "expressions": {
+            "$id": "50"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "51",
+      "activityId": "c7f89aa5-da9a-4c55-aa58-66496e621623",
+      "type": "SendEmail",
+      "displayName": "Send Rejected Claim Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "52",
+          "name": "From",
+          "expressions": {
+            "$id": "53",
+            "Literal": "manager@gmail.com"
+          }
+        },
+        {
+          "$id": "54",
+          "name": "To",
+          "expressions": {
+            "$id": "55",
+            "Json": "[\"user@gmail.com\"]"
+          }
+        },
+        {
+          "$id": "56",
+          "name": "Subject",
+          "expressions": {
+            "$id": "57",
+            "Literal": "Reimbursment Claim Rejected"
+          }
+        },
+        {
+          "$id": "58",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "59"
+          }
+        },
+        {
+          "$id": "60",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "61",
+            "Liquid": "<p>Hello there,</p>\r\n<p>Your expense claim with Id {{Variables.ExpenseClaim.ClaimId}} is rejected.</p>"
+          }
+        },
+        {
+          "$id": "62",
+          "name": "Cc",
+          "expressions": {
+            "$id": "63"
+          }
+        },
+        {
+          "$id": "64",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "65"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "66",
+      "activityId": "0b295dd0-16a0-4abc-85a4-56367f0b69d9",
+      "type": "Redirect",
+      "name": "ClaimItemsRejected",
+      "displayName": "Items Rejected",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "67",
+          "name": "Location",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "68",
+            "Literal": "",
+            "Liquid": "https://localhost:5001/RejectItems/{{Variables.ExpenseClaim.ClaimId}}"
+          }
+        },
+        {
+          "$id": "69",
+          "name": "Permanent",
+          "expressions": {
+            "$id": "70"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "71",
+      "activityId": "9f58e4db-29d5-451a-92e1-a5aed480c3ff",
+      "type": "SignalReceived",
+      "displayName": "Signal Received",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "72",
+          "name": "Signal",
+          "expressions": {
+            "$id": "73",
+            "Literal": "RejectItems"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "74",
+      "activityId": "41183a61-10b4-4071-8fa6-a58baeb8da76",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "75",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "76",
+            "Literal": "ApprovedExpenseClaim"
+          }
+        },
+        {
+          "$id": "77",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "78",
+            "JavaScript": "activities.ApprovedRequest.ResponseContent()"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "79",
+      "activityId": "28205e28-3344-4e62-b061-81d526828060",
+      "type": "SendEmail",
+      "displayName": "Send Approved Claim Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "80",
+          "name": "From",
+          "expressions": {
+            "$id": "81",
+            "Literal": "manager@gmail.com"
+          }
+        },
+        {
+          "$id": "82",
+          "name": "To",
+          "expressions": {
+            "$id": "83",
+            "Json": "[\"user@gmail.com\"]"
+          }
+        },
+        {
+          "$id": "84",
+          "name": "Subject",
+          "expressions": {
+            "$id": "85",
+            "Literal": "Reimbursment Claim Approved"
+          }
+        },
+        {
+          "$id": "86",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "87"
+          }
+        },
+        {
+          "$id": "88",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "89",
+            "Liquid": "<p>Hello there,</p>\r\n<p>Your expense claim with Id {{Variables.ExpenseClaim.ClaimId}} is approved.</p>\r\n<p>Total claim amount : {{Variables.ExpenseClaim.TotalClaimAmount}}.</p>\r\n<p>Total sanctioned amount : {{Variables.ApprovedExpenseClaim.sanctionedAmount}}.</p>"
+          }
+        },
+        {
+          "$id": "90",
+          "name": "Cc",
+          "expressions": {
+            "$id": "91"
+          }
+        },
+        {
+          "$id": "92",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "93"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "94",
+      "activityId": "35b4d9c7-b6c0-4c91-8f36-bd2133e90203",
+      "type": "SendHttpRequest",
+      "name": "ApprovedRequest",
+      "displayName": "Send Approved HTTP Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "95",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "96",
+            "Literal": "",
+            "JavaScript": "",
+            "Liquid": "https://localhost:44385/api/ExpenseClaim/UpdateExpenseClaimById?claimId={{Variables.ExpenseClaim.ClaimId}}"
+          }
+        },
+        {
+          "$id": "97",
+          "name": "Method",
+          "expressions": {
+            "$id": "98",
+            "Literal": "PUT"
+          }
+        },
+        {
+          "$id": "99",
+          "name": "Content",
+          "expressions": {
+            "$id": "100",
+            "JavaScript": "",
+            "Literal": ""
+          }
+        },
+        {
+          "$id": "101",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "102",
+            "Literal": "application/json"
+          }
+        },
+        {
+          "$id": "103",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "104",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "105",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "106",
+            "Literal": ".NET Type"
+          }
+        },
+        {
+          "$id": "107",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "108"
+          }
+        },
+        {
+          "$id": "109",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "110"
+          }
+        },
+        {
+          "$id": "111",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "112"
+          }
+        },
+        {
+          "$id": "113",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "114"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "115",
+      "activityId": "90480656-7bd8-42ff-ab03-8dba084a0e71",
+      "type": "WriteHttpResponse",
+      "displayName": "Display Claim Approved Page",
+      "description": "Display a page confirming that the claim has been approved.",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "116",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "117",
+            "Liquid": "<p>Thanks for approving the claim!</p>"
+          }
+        },
+        {
+          "$id": "118",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "119",
+            "Literal": "text/html"
+          }
+        },
+        {
+          "$id": "120",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "121"
+          }
+        },
+        {
+          "$id": "122",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "123"
+          }
+        },
+        {
+          "$id": "124",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "125"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "126",
+      "activityId": "e8d0815f-d981-4345-8b9b-f848492a8a71",
+      "type": "WriteHttpResponse",
+      "displayName": "Display Claim Rejected Page",
+      "description": "Display a page confirming that the claim has been rejected.",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "127",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "128",
+            "Liquid": "<p>The claim has been rejected.</p>"
+          }
+        },
+        {
+          "$id": "129",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "130",
+            "Literal": "text/html"
+          }
+        },
+        {
+          "$id": "131",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "132"
+          }
+        },
+        {
+          "$id": "133",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "134"
+          }
+        },
+        {
+          "$id": "135",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "136"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "137",
+      "activityId": "a41e50ac-0dc3-4e79-8f2d-ef470ecb955d",
+      "type": "HttpEndpoint",
+      "displayName": "HTTP Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "138",
+          "name": "Path",
+          "expressions": {
+            "$id": "139",
+            "Literal": "/rejected-items"
+          }
+        },
+        {
+          "$id": "140",
+          "name": "Methods",
+          "expressions": {
+            "$id": "141",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "142",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "143",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "144",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "145"
+          }
+        },
+        {
+          "$id": "146",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "147"
+          }
+        },
+        {
+          "$id": "148",
+          "name": "Policy",
+          "expressions": {
+            "$id": "149"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "150",
+      "activityId": "6a830161-f6ca-4aa3-aea5-f50e374526e8",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "151",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "152",
+            "Literal": "RejectedItems"
+          }
+        },
+        {
+          "$id": "153",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "154",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "155",
+      "activityId": "16b9838c-cc00-4792-8b57-ec30bdf4ac1e",
+      "type": "SendEmail",
+      "displayName": "Send Item Rejected Email",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "156",
+          "name": "From",
+          "expressions": {
+            "$id": "157",
+            "Literal": "manager@gmail.com"
+          }
+        },
+        {
+          "$id": "158",
+          "name": "To",
+          "expressions": {
+            "$id": "159",
+            "Json": "[\"user@gmail.com\"]"
+          }
+        },
+        {
+          "$id": "160",
+          "name": "Subject",
+          "expressions": {
+            "$id": "161",
+            "Literal": "Items Rejected Email"
+          }
+        },
+        {
+          "$id": "162",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "163"
+          }
+        },
+        {
+          "$id": "164",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "165",
+            "Liquid": "<p>Hello there,</p>\r\n<p>Some items are rejected from your claim with Id {{Variables.ExpenseClaim.ClaimId}}.</p>\r\n<p>Total claim amount : {{Variables.RejectedItems.TotalClaimAmount}}.</p>\r\n<p>Total sanctioned amount : {{Variables.RejectedItems.SanctionedAmount}}.</p>"
+          }
+        },
+        {
+          "$id": "166",
+          "name": "Cc",
+          "expressions": {
+            "$id": "167"
+          }
+        },
+        {
+          "$id": "168",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "169"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "170",
+      "activityId": "ccf2570d-9e91-4aeb-b7de-1e7114eb36b7",
+      "type": "WriteHttpResponse",
+      "displayName": "Display Items Rejected Page",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "171",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "172",
+            "Liquid": "<p>Some items are rejected from the claim.</p>"
+          }
+        },
+        {
+          "$id": "173",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "174",
+            "Literal": "text/html"
+          }
+        },
+        {
+          "$id": "175",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "176"
+          }
+        },
+        {
+          "$id": "177",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "178"
+          }
+        },
+        {
+          "$id": "179",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "180"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    }
+  ],
+  "connections": [
+    {
+      "$id": "181",
+      "sourceActivityId": "4cdd5a7a-a8b6-4107-9421-a16127d2ce02",
+      "targetActivityId": "e091eaf2-607b-44ce-bb21-ddb044230587",
+      "outcome": "Done"
+    },
+    {
+      "$id": "182",
+      "sourceActivityId": "e091eaf2-607b-44ce-bb21-ddb044230587",
+      "targetActivityId": "f880e631-4e41-411a-aa2a-eae53dcdd019",
+      "outcome": "Done"
+    },
+    {
+      "$id": "183",
+      "sourceActivityId": "f880e631-4e41-411a-aa2a-eae53dcdd019",
+      "targetActivityId": "6324ffbf-faa6-4f35-bd51-ad39d833ae8f",
+      "outcome": "Done"
+    },
+    {
+      "$id": "184",
+      "sourceActivityId": "6324ffbf-faa6-4f35-bd51-ad39d833ae8f",
+      "targetActivityId": "54a0be20-982c-4043-9962-41aa2336b7bd",
+      "outcome": "ClaimRejected"
+    },
+    {
+      "$id": "185",
+      "sourceActivityId": "6324ffbf-faa6-4f35-bd51-ad39d833ae8f",
+      "targetActivityId": "8a7c0c2f-6f3b-4a0d-bb59-1125287782a2",
+      "outcome": "ClaimApproved"
+    },
+    {
+      "$id": "186",
+      "sourceActivityId": "54a0be20-982c-4043-9962-41aa2336b7bd",
+      "targetActivityId": "c7f89aa5-da9a-4c55-aa58-66496e621623",
+      "outcome": "Done"
+    },
+    {
+      "$id": "187",
+      "sourceActivityId": "6324ffbf-faa6-4f35-bd51-ad39d833ae8f",
+      "targetActivityId": "9f58e4db-29d5-451a-92e1-a5aed480c3ff",
+      "outcome": "ItemRejected"
+    },
+    {
+      "$id": "188",
+      "sourceActivityId": "9f58e4db-29d5-451a-92e1-a5aed480c3ff",
+      "targetActivityId": "0b295dd0-16a0-4abc-85a4-56367f0b69d9",
+      "outcome": "Done"
+    },
+    {
+      "$id": "189",
+      "sourceActivityId": "41183a61-10b4-4071-8fa6-a58baeb8da76",
+      "targetActivityId": "28205e28-3344-4e62-b061-81d526828060",
+      "outcome": "Done"
+    },
+    {
+      "$id": "190",
+      "sourceActivityId": "8a7c0c2f-6f3b-4a0d-bb59-1125287782a2",
+      "targetActivityId": "35b4d9c7-b6c0-4c91-8f36-bd2133e90203",
+      "outcome": "Done"
+    },
+    {
+      "$id": "191",
+      "sourceActivityId": "35b4d9c7-b6c0-4c91-8f36-bd2133e90203",
+      "targetActivityId": "41183a61-10b4-4071-8fa6-a58baeb8da76",
+      "outcome": "Done"
+    },
+    {
+      "$id": "192",
+      "sourceActivityId": "28205e28-3344-4e62-b061-81d526828060",
+      "targetActivityId": "90480656-7bd8-42ff-ab03-8dba084a0e71",
+      "outcome": "Done"
+    },
+    {
+      "$id": "193",
+      "sourceActivityId": "90480656-7bd8-42ff-ab03-8dba084a0e71",
+      "targetActivityId": "2f15bff1-dc62-4ef9-8790-25e903a3bfba",
+      "outcome": "Done"
+    },
+    {
+      "$id": "194",
+      "sourceActivityId": "c7f89aa5-da9a-4c55-aa58-66496e621623",
+      "targetActivityId": "e8d0815f-d981-4345-8b9b-f848492a8a71",
+      "outcome": "Done"
+    },
+    {
+      "$id": "195",
+      "sourceActivityId": "e8d0815f-d981-4345-8b9b-f848492a8a71",
+      "targetActivityId": "2f15bff1-dc62-4ef9-8790-25e903a3bfba",
+      "outcome": "Done"
+    },
+    {
+      "$id": "196",
+      "sourceActivityId": "0b295dd0-16a0-4abc-85a4-56367f0b69d9",
+      "targetActivityId": "a41e50ac-0dc3-4e79-8f2d-ef470ecb955d",
+      "outcome": "Done"
+    },
+    {
+      "$id": "197",
+      "sourceActivityId": "a41e50ac-0dc3-4e79-8f2d-ef470ecb955d",
+      "targetActivityId": "6a830161-f6ca-4aa3-aea5-f50e374526e8",
+      "outcome": "Done"
+    },
+    {
+      "$id": "198",
+      "sourceActivityId": "6a830161-f6ca-4aa3-aea5-f50e374526e8",
+      "targetActivityId": "16b9838c-cc00-4792-8b57-ec30bdf4ac1e",
+      "outcome": "Done"
+    },
+    {
+      "$id": "199",
+      "sourceActivityId": "16b9838c-cc00-4792-8b57-ec30bdf4ac1e",
+      "targetActivityId": "ccf2570d-9e91-4aeb-b7de-1e7114eb36b7",
+      "outcome": "Done"
+    },
+    {
+      "$id": "200",
+      "sourceActivityId": "ccf2570d-9e91-4aeb-b7de-1e7114eb36b7",
+      "targetActivityId": "2f15bff1-dc62-4ef9-8790-25e903a3bfba",
+      "outcome": "Done"
+    }
+  ],
+  "id": "ed66c7cebaf24bbaab9517e0829aca12"
+}
