@@ -1,5 +1,9 @@
 using Elsa.Persistence.EntityFramework.Core.Extensions;
 using Elsa.Persistence.EntityFramework.SqlServer;
+using Elsa.Server.Activities;
+using Elsa.Server.IServices;
+using Elsa.Server.Models.Sandbox;
+using Elsa.Server.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +24,8 @@ namespace Elsa.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<SandboxSettings>(Configuration.GetSection("SandboxSettings"));
+            services.AddTransient<ISandboxService, SandboxService>();
             var elsaSection = Configuration.GetSection("Elsa");
 
             // Elsa services.
@@ -31,6 +37,7 @@ namespace Elsa.Server
                     .AddEmailActivities(elsaSection.GetSection("Smtp").Bind)
                     .AddQuartzTemporalActivities()
                     .AddWorkflowsFrom<Startup>()
+                    .AddActivity<PanVerification>()
                 );
 
             // Elsa API endpoints.
