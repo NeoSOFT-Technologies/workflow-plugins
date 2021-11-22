@@ -38,6 +38,7 @@ namespace Elsa.Server
                     .AddQuartzTemporalActivities()
                     .AddWorkflowsFrom<Startup>()
                     .AddActivity<PanVerification>()
+                    .AddActivity<BankAccountVerification>()
                 );
 
             // Elsa API endpoints.

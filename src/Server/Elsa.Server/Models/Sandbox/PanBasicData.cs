@@ -2,10 +2,10 @@
 {
     public class PanBasicData
     {
-        public string @entity { get; set; }
-        public string pan { get; set; }
-        public string full_name { get; set; }
-        public string status { get; set; }
-        public string category { get; set; }
+        public string Entity { get; set; }
+        public string Pan { get; set; }
+        public string Full_name { get; set; }
+        public string Status { get; set; }
+        public string Category { get; set; }
     }
 }

@@ -23,26 +23,47 @@ namespace Elsa.Server.Services
                 httpClient.DefaultRequestHeaders.Add("x-api-key", _sandboxSettings.ApiKey);
                 httpClient.DefaultRequestHeaders.Add("x-api-secret", _sandboxSettings.Secret);
                 httpClient.DefaultRequestHeaders.Add("x-api-version", _sandboxSettings.ApiVersion);
-                HttpResponseMessage httpResponse = await httpClient.PostAsync(_sandboxSettings.BaseUrl + "/authenticate", null);
+                var url = $"{_sandboxSettings.BaseUrl}/authenticate";
+                HttpResponseMessage httpResponse = await httpClient.PostAsync(url, null);
                 var responseString = await httpResponse.Content.ReadAsStringAsync();
                 response = JsonConvert.DeserializeObject<AuthenticateResponse>(responseString);
             }
             return response;
         }
 
-        public async Task<PanBasicResponse> VerifyPanAsync(VerifyPanRequest request, string accessToken)
+        public async Task<BaseResponse<PanBasicData>> VerifyPanAsync(VerifyPanRequest request, string accessToken)
         {
-            var response = new PanBasicResponse();
+            var response = new BaseResponse<PanBasicData>();
             using (HttpClient httpClient = new HttpClient())
             {
-                httpClient.DefaultRequestHeaders.Add("Authorization", accessToken);
-                httpClient.DefaultRequestHeaders.Add("x-api-key", _sandboxSettings.ApiKey);
-                httpClient.DefaultRequestHeaders.Add("x-api-version", _sandboxSettings.ApiVersion);
-                HttpResponseMessage httpResponse = await httpClient.GetAsync(_sandboxSettings.BaseUrl + "/pans/" + request.PanNumber + "/verify?consent=" + request.Consent + "&reason=" + request.Reason);
+                AddRequestHeaders(httpClient, accessToken);
+                var url = $"{_sandboxSettings.BaseUrl}/pans/{request.PanNumber}/verify?consent={request.Consent}&reason={request.Reason}";
+                HttpResponseMessage httpResponse = await httpClient.GetAsync(url);
                 var responseString = await httpResponse.Content.ReadAsStringAsync();
-                response = JsonConvert.DeserializeObject<PanBasicResponse>(responseString);
+                response = JsonConvert.DeserializeObject<BaseResponse<PanBasicData>>(responseString);
             }
             return response;
+        }
+
+        public async Task<BaseResponse<BankAccountData>> VerifyBankAccountAsync(VerifyBankAccountRequest request, string accessToken)
+        {
+            var response = new BaseResponse<BankAccountData>();
+            using (HttpClient httpClient = new HttpClient())
+            {
+                AddRequestHeaders(httpClient, accessToken);
+                var url = $"{_sandboxSettings.BaseUrl}/bank/{request.Ifsc}/accounts/{request.AccountNumber}/verify?name={request.Name}&mobile={request.Mobile}";
+                HttpResponseMessage httpResponse = await httpClient.GetAsync(url);
+                var responseString = await httpResponse.Content.ReadAsStringAsync();
+                response = JsonConvert.DeserializeObject<BaseResponse<BankAccountData>>(responseString);
+            }
+            return response;
+        }
+
+        private void AddRequestHeaders(HttpClient httpClient, string accessToken)
+        {
+            httpClient.DefaultRequestHeaders.Add("Authorization", accessToken);
+            httpClient.DefaultRequestHeaders.Add("x-api-key", _sandboxSettings.ApiKey);
+            httpClient.DefaultRequestHeaders.Add("x-api-version", _sandboxSettings.ApiVersion);
         }
     }
 }

@@ -6,6 +6,7 @@ namespace Elsa.Server.IServices
     public interface ISandboxService
     {
         Task<AuthenticateResponse> AuthenticateAsync();
-        Task<PanBasicResponse> VerifyPanAsync(VerifyPanRequest request, string accessToken);
+        Task<BaseResponse<PanBasicData>> VerifyPanAsync(VerifyPanRequest request, string accessToken);
+        Task<BaseResponse<BankAccountData>> VerifyBankAccountAsync(VerifyBankAccountRequest request, string accessToken);
     }
 }

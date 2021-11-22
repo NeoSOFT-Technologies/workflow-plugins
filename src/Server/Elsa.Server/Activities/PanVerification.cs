@@ -59,9 +59,9 @@ namespace Elsa.Server.Activities
                 Consent = Consent,
                 Reason = Reason
             };
-            PanBasicResponse panBasicResponse = await _sandboxService.VerifyPanAsync(request, authenticateResponse.access_token);
-            Output = panBasicResponse.data;
-            if (Output is not null && Output.status.ToLower().Equals("valid"))
+            BaseResponse<PanBasicData> response = await _sandboxService.VerifyPanAsync(request, authenticateResponse.Access_token);
+            Output = response.Data;
+            if (Output is not null && Output.Status.ToLower().Equals("valid"))
             {
                 return Outcome("Success");
             }
