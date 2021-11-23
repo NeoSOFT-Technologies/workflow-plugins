@@ -1,0 +1,347 @@
+{
+  "$id": "1",
+  "definitionId": "2b5816fa50ff49038f5a8c044f595a42",
+  "versionId": "98c4ec671df8451c8d82653e0adbe409",
+  "name": "PanVerification",
+  "displayName": "Pan Verification",
+  "version": 2,
+  "variables": {
+    "$id": "2",
+    "data": {}
+  },
+  "customAttributes": {
+    "$id": "3",
+    "data": {}
+  },
+  "isSingleton": false,
+  "persistenceBehavior": "WorkflowBurst",
+  "deleteCompletedInstances": false,
+  "isPublished": true,
+  "isLatest": true,
+  "activities": [
+    {
+      "$id": "4",
+      "activityId": "b349ba20-b3f4-4cf2-afd8-7aabdf45f1ba",
+      "type": "HttpEndpoint",
+      "displayName": "VerifyPan Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "5",
+          "name": "Path",
+          "expressions": {
+            "$id": "6",
+            "Literal": "/VerifyPan"
+          }
+        },
+        {
+          "$id": "7",
+          "name": "Methods",
+          "expressions": {
+            "$id": "8",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "9",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "10",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "11",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "12"
+          }
+        },
+        {
+          "$id": "13",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "14"
+          }
+        },
+        {
+          "$id": "15",
+          "name": "Policy",
+          "expressions": {
+            "$id": "16"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "17",
+      "activityId": "3e1523f6-b84a-4d27-ae94-7e486ec8ea65",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "18",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "19",
+            "Literal": "VerifyPanRequest"
+          }
+        },
+        {
+          "$id": "20",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "21",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "22",
+      "activityId": "91ffc814-ae68-4f94-8f25-76ca07917712",
+      "type": "PanVerification",
+      "name": "VerificationActivity",
+      "displayName": "PAN Verification",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "23",
+          "name": "PanNumber",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "24",
+            "JavaScript": "VerifyPanRequest.PanNumber"
+          }
+        },
+        {
+          "$id": "25",
+          "name": "Consent",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "26",
+            "JavaScript": "VerifyPanRequest.Consent"
+          }
+        },
+        {
+          "$id": "27",
+          "name": "Reason",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "28",
+            "JavaScript": "VerifyPanRequest.Reason"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "29",
+      "activityId": "dc477bb9-c889-49e1-a48a-6e4a35311865",
+      "type": "Finish",
+      "displayName": "Finish",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "30",
+          "name": "ActivityOutput",
+          "expressions": {
+            "$id": "31"
+          }
+        },
+        {
+          "$id": "32",
+          "name": "OutcomeNames",
+          "expressions": {
+            "$id": "33"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "34",
+      "activityId": "dd623f07-b531-4acb-b1eb-7a889a8ef346",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "35",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "36",
+            "Literal": "PanData"
+          }
+        },
+        {
+          "$id": "37",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "38",
+            "JavaScript": "activities.VerificationActivity.Output()"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "39",
+      "activityId": "ba79ac4c-a779-419e-a02a-d2e4ee3a44c5",
+      "type": "WriteHttpResponse",
+      "displayName": "Success Response",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "40",
+          "name": "Content",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "41",
+            "Liquid": "",
+            "JavaScript": "return `PAN Card of ${PanData.full_name} has been successfully verified.`"
+          }
+        },
+        {
+          "$id": "42",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "43"
+          }
+        },
+        {
+          "$id": "44",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "45"
+          }
+        },
+        {
+          "$id": "46",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "47"
+          }
+        },
+        {
+          "$id": "48",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "49"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "50",
+      "activityId": "3256d376-5adf-4e42-8a79-f8d718c0a2b6",
+      "type": "WriteHttpResponse",
+      "displayName": "Failure Response",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "51",
+          "name": "Content",
+          "expressions": {
+            "$id": "52",
+            "Literal": "Entered PAN Number is invalid"
+          }
+        },
+        {
+          "$id": "53",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "54"
+          }
+        },
+        {
+          "$id": "55",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "56"
+          }
+        },
+        {
+          "$id": "57",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "58"
+          }
+        },
+        {
+          "$id": "59",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "60"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    }
+  ],
+  "connections": [
+    {
+      "$id": "61",
+      "sourceActivityId": "b349ba20-b3f4-4cf2-afd8-7aabdf45f1ba",
+      "targetActivityId": "3e1523f6-b84a-4d27-ae94-7e486ec8ea65",
+      "outcome": "Done"
+    },
+    {
+      "$id": "62",
+      "sourceActivityId": "3e1523f6-b84a-4d27-ae94-7e486ec8ea65",
+      "targetActivityId": "91ffc814-ae68-4f94-8f25-76ca07917712",
+      "outcome": "Done"
+    },
+    {
+      "$id": "63",
+      "sourceActivityId": "91ffc814-ae68-4f94-8f25-76ca07917712",
+      "targetActivityId": "dd623f07-b531-4acb-b1eb-7a889a8ef346",
+      "outcome": "Success"
+    },
+    {
+      "$id": "64",
+      "sourceActivityId": "dd623f07-b531-4acb-b1eb-7a889a8ef346",
+      "targetActivityId": "ba79ac4c-a779-419e-a02a-d2e4ee3a44c5",
+      "outcome": "Done"
+    },
+    {
+      "$id": "65",
+      "sourceActivityId": "ba79ac4c-a779-419e-a02a-d2e4ee3a44c5",
+      "targetActivityId": "dc477bb9-c889-49e1-a48a-6e4a35311865",
+      "outcome": "Done"
+    },
+    {
+      "$id": "66",
+      "sourceActivityId": "91ffc814-ae68-4f94-8f25-76ca07917712",
+      "targetActivityId": "3256d376-5adf-4e42-8a79-f8d718c0a2b6",
+      "outcome": "Failed"
+    },
+    {
+      "$id": "67",
+      "sourceActivityId": "3256d376-5adf-4e42-8a79-f8d718c0a2b6",
+      "targetActivityId": "dc477bb9-c889-49e1-a48a-6e4a35311865",
+      "outcome": "Done"
+    }
+  ],
+  "id": "98c4ec671df8451c8d82653e0adbe409"
+}
