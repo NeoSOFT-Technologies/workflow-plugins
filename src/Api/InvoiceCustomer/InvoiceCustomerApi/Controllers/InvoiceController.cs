@@ -36,7 +36,7 @@ namespace InvoiceCustomerApi.Controllers
 
                 StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response1 = client.PostAsync("https://localhost:44391/addinvoices", httpContent).Result;
+                HttpResponseMessage response1 = client.PostAsync("https://localhost:5001/addinvoices", httpContent).Result;
             }
             return invoices;
         }
@@ -54,18 +54,18 @@ namespace InvoiceCustomerApi.Controllers
 
                     StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
                     client.DefaultRequestHeaders.Add("X-Correlation-Id", invoice.InvoiceId.ToString());
-                    HttpResponseMessage response1 = await client.PutAsync("https://localhost:44391/updateAmountInvoice", httpContent);
+                    HttpResponseMessage response1 = await client.PutAsync("https://localhost:5001/updateAmountInvoice", httpContent);
                 }
             }
             return Ok(invoice);
         }
 
-        [HttpGet("checkinvoice")]
-        public async Task<ActionResult<bool>> checkInvoice(Guid id)
-        {
-            var result = await _invoicerepo.checkInvoice(id);
-            return Ok(result);
-        }
+        //[HttpGet("checkinvoice")]
+        //public async Task<ActionResult<bool>> checkInvoice(Guid id)
+        //{
+        //    var result = await _invoicerepo.checkInvoice(id);
+        //    return Ok(result);
+        //}
 
         [HttpPut("UpdateIspaid")]
         public async Task<ActionResult> UpdateIsPaid(Invoice invoice)
@@ -73,21 +73,29 @@ namespace InvoiceCustomerApi.Controllers
             invoice.IsInvoicePaid = true;
             _mapper.Map(invoice, typeof(InvoiceDto), typeof(Invoice));
             await _invoicerepo.UpdateInvoice(invoice);
+            using (HttpClient client = new HttpClient())
+            {
+                string json = JsonConvert.SerializeObject(invoice);
+
+                StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+                client.DefaultRequestHeaders.Add("X-Correlation-Id", invoice.InvoiceId.ToString());
+                HttpResponseMessage response1 = await client.PutAsync("https://localhost:5001/UpdateIsPaid", httpContent);
+            }
             return Ok();
         }
-     
-        [HttpPost("Comment")]
-        public IActionResult CommentToUpdate(string comment)
+
+        [HttpPost("Comment/{id}")]
+        public async Task<IActionResult> CommentToUpdate([FromBody] string comment, Guid id)
         {
             using (HttpClient client = new HttpClient())
             {
                 string json = JsonConvert.SerializeObject(comment);
 
                 StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response1 = client.PostAsync("https://localhost:44391/comments", httpContent).Result;
+                client.DefaultRequestHeaders.Add("X-Correlation-Id", id.ToString());
+                HttpResponseMessage response1 = client.PostAsync("https://localhost:5001/comments", httpContent).Result;
             }
-            return Ok();
+            return Ok(comment);
         }
 
 
