@@ -15,7 +15,8 @@
 
 
 # New Project Approval Workflow Diagram
-![ProjectApproval](https://user-images.githubusercontent.com/80381121/142132439-c52c10f2-41cf-4688-8692-263b2537a0be.png)
+![ProjectApprovalWorkflow](https://user-images.githubusercontent.com/80381121/143538789-8780e665-c19e-4eba-a9fd-a8feb24b7459.png)
+
 
 # Expense Claim Workflow Diagram
 ![ExpenseClaim](https://user-images.githubusercontent.com/80381121/142132519-cd1aa342-2ea2-42f2-96f5-e4d84d1f69e8.png)
