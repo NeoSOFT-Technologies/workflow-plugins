@@ -19,4 +19,4 @@
 
 
 # Expense Claim Workflow Diagram
-![ExpenseClaimWorkflow](https://user-images.githubusercontent.com/80381121/143546975-bbfe5232-3c19-4f16-9444-735eeea1829f.png)
+![ExpenseClaimWorkflow](https://user-images.githubusercontent.com/80381121/143547596-c6222785-6454-4aee-8ed1-c7e5bbe208d9.png)
