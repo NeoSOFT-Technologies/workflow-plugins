@@ -1,0 +1,676 @@
+{
+  "$id": "1",
+  "definitionId": "632ca5554b8a4edeb09906b8e935c80b",
+  "versionId": "ed5d15c938394a33b5ba77d1e6a775fb",
+  "name": "OrderItems",
+  "displayName": "Order Items",
+  "version": 1,
+  "variables": {
+    "$id": "2",
+    "data": {}
+  },
+  "customAttributes": {
+    "$id": "3",
+    "data": {}
+  },
+  "isSingleton": false,
+  "persistenceBehavior": "WorkflowBurst",
+  "deleteCompletedInstances": false,
+  "isPublished": true,
+  "isLatest": true,
+  "activities": [
+    {
+      "$id": "4",
+      "activityId": "97480784-6a11-40b2-8d18-dcbcb8e1bdae",
+      "type": "HttpEndpoint",
+      "displayName": "HTTP Endpoint",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "5",
+          "name": "Path",
+          "expressions": {
+            "$id": "6",
+            "Literal": "/PlaceOrder"
+          }
+        },
+        {
+          "$id": "7",
+          "name": "Methods",
+          "expressions": {
+            "$id": "8",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "9",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "10",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "11",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "12"
+          }
+        },
+        {
+          "$id": "13",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "14"
+          }
+        },
+        {
+          "$id": "15",
+          "name": "Policy",
+          "expressions": {
+            "$id": "16"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "17",
+      "activityId": "cbd478e1-82e4-4e6f-8aaa-620679b16cba",
+      "type": "SetVariable",
+      "displayName": "Set OrderSummary",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "18",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "19",
+            "Literal": "OrderSummary"
+          }
+        },
+        {
+          "$id": "20",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "21",
+            "JavaScript": "JSON.parse(input.rawBody)"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "22",
+      "activityId": "4c320749-6dee-485d-a5c2-a33b48790071",
+      "type": "SendHttpRequest",
+      "name": "CatalougeRequest",
+      "displayName": "Send Catalouge Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "23",
+          "name": "Url",
+          "expressions": {
+            "$id": "24",
+            "Literal": "https://localhost:44397/api/Catalogue"
+          }
+        },
+        {
+          "$id": "25",
+          "name": "Method",
+          "expressions": {
+            "$id": "26",
+            "Literal": "POST"
+          }
+        },
+        {
+          "$id": "27",
+          "name": "Content",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "28",
+            "JavaScript": "JSON.stringify(OrderSummary)",
+            "Liquid": ""
+          }
+        },
+        {
+          "$id": "29",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "30",
+            "Literal": "application/json"
+          }
+        },
+        {
+          "$id": "31",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "32",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "33",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "34",
+            "Literal": ""
+          }
+        },
+        {
+          "$id": "35",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "36"
+          }
+        },
+        {
+          "$id": "37",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "38"
+          }
+        },
+        {
+          "$id": "39",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "40"
+          }
+        },
+        {
+          "$id": "41",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "42"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "43",
+      "activityId": "70f64e12-af3c-457d-8e07-da48e2203686",
+      "type": "SetVariable",
+      "displayName": "Update OrderSummary",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "44",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "45",
+            "Literal": "OrderSummary"
+          }
+        },
+        {
+          "$id": "46",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "47",
+            "JavaScript": "activities.CatalougeRequest.ResponseContent()"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "48",
+      "activityId": "f1e87ed8-cad9-4b17-b43e-5886fa25960b",
+      "type": "SendHttpRequest",
+      "name": "InventoryRequest",
+      "displayName": "Send Inventory Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "49",
+          "name": "Url",
+          "expressions": {
+            "$id": "50",
+            "Literal": "https://localhost:44397/api/Inventory"
+          }
+        },
+        {
+          "$id": "51",
+          "name": "Method",
+          "expressions": {
+            "$id": "52",
+            "Literal": "POST"
+          }
+        },
+        {
+          "$id": "53",
+          "name": "Content",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "54",
+            "JavaScript": "OrderSummary"
+          }
+        },
+        {
+          "$id": "55",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "56",
+            "Literal": "application/json"
+          }
+        },
+        {
+          "$id": "57",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "58",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "59",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "60",
+            "Literal": ""
+          }
+        },
+        {
+          "$id": "61",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "62"
+          }
+        },
+        {
+          "$id": "63",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "64"
+          }
+        },
+        {
+          "$id": "65",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "66"
+          }
+        },
+        {
+          "$id": "67",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "68"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "69",
+      "activityId": "9fed2388-7c68-4ba2-a479-1abc7ab24797",
+      "type": "SetVariable",
+      "displayName": "Update OrderSummary",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "70",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "71",
+            "Literal": "OrderSummary"
+          }
+        },
+        {
+          "$id": "72",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "73",
+            "JavaScript": "activities.InventoryRequest.ResponseContent()"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "74",
+      "activityId": "58eb7c61-403b-4740-9830-49ff43212e18",
+      "type": "ForEach",
+      "name": "ForEach",
+      "displayName": "For Each",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "75",
+          "name": "Items",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "76",
+            "JavaScript": "var order = JSON.parse(OrderSummary)\r\nreturn order.items"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "77",
+      "activityId": "1c119862-6039-4fa6-a92c-534eb5fb3d43",
+      "type": "SendHttpRequest",
+      "name": "OrderRequest",
+      "displayName": "Send Order Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "78",
+          "name": "Url",
+          "expressions": {
+            "$id": "79",
+            "Literal": "https://localhost:44397/api/Order"
+          }
+        },
+        {
+          "$id": "80",
+          "name": "Method",
+          "expressions": {
+            "$id": "81",
+            "Literal": "POST"
+          }
+        },
+        {
+          "$id": "82",
+          "name": "Content",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "83",
+            "JavaScript": "var item = JSON.parse(input)\r\nreturn JSON.stringify(item)"
+          }
+        },
+        {
+          "$id": "84",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "85",
+            "Literal": "application/json"
+          }
+        },
+        {
+          "$id": "86",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "87",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "88",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "89",
+            "Literal": ""
+          }
+        },
+        {
+          "$id": "90",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "91"
+          }
+        },
+        {
+          "$id": "92",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "93"
+          }
+        },
+        {
+          "$id": "94",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "95"
+          }
+        },
+        {
+          "$id": "96",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "97"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "98",
+      "activityId": "466e2baa-5389-43e9-bc9f-71cdf90b0678",
+      "type": "SetVariable",
+      "displayName": "Set Empty Array",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "99",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "100",
+            "Literal": "NewItems"
+          }
+        },
+        {
+          "$id": "101",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "102",
+            "Literal": "",
+            "JavaScript": "[]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "103",
+      "activityId": "d4e15969-f81b-4306-bcb2-951ac9c0e432",
+      "type": "SetVariable",
+      "displayName": "Update New Items",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "104",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "105",
+            "Literal": "NewItems"
+          }
+        },
+        {
+          "$id": "106",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "107",
+            "JavaScript": "[...NewItems, JSON.parse(activities.OrderRequest.ResponseContent())]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "108",
+      "activityId": "b207c500-18fb-49f1-9b87-6938afdf1a6e",
+      "type": "Finish",
+      "displayName": "Finish",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "109",
+          "name": "ActivityOutput",
+          "expressions": {
+            "$id": "110"
+          }
+        },
+        {
+          "$id": "111",
+          "name": "OutcomeNames",
+          "expressions": {
+            "$id": "112"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "113",
+      "activityId": "59516dee-24d6-4507-8489-867b8d3267a9",
+      "type": "SetVariable",
+      "displayName": "Update Order Summary",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "114",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "115",
+            "Literal": "OrderSummary"
+          }
+        },
+        {
+          "$id": "116",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "117",
+            "JavaScript": "var order = JSON.parse(OrderSummary)\r\norder.items = NewItems\r\nreturn order"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "118",
+      "activityId": "dacbf62b-271d-4eca-8f4e-9fa44c1f7288",
+      "type": "WriteLine",
+      "displayName": "Write Line",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "119",
+          "name": "Text",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "120",
+            "JavaScript": "JSON.stringify(OrderSummary)"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    }
+  ],
+  "connections": [
+    {
+      "$id": "121",
+      "sourceActivityId": "97480784-6a11-40b2-8d18-dcbcb8e1bdae",
+      "targetActivityId": "cbd478e1-82e4-4e6f-8aaa-620679b16cba",
+      "outcome": "Done"
+    },
+    {
+      "$id": "122",
+      "sourceActivityId": "4c320749-6dee-485d-a5c2-a33b48790071",
+      "targetActivityId": "70f64e12-af3c-457d-8e07-da48e2203686",
+      "outcome": "Done"
+    },
+    {
+      "$id": "123",
+      "sourceActivityId": "f1e87ed8-cad9-4b17-b43e-5886fa25960b",
+      "targetActivityId": "9fed2388-7c68-4ba2-a479-1abc7ab24797",
+      "outcome": "Done"
+    },
+    {
+      "$id": "124",
+      "sourceActivityId": "9fed2388-7c68-4ba2-a479-1abc7ab24797",
+      "targetActivityId": "466e2baa-5389-43e9-bc9f-71cdf90b0678",
+      "outcome": "Done"
+    },
+    {
+      "$id": "125",
+      "sourceActivityId": "1c119862-6039-4fa6-a92c-534eb5fb3d43",
+      "targetActivityId": "d4e15969-f81b-4306-bcb2-951ac9c0e432",
+      "outcome": "Done"
+    },
+    {
+      "$id": "126",
+      "sourceActivityId": "58eb7c61-403b-4740-9830-49ff43212e18",
+      "targetActivityId": "59516dee-24d6-4507-8489-867b8d3267a9",
+      "outcome": "Done"
+    },
+    {
+      "$id": "127",
+      "sourceActivityId": "58eb7c61-403b-4740-9830-49ff43212e18",
+      "targetActivityId": "1c119862-6039-4fa6-a92c-534eb5fb3d43",
+      "outcome": "Iterate"
+    },
+    {
+      "$id": "128",
+      "sourceActivityId": "d4e15969-f81b-4306-bcb2-951ac9c0e432",
+      "targetActivityId": "58eb7c61-403b-4740-9830-49ff43212e18",
+      "outcome": "Done"
+    },
+    {
+      "$id": "129",
+      "sourceActivityId": "466e2baa-5389-43e9-bc9f-71cdf90b0678",
+      "targetActivityId": "58eb7c61-403b-4740-9830-49ff43212e18",
+      "outcome": "Done"
+    },
+    {
+      "$id": "130",
+      "sourceActivityId": "70f64e12-af3c-457d-8e07-da48e2203686",
+      "targetActivityId": "f1e87ed8-cad9-4b17-b43e-5886fa25960b",
+      "outcome": "Done"
+    },
+    {
+      "$id": "131",
+      "sourceActivityId": "cbd478e1-82e4-4e6f-8aaa-620679b16cba",
+      "targetActivityId": "4c320749-6dee-485d-a5c2-a33b48790071",
+      "outcome": "Done"
+    },
+    {
+      "$id": "132",
+      "sourceActivityId": "59516dee-24d6-4507-8489-867b8d3267a9",
+      "targetActivityId": "dacbf62b-271d-4eca-8f4e-9fa44c1f7288",
+      "outcome": "Done"
+    },
+    {
+      "$id": "133",
+      "sourceActivityId": "dacbf62b-271d-4eca-8f4e-9fa44c1f7288",
+      "targetActivityId": "b207c500-18fb-49f1-9b87-6938afdf1a6e",
+      "outcome": "Done"
+    }
+  ],
+  "id": "ed5d15c938394a33b5ba77d1e6a775fb"
+}
