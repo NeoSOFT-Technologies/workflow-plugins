@@ -3,3 +3,8 @@
 
 # Smtp Image
 ![SmtpImg](https://user-images.githubusercontent.com/80381121/142638576-d84b334c-97d6-4156-b76e-fed5d0a9ce30.PNG)
+
+# Getting started
+![Start1](https://user-images.githubusercontent.com/80381121/145993625-462e6df0-a833-4fc0-9030-6f2f646661f3.png)
+![Start2](https://user-images.githubusercontent.com/80381121/145993637-fe7ca70d-5baa-4aae-aff7-71683ad6e52a.png)
+![Start3](https://user-images.githubusercontent.com/80381121/145993647-e1185072-f98d-4da6-8a18-0623d1dc1387.png)
