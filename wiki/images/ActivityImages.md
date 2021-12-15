@@ -4,3 +4,6 @@
 
 # Primitives
 ![Primitives](https://user-images.githubusercontent.com/80381121/146149219-eb460b38-466e-4916-a5d8-46e402ed12f7.png)
+
+# HTTP
+![HTTP1](https://user-images.githubusercontent.com/80381121/146165368-b1b7aa00-affd-4f34-a609-8e5d1c3ccd86.png)
