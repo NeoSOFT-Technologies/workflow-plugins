@@ -23,3 +23,9 @@
 
 # Timer
 ![Timer1](https://user-images.githubusercontent.com/80381121/146183510-3975d7a5-9a29-4d31-b65e-5133e6be4db2.png)
+
+
+![SendSignal](https://user-images.githubusercontent.com/80381121/146196696-4962e99c-1f11-402c-9ee8-ee94eb4054b4.png)
+![SetVariable](https://user-images.githubusercontent.com/80381121/146196708-b9d43783-622d-4b7e-8de2-f078c8906f25.png)
+![SignalReceived](https://user-images.githubusercontent.com/80381121/146196719-7d368def-288d-4197-a295-bb13e9c1f3fa.png)
+![Correlate](https://user-images.githubusercontent.com/80381121/146196747-a78970b7-bc63-4539-ab78-60cf5514036a.png)
