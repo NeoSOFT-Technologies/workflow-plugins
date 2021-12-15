@@ -7,3 +7,6 @@
 
 # HTTP
 ![HTTP1](https://user-images.githubusercontent.com/80381121/146165368-b1b7aa00-affd-4f34-a609-8e5d1c3ccd86.png)
+
+# Timer
+![Timer1](https://user-images.githubusercontent.com/80381121/146183510-3975d7a5-9a29-4d31-b65e-5133e6be4db2.png)
