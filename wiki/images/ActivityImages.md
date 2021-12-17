@@ -40,6 +40,8 @@
 
 
 # Multinode
+![SingleNode](https://user-images.githubusercontent.com/80381121/146537129-79a0723f-061f-45f7-9212-4b12e7703c97.png)
+
 ![MultiNode](https://user-images.githubusercontent.com/80381121/146492262-0f72108f-5261-4119-af8b-cb094997b962.png)
 ![MultiNodeWorkflow](https://user-images.githubusercontent.com/80381121/146495318-05c6b9b6-4893-4883-973e-8a15f545078a.PNG)
 [Workflow.pdf](https://github.com/NeoSOFT-Technologies/workflow-plugins/files/7733522/Workflow.pdf)
