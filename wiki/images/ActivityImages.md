@@ -39,10 +39,10 @@
 ![PAN Failure Response](https://user-images.githubusercontent.com/80381121/146379677-9a54b7f8-0695-43ab-9fb5-dc6783426824.PNG)
 
 
-
 # Multinode
 ![MultiNode](https://user-images.githubusercontent.com/80381121/146492262-0f72108f-5261-4119-af8b-cb094997b962.png)
-![Capture](https://user-images.githubusercontent.com/80381121/146494772-c1b84985-c0a3-4ae9-8c50-8440a8973fce.PNG)
+![MultiNodeWorkflow](https://user-images.githubusercontent.com/80381121/146495318-05c6b9b6-4893-4883-973e-8a15f545078a.PNG)
+
 
 
 
