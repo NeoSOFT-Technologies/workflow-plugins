@@ -43,6 +43,12 @@
 ![MultiNode](https://user-images.githubusercontent.com/80381121/146492262-0f72108f-5261-4119-af8b-cb094997b962.png)
 ![MultiNodeWorkflow](https://user-images.githubusercontent.com/80381121/146495318-05c6b9b6-4893-4883-973e-8a15f545078a.PNG)
 
+![MN_NGIXResult1](https://user-images.githubusercontent.com/80381121/146497541-58b34855-4ca4-4c5f-9e7a-cfe435f845ab.png)
+![MN_NGIXResult2](https://user-images.githubusercontent.com/80381121/146497543-1e6cd8fa-2c5a-4cc3-a231-938c3410f0d8.png)
+![MN_NGIXResult3](https://user-images.githubusercontent.com/80381121/146497531-1959865a-3c17-4365-af98-0595e293c862.png)
+![MN_IISResult1](https://user-images.githubusercontent.com/80381121/146497536-37325751-b1b0-4ba0-aaf1-13204306457f.png)
+![MN_IISResult2](https://user-images.githubusercontent.com/80381121/146497538-5ede5fc9-da6d-4b40-86bc-53a1c3829ca2.png)
+![MN_IISResult3](https://user-images.githubusercontent.com/80381121/146497540-6f55fe40-7fee-4101-bc5d-f4cc5cb2dd1f.png)
 
 
 
