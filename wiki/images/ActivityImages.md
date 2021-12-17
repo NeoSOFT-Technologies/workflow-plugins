@@ -43,4 +43,5 @@
 # Multinode
 ![MultiNode](https://user-images.githubusercontent.com/80381121/146492262-0f72108f-5261-4119-af8b-cb094997b962.png)
 
+[Workflow (1) (1).pdf](https://github.com/NeoSOFT-Technologies/workflow-plugins/files/7732239/Workflow.1.1.pdf)
 
