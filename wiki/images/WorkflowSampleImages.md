@@ -1,13 +1,5 @@
-# Workflow
-![localhost_5001_workflow-definitions_a24ea81e689746d0a8496a57f5c73be3(HighRes Screenshot”) (3)](https://user-images.githubusercontent.com/80381121/146933435-05d3c444-d3e4-421a-b97e-62b7c6a8bb86.png)
+# Expense Claim
 
-![localhost_5001_workflow-definitions_a24ea81e689746d0a8496a57f5c73be3(HighRes Screenshot”) (1)](https://user-images.githubusercontent.com/80381121/146934557-615c0519-aae0-4eb9-925a-c05de744f11f.png)
-![localhost_5001_workflow-definitions_a24ea81e689746d0a8496a57f5c73be3(HighRes Screenshot”)](https://user-images.githubusercontent.com/80381121/146934560-a2bcd8d3-47d8-49f6-b5cd-a70cee36a638.png)
-![localhost_5001_workflow-definitions_a24ea81e689746d0a8496a57f5c73be3(HighRes Screenshot”) (2)](https://user-images.githubusercontent.com/80381121/146934562-d96f6960-060f-4437-8810-fc002cd0dbea.png)
-
-
-[Untitled-1.pdf](https://github.com/NeoSOFT-Technologies/workflow-plugins/files/7755591/Untitled-1.pdf)
-
-![ExpenseClaim1](https://user-images.githubusercontent.com/80381121/147050532-e9bec648-d2e1-4d07-bf16-d66b58f8fbc6.png)
-![ExpenseClaim2](https://user-images.githubusercontent.com/80381121/147060984-a9cfcdb7-db90-4206-8be3-6df06dc6427d.png)
-![ExpenseClaim3](https://user-images.githubusercontent.com/80381121/147060994-d5f1f1a9-0956-47be-9205-27e52af62e87.png)
+![ExpenseClaim4](https://user-images.githubusercontent.com/80381121/147062793-86be93d3-e39c-4bde-8560-5a5b265df7da.png)
+![ExpenseClaim5](https://user-images.githubusercontent.com/80381121/147062800-1271d309-9c03-4c5a-bba1-045537d57795.png)
+![ExpenseClaim6](https://user-images.githubusercontent.com/80381121/147062805-18045863-5515-46c9-9f09-c40bba93aa04.png)
