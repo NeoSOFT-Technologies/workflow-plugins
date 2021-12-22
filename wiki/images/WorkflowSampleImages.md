@@ -9,3 +9,5 @@
 [Untitled-1.pdf](https://github.com/NeoSOFT-Technologies/workflow-plugins/files/7755591/Untitled-1.pdf)
 
 ![ExpenseClaim1](https://user-images.githubusercontent.com/80381121/147050532-e9bec648-d2e1-4d07-bf16-d66b58f8fbc6.png)
+![ExpenseClaim2](https://user-images.githubusercontent.com/80381121/147060984-a9cfcdb7-db90-4206-8be3-6df06dc6427d.png)
+![ExpenseClaim3](https://user-images.githubusercontent.com/80381121/147060994-d5f1f1a9-0956-47be-9205-27e52af62e87.png)
