@@ -28,3 +28,22 @@
 ![OrderItems8](https://user-images.githubusercontent.com/80381121/147078797-04865e03-a646-484d-8049-f8168b8a2427.png)
 
 ![CF_ForEach2](https://user-images.githubusercontent.com/80381121/147079415-50657488-16de-496b-ae89-1cb4c0a060bb.png)
+
+
+# Ticket Prpcessing
+
+![TicketProcessing1](https://user-images.githubusercontent.com/80381121/147090911-8a1fae51-2357-4e40-8fc6-b8fdcf8f8ac6.png)
+![TicketProcessing2](https://user-images.githubusercontent.com/80381121/147090912-db8a8a13-72f1-477e-bcce-7bff8a308dd9.png)
+![TicketProcessing3](https://user-images.githubusercontent.com/80381121/147090913-935b90f6-7985-46e5-ad46-2cda9cc50b65.png)
+![TicketProcessing4](https://user-images.githubusercontent.com/80381121/147090914-7f3f5cf7-30ad-4ab7-82a0-f05f7bbfe59f.png)
+![TicketProcessing5](https://user-images.githubusercontent.com/80381121/147090916-d7968373-4ff7-4bb3-9a7a-b04172151dae.png)
+![TicketProcessing6](https://user-images.githubusercontent.com/80381121/147090919-ab29b90a-f7ce-46da-b5cf-4af80b1c5334.png)
+
+![CF_IfElse](https://user-images.githubusercontent.com/80381121/147090902-7bab114f-e9d9-4691-8571-1cc190277f92.png)
+![CF_IfElse2](https://user-images.githubusercontent.com/80381121/147090904-36fe06a4-1fd9-4926-9160-3326b1fe4477.png)
+
+![Correlate1](https://user-images.githubusercontent.com/80381121/147090907-fdeb6f7b-a345-4948-8c36-23b763b0f7ce.png)
+![Correlate2](https://user-images.githubusercontent.com/80381121/147090909-00049ef3-f299-497a-9e0b-1fef0ac9abaf.png)
+
+![Timer2](https://user-images.githubusercontent.com/80381121/147090920-64635042-6a56-4f2f-9c33-28eaca649bbe.png)
+![Timer3](https://user-images.githubusercontent.com/80381121/147090922-8f9e257a-da5e-4744-b6e3-148e76794cb8.png)
