@@ -8,3 +8,6 @@
 ![Start1](https://user-images.githubusercontent.com/80381121/145993625-462e6df0-a833-4fc0-9030-6f2f646661f3.png)
 ![Start2](https://user-images.githubusercontent.com/80381121/145993637-fe7ca70d-5baa-4aae-aff7-71683ad6e52a.png)
 ![Start3](https://user-images.githubusercontent.com/80381121/145993647-e1185072-f98d-4da6-8a18-0623d1dc1387.png)
+
+![BenefitsOfWorkflow](https://user-images.githubusercontent.com/80381121/147328733-1a108852-922c-4ae6-b50a-a7bbc6e14ca8.png)
+![InterProcessIntegrations](https://user-images.githubusercontent.com/80381121/147328746-d4c6ee8e-f4a7-4a09-b2c5-2f85f7583075.png)
