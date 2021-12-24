@@ -60,4 +60,8 @@
 ![MN_NGIXResult6](https://user-images.githubusercontent.com/80381121/146744875-0f563a75-afc2-44a2-9e0e-95b36524206c.png)
 
 
+![SingleNode2](https://user-images.githubusercontent.com/80381121/147354120-cac392f6-e795-46c8-81cc-f8b744a5d16e.png)
+![MultiNode2](https://user-images.githubusercontent.com/80381121/147354133-5acaeb8f-d6e1-44c1-85b1-36a29e19311c.png)
+
+
 
