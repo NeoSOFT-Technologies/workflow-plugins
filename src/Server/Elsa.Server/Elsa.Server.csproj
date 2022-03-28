@@ -5,13 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elsa" Version="2.3.0" />
-    <PackageReference Include="Elsa.Activities.Email" Version="2.3.0" />
-    <PackageReference Include="Elsa.Activities.Http" Version="2.3.0" />
-    <PackageReference Include="Elsa.Activities.Temporal.Quartz" Version="2.3.0" />
-    <PackageReference Include="Elsa.Designer.Components.Web" Version="2.3.0" />
-    <PackageReference Include="Elsa.Persistence.EntityFramework.SqlServer" Version="2.3.0" />
-    <PackageReference Include="Elsa.Server.Api" Version="2.3.0" />
+    <PackageReference Include="Elsa" Version="2.6.0" />
+    <PackageReference Include="Elsa.Activities.Email" Version="2.6.0" />
+    <PackageReference Include="Elsa.Activities.Http" Version="2.6.0" />
+    <PackageReference Include="Elsa.Activities.Temporal.Hangfire" Version="2.6.0" />
+    <PackageReference Include="Elsa.Activities.Temporal.Quartz" Version="2.6.0" />
+    <PackageReference Include="Elsa.Designer.Components.Web" Version="2.6.0" />
+    <PackageReference Include="Elsa.DistributedLocking.SqlServer" Version="2.6.0" />
+    <PackageReference Include="Elsa.Persistence.EntityFramework.SqlServer" Version="2.6.0" />
+    <PackageReference Include="Elsa.Providers.Redis" Version="2.6.0" />
+    <PackageReference Include="Elsa.Rebus.RabbitMq" Version="2.6.0" />
+    <PackageReference Include="Elsa.Server.Api" Version="2.6.0" />
+    <PackageReference Include="Hangfire.SqlServer" Version="1.7.28" />
+    <PackageReference Include="Rebus.GoogleCloudPubSub" Version="0.0.6" />
   </ItemGroup>
 
 </Project>
