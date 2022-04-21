@@ -35,7 +35,7 @@ services:
         - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
         - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
       
-  redis:
+  tyk-redis:
     image: redis:5.0-alpine
     ports:
       - 6379:6379

@@ -4,15 +4,19 @@ using Elsa.Persistence.EntityFramework.SqlServer;
 using Elsa.Rebus.RabbitMq;
 using Elsa.Server.Activities;
 using Elsa.Server.IServices;
+using Elsa.Server.Middleware;
 using Elsa.Server.Models.Sandbox;
 using Elsa.Server.Services;
 using Hangfire;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Rebus.Config;
+using AuthLibrary;
 
 namespace Elsa.Server
 {
@@ -51,11 +55,29 @@ namespace Elsa.Server
                     .AddActivity<BankAccountVerification>()
                 );
 
+            services.AddKeyCloakServices(Configuration);
             // Elsa API endpoints.
             services.AddElsaApiEndpoints();
-
+            services.AddControllers();
             // For Dashboard.
             services.AddRazorPages();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.Authority = Configuration["Jwt:Authority"];
+                    options.Audience = Configuration["Jwt:Audience"];
+                    options.IncludeErrorDetails = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        //ValidAudiences = new[] { "master-realm", "account" },
+                        ValidateIssuer = true,
+                        ValidIssuer = Configuration["Jwt:Authority"],
+                        ValidateLifetime = true,
+                        RequireExpirationTime = true
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,6 +93,7 @@ namespace Elsa.Server
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseMiddlewareExtensions();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -79,13 +102,14 @@ namespace Elsa.Server
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseAuthMiddleware();
             app.UseEndpoints(endpoints =>
             {
                 // Elsa API Endpoints are implemented as regular ASP.NET Core API controllers.
-                endpoints.MapControllers();
-
+                endpoints.MapControllers().RequireAuthorization();
+                //endpoints.MapControllers();
                 // For Dashboard.
                 endpoints.MapFallbackToPage("/_Host");
             });
