@@ -1,45 +1,21 @@
 version: '3'
 
-networks:
-  clean-network:
-  
 services:
-  mssql:
-    image: "mcr.microsoft.com/mssql/server"
-    ports:
-      - "1433:1433"
-    environment:
-        SA_PASSWORD: "2@LaiNw)PDvs^t>L!Ybt]6H^%h3U>M"
-        ACCEPT_EULA: "Y"
-    networks:
-      - clean-network
-
+  elsadb:
+    image: mongo
   smtp4dev:
     image: rnwood/smtp4dev:v3
-    restart: always
-    ports:
-      - '3000:80'
-      - '2525:25'
-      - '143:143'
-    volumes:
-        - smtp4dev-data:/smtp4dev
-    environment:
-      - ServerOptions__HostName=smtp4dev
-  
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    ports:
-        - 5672:5672
-        - 15672:15672
-    volumes:
-        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
-      
-  redis:
-    image: redis:5.0-alpine
-    ports:
-      - 6379:6379
-
+  elsa.server:
+    image: ${DOCKER_REGISTRY-}elsaserver
+    build:
+      context: .
+      dockerfile: src/Server/Elsa.Server/Dockerfile
+  orderitems.api:
+    image: ${DOCKER_REGISTRY-}orderitemsapi
+    build:
+      context: .
+      dockerfile: src/Api/OrderItems/OrderItems.API/Dockerfile
 
 volumes:
+  mongo_data: 
   smtp4dev-data:

@@ -22,7 +22,7 @@ namespace OrderItems.API.Controllers
             {
                 string json = JsonConvert.SerializeObject(order);
                 StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync("https://localhost:5001/PlaceOrder", httpContent);
+                HttpResponseMessage response = await client.PostAsync("http://elsaserver:80/PlaceOrder", httpContent);
             }
             return Ok();
         }

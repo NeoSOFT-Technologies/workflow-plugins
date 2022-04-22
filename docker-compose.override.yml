@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  elsadb:
+    container_name: elsadb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+  smtp4dev:
+    restart: always
+    ports:
+      - '3000:80'
+      - '2525:25'
+      - '143:143'
+    volumes:
+        - smtp4dev-data:/smtp4dev
+    environment:
+      - ServerOptions__HostName=smtp4dev
+  elsa.server:
+    container_name: elsaserver
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings:ElsaDb=mongodb://elsadb:27017/Elsa
+      - Elsa:Server:BaseUrl=http://localhost:8054
+      - Elsa:Smtp:Host=smtp4dev
+      - Elsa:Smtp:Port=25
+    ports:
+      - "8054:80"
+    depends_on:
+      - elsadb
+  orderitems.api:
+    container_name: orderitemsapi
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5000:80"

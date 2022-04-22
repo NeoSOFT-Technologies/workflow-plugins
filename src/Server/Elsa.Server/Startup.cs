@@ -1,18 +1,16 @@
-using Elsa.Extensions;
-using Elsa.Persistence.EntityFramework.Core.Extensions;
-using Elsa.Persistence.EntityFramework.SqlServer;
-using Elsa.Rebus.RabbitMq;
+using Elsa.Persistence.MongoDb;
 using Elsa.Server.Activities;
+using Elsa.Server.Extensions;
 using Elsa.Server.IServices;
 using Elsa.Server.Models.Sandbox;
 using Elsa.Server.Services;
-using Hangfire;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Rebus.Config;
 
 namespace Elsa.Server
 {
@@ -33,15 +31,9 @@ namespace Elsa.Server
             var elsaSection = Configuration.GetSection("Elsa");
 
             // Elsa services.
-            services.AddRedis("localhost:6379,abortConnect=false");
             services
                 .AddElsa(elsa => elsa
-                    .UseEntityFrameworkPersistence(ef => ef.UseSqlServer(Configuration.GetConnectionString("ElsaDb")))
-                    .UseRabbitMq("amqp://localhost:5672")
-                    .ConfigureDistributedLockProvider(options => options.UseSqlServerLockProvider(Configuration.GetConnectionString("ElsaDb")))
-                    .UseRedisCacheSignal()
-                    .AddHangfireTemporalActivities(hangfire => hangfire.UseSqlServerStorage(Configuration.GetConnectionString("ElsaDb")))
-
+                    .UseMongoDbPersistence(options => options.ConnectionString = Configuration.GetValue<string>("ConnectionStrings:ElsaDb"))
                     .AddConsoleActivities()
                     .AddHttpActivities(elsaSection.GetSection("Server").Bind)
                     .AddEmailActivities(elsaSection.GetSection("Smtp").Bind)
@@ -56,6 +48,8 @@ namespace Elsa.Server
 
             // For Dashboard.
             services.AddRazorPages();
+
+            services.AddHealthcheckExtensionService(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,6 +82,20 @@ namespace Elsa.Server
 
                 // For Dashboard.
                 endpoints.MapFallbackToPage("/_Host");
+            });
+
+            app.UseEndpoints(endpoints =>
+            {
+                //adding endpoint of health check for the health check ui in UI format
+                endpoints.MapHealthChecks("/healthz", new HealthCheckOptions
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
+
+                //map healthcheck ui endpoing - default is /healthchecks-ui/
+                endpoints.MapHealthChecksUI();
+
             });
         }
     }
