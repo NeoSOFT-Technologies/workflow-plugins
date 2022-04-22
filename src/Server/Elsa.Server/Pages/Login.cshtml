@@ -53,6 +53,42 @@
 
 <script>
     $(document).ready(function(){
+
+        var currentPath = window.location.pathname;
+        var param = window.location.search;
+        if(localStorage.accessToken != null && localStorage.scopes != null && param.indexOf("?") != -1)
+        {
+             var redirectPath = '/'+param.substr(param.indexOf("?") + 1);   
+            alert(redirectPath);
+            //window.location.pathname = p;
+
+            //var xmlHttp = new XMLHttpRequest();
+            //xmlHttp.open( "GET", "/"+p, false );  false for synchronous request
+            //xmlHttp.setRequestHeader("Authorization", 'Bearer ' + localStorage.accessToken);
+            //xmlHttp.send( null );
+
+             $.ajax({    
+                type: "GET",
+                url: redirectPath,
+                headers: {'Authorization': 'Bearer ' + localStorage.accessToken },
+                success: function(result) {
+
+                },  
+                error: function(jqXHR, textStatus, errorThrown) {  
+                    console.log(" redirect error" +textStatus+"          "+errorThrown + "     "+jqXHR);
+                    InvalidAuth();
+            }  
+            });
+
+            //$.ajaxSetup({
+            //    'headers':{
+            //        'Authorization': 'Bearer ' + localStorage.accessToken }
+            //    }
+            //);
+
+            //$(document).load('/'+p);
+        }
+
         var toast = new bootstrap.Toast($(".toast"));
         $("#formSubmit").click((event)=>{
             event.preventDefault(); 

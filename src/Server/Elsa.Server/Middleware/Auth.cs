@@ -38,13 +38,24 @@ namespace Elsa.Server.Middleware
                         goto skipAuth;
                 }
                 AuthHelper auth = new(_authService);
+                string controller;
+                if (context.Request.Path.StartsWithSegments("/v1"))
+                {
+                    controller = context.Request.Path.ToString().Split('/')[2];
+                }
+                else
+                {
+                    controller = context.Request.Path.ToString().Split('/')[1];
+                }
 
-                //if(context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                //{
-                //    var t = 0;
-                //}
+                string accessToken = context.Request.Headers["Authorization"];
+                if(accessToken == null )
+                {
+                    context.Response.Redirect("/Login?"+ controller);
+                    goto skipAuth;
+                }
 
-                string accessToken = context.Request.Headers["Authorization"].ToString().Substring("Bearer ".Length);
+                accessToken = accessToken.ToString().Substring("Bearer ".Length);
                 string method = context.Request.Method; // For Scope
                 string scope = "";
                 switch (method)
@@ -66,7 +77,7 @@ namespace Elsa.Server.Middleware
                 }
                 List<string> scopes = new List<string>();
                 scopes.Add(scope);
-                string controller = context.Request.Path.ToString().Split('/')[2];
+
                 if (controller == "activities" || controller == "workflow-storage-providers" || controller == "workflow-channels" || controller == "workflow-registry" || controller == "workflow-providers")
                     controller = "workflow-definitions";
 
@@ -85,8 +96,8 @@ namespace Elsa.Server.Middleware
             catch (Exception ex)
             {
                 context.Response.StatusCode = 404;
-                await context.Response.WriteAsync("Auth failed,   "+ex);
-                context.Response.Redirect("/Error");
+                await context.Response.WriteAsync("Auth failed,   " + ex);
+                context.Response.Redirect("/Login");
             }
 
             _logger.LogInformation("Auth Middleware completed");
