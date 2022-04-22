@@ -29,7 +29,6 @@ namespace Elsa.Server.Middleware
         public async Task InvokeAsync(HttpContext context)
         {
             _logger.LogInformation("Auth Middleware initiated");
-            string controller2 = context.Request.Path.ToString().Split('/')[2];
             try
             {
                 List<string> excludePaths = new() { "/Login", "/v1/features", "/favicon.ico", "/lib", "/_content", "/Auth" };
@@ -40,10 +39,10 @@ namespace Elsa.Server.Middleware
                 }
                 AuthHelper auth = new(_authService);
 
-                if(context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-                {
-                    var t = 0;
-                }
+                //if(context.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                //{
+                //    var t = 0;
+                //}
 
                 string accessToken = context.Request.Headers["Authorization"].ToString().Substring("Bearer ".Length);
                 string method = context.Request.Method; // For Scope

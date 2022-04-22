@@ -30,7 +30,6 @@
 </div>
     <script>
          $(document).ready(function(){
-             alert("document ready called");
             var wfDefinitionPerm;
             var wfInstancePerm;
 
@@ -298,8 +297,8 @@
                   $("elsa-workflow-definition-editor-screen textarea").prop('disabled',true);
                   $("elsa-workflow-definition-editor-screen button").prop('disabled',true);
                   $("elsa-workflow-publish-button").parent().parent().remove();
-                  $("div .context-menu-button-container").remove();
-                  //$("foreignObject button").remove();
+                  $("div .elsa--mt-2").remove();
+                  $('.add *').click(false);
                   $('button[type=submit]').remove();
                   $('.modal-content button').each(function(btn){
                       if($(this).text() == 'Cancel')
@@ -307,15 +306,6 @@
                           $(this).removeAttr('disabled');
                       }
                   });
-
-                  //$("foreignObject button").each(function(btn)
-                  //{
-                  //  if($(this).classList.contains('expand'))
-                  //  {
-                  //      $(this).remove();
-                  //  }
-                  //});
-
 
                   var t = document.querySelectorAll(".workflow-settings-button").forEach((item)=>{
 
