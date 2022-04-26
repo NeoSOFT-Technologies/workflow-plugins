@@ -348,7 +348,8 @@
                 // Register Axios middleware.
                 e.service.register({
                     onRequest(request) {
-                        request.headers = {'Authorization': 'Bearer ' + localStorage.accessToken };
+                        request.headers = {'Authorization': 'Bearer ' + localStorage.accessToken, 'Accept':'application/json', 'Content-Type':'application/json;'}
+
                         return request;
                     } 
                 });

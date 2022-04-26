@@ -78,7 +78,7 @@ namespace Elsa.Server.Middleware
                 List<string> scopes = new List<string>();
                 scopes.Add(scope);
 
-                if (controller == "activities" || controller == "workflow-storage-providers" || controller == "workflow-channels" || controller == "workflow-registry" || controller == "workflow-providers")
+                if (controller == "activities" || controller == "workflow-storage-providers" || controller == "workflow-channels" || controller == "workflow-registry" || controller == "workflow-providers" || controller == "scripting")
                     controller = "workflow-definitions";
 
                 bool permissionResult = await _authService.ValidateAllScopes(controller, scopes, accessToken);
