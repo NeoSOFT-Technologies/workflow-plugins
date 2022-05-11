@@ -9,11 +9,12 @@ WORKDIR /src
 COPY ["src/Server/Elsa.Server/Elsa.Server.csproj", "src/Server/Elsa.Server/"]
 RUN dotnet restore "src/Server/Elsa.Server/Elsa.Server.csproj"
 COPY . .
-WORKDIR "/src/src/Server/Elsa.Server"
-RUN dotnet build "Elsa.Server.csproj" -c Release -o /app/build
+WORKDIR /src
+COPY ["src/Server/Elsa.Server/Elsa.Server.csproj", "src/Server/Elsa.Server/"]
+RUN dotnet build "src/Server/Elsa.Server/Elsa.Server.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Elsa.Server.csproj" -c Release -o /app/publish
+RUN dotnet publish "src/Server/Elsa.Server/Elsa.Server.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app

@@ -9,7 +9,7 @@ services:
     image: ${DOCKER_REGISTRY-}elsaserver
     build:
       context: .
-      dockerfile: src/Server/Elsa.Server/Dockerfile
+      dockerfile: Dockerfile
   orderitems.api:
     image: ${DOCKER_REGISTRY-}orderitemsapi
     build:
