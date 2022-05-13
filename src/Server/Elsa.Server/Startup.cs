@@ -1,16 +1,20 @@
+using Elsa.Extensions;
 using Elsa.Persistence.MongoDb;
+using Elsa.Rebus.RabbitMq;
 using Elsa.Server.Activities;
 using Elsa.Server.Extensions;
 using Elsa.Server.IServices;
 using Elsa.Server.Models.Sandbox;
 using Elsa.Server.Services;
 using HealthChecks.UI.Client;
+using Medallion.Threading.Redis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StackExchange.Redis;
 
 namespace Elsa.Server
 {
@@ -31,13 +35,22 @@ namespace Elsa.Server
             var elsaSection = Configuration.GetSection("Elsa");
 
             // Elsa services.
+            services.AddRedis(Configuration.GetConnectionString("Redis"));
             services
                 .AddElsa(elsa => elsa
-                    .UseMongoDbPersistence(options => options.ConnectionString = Configuration.GetValue<string>("ConnectionStrings:ElsaDb"))
+                    .UseMongoDbPersistence(options => options.ConnectionString = Configuration.GetConnectionString("ElsaDb"))
+                    .UseRabbitMq(Configuration.GetConnectionString("RabbitMq")) // Service Bus Broker
+                    .ConfigureDistributedLockProvider(options => options.UseProviderFactory(sp => name =>
+                    {
+                        var connection = sp.GetRequiredService<IConnectionMultiplexer>();
+                        return new RedisDistributedLock(name, connection.GetDatabase());
+                    })) // Distributed Lock Provider
+                        .UseRedisCacheSignal()  // Redis Cache Signal for Distributed Cache Signal Provider
+                    //.UseRebusCacheSignal()
+                    .AddQuartzTemporalActivities()  // Distributed Temporal Services
                     .AddConsoleActivities()
                     .AddHttpActivities(elsaSection.GetSection("Server").Bind)
                     .AddEmailActivities(elsaSection.GetSection("Smtp").Bind)
-                    .AddQuartzTemporalActivities()
                     .AddWorkflowsFrom<Startup>()
                     .AddActivity<PanVerification>()
                     .AddActivity<BankAccountVerification>()
