@@ -46,7 +46,6 @@ namespace Elsa.Server
                         return new RedisDistributedLock(name, connection.GetDatabase());
                     })) // Distributed Lock Provider
                         .UseRedisCacheSignal()  // Redis Cache Signal for Distributed Cache Signal Provider
-                    //.UseRebusCacheSignal()
                     .AddQuartzTemporalActivities()  // Distributed Temporal Services
                     .AddConsoleActivities()
                     .AddHttpActivities(elsaSection.GetSection("Server").Bind)
