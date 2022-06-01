@@ -5,32 +5,32 @@ services:
     image: mongo
   smtp4dev:
     image: rnwood/smtp4dev:v3
-   elsa.server:
-     image: ${DOCKER_REGISTRY-}elsaserver
-     build:
-       context: .
-       dockerfile: Dockerfile
+  elsa.server:
+    image: ${DOCKER_REGISTRY-}elsaserver
+    build:
+      context: .
+      dockerfile: Dockerfile
   rabbitmq:
     image: rabbitmq:3-management-alpine
   redis:
     image: redis:5.0-alpine
-   mssql:
-     image: "mcr.microsoft.com/mssql/server"
-   orderitems.api:
-     image: ${DOCKER_REGISTRY-}orderitemsapi
-     build:
-       context: .
-       dockerfile: src/Api/OrderItems/OrderItems.API/Dockerfile
-   newprojectapprovalapi:
-     image: ${DOCKER_REGISTRY-}newprojectapprovalapi
-     build:
-       context: .
-       dockerfile: src/Api/NewProjectApprovalAPI/NewProjectApprovalAPI/Dockerfile
+  mssql:
+    image: "mcr.microsoft.com/mssql/server"
+  orderitems.api:
+    image: ${DOCKER_REGISTRY-}orderitemsapi
+    build:
+      context: .
+      dockerfile: src/Api/OrderItems/OrderItems.API/Dockerfile
+  newprojectapprovalapi:
+    image: ${DOCKER_REGISTRY-}newprojectapprovalapi
+    build:
+      context: .
+      dockerfile: src/Api/NewProjectApprovalAPI/NewProjectApprovalAPI/Dockerfile
 
 volumes:
   mongo_data: 
   smtp4dev-data:
-   sqlsystem:
-   sqldata:
-   sqllog:
-   sqlbackup:
+  sqlsystem:
+  sqldata:
+  sqllog:
+  sqlbackup:
