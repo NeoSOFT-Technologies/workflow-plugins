@@ -13,8 +13,10 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
+using System.IO;
 
 namespace Elsa.Server
 {
@@ -81,6 +83,13 @@ namespace Elsa.Server
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseFileServer(new FileServerOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(env.ContentRootPath, "Pages")),
+                    RequestPath = "/html"
+            });
 
             app.UseHttpActivities();
 
