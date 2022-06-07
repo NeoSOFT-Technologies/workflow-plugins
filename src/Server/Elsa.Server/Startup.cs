@@ -9,6 +9,7 @@ using Elsa.Server.Services;
 using HealthChecks.UI.Client;
 using Medallion.Threading.Redis;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
+using System;
 using System.IO;
 
 namespace Elsa.Server
@@ -37,7 +39,15 @@ namespace Elsa.Server
             var elsaSection = Configuration.GetSection("Elsa");
 
             // Elsa services.
-            services.AddRedis(Configuration.GetConnectionString("Redis"));
+            services.AddRedis(Configuration.GetConnectionString("Redis")); 
+            var redis = ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis"));
+            services.AddDataProtection()
+               .PersistKeysToStackExchangeRedis(redis, "DataProtection-Keys")
+               .AddKeyManagementOptions(options =>
+               {
+                   options.NewKeyLifetime = new TimeSpan(3650, 0, 0, 0);
+                   options.AutoGenerateKeys = true;
+               });
             services
                 .AddElsa(elsa => elsa
                     .UseMongoDbPersistence(options => options.ConnectionString = Configuration.GetConnectionString("ElsaDb"))
