@@ -41,6 +41,7 @@ namespace Elsa.Server
             // Elsa services.
             services.AddRedis(Configuration.GetConnectionString("Redis")); 
             var redis = ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis"));
+            // Added AddDataProtection
             services.AddDataProtection()
                .PersistKeysToStackExchangeRedis(redis, "DataProtection-Keys")
                .AddKeyManagementOptions(options =>

@@ -11,7 +11,9 @@ namespace Elsa.Server.Extensions
             services.AddHealthChecks()
                 .AddMongoDb(configuration.GetValue<string>("ConnectionStrings:ElsaDb"), tags: new[] {
                         "db",
-                        "all"});
+                        "all"})
+                .AddRabbitMQ(configuration.GetValue<string>("ConnectionStrings:RabbitMq"), name: "RabbitMQ", tags: new[] { "Service Bus Broker" })
+                .AddRedis(configuration.GetValue<string>("ConnectionStrings:Redis"), name: "Redis", tags: new[] { "Distributed Cache Signal Provider", "Distributed Lock Provider" });
             services.AddHealthChecksUI(opt =>
             {
                 opt.SetEvaluationTimeInSeconds(15); //time in seconds between check
