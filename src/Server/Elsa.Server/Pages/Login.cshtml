@@ -1,0 +1,153 @@
+﻿@page "/Login"
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Elsa.Server.Pages.LoginModel
+@{
+}
+
+<head>
+     <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.css" />
+</head>
+
+<section class="vh-100" style="background-color: #508bfc;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <h3 class="mb-5">Sign In</h3>
+
+            <div class="form-outline mb-4">
+              <input type="text" id="username" class="form-control form-control-lg" />
+              <label class="form-label" for="username">Username</label>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="password" id="password" class="form-control form-control-lg" />
+              <label class="form-label" for="password">Password</label>
+            </div>
+            </div>
+
+            <button class="my-2 btn btn-primary btn-lg btn-block" id="formSubmit">Login</button>
+
+          </div>
+        </div>
+      </div>
+      <div class="position-fixed bottom-0 end-0">
+    <div class="toast bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+  <div class="toast-header">
+    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body">
+    Authentication Failed !!!
+  </div>
+</div>
+</div>
+    </div>
+</section>
+
+
+
+<script>
+    $(document).ready(function(){
+
+
+        var dummyToken = "This is Dummy Token";
+
+        var currentPath = window.location.pathname;
+        var param = window.location.search;
+        if(localStorage.accessToken != null && localStorage.scopes != null)
+        {
+             window.location = "/";
+        }
+
+        var toast = new bootstrap.Toast($(".toast"));
+        $("#formSubmit").click((event)=>{
+            event.preventDefault(); 
+            var user = document.getElementById("username").value;
+            var pass = document.getElementById("password").value;
+            var payload = {"username":user,"password":pass};
+
+            if(user == "admin" && pass == "admin")
+            {
+                  localStorage.accessToken = dummyToken;
+                  getUserPermissions();
+                   setTimeout(()=>{
+                    window.location = "/";
+                    },100);
+            }
+            else
+            {
+                InvalidAuth();
+            }
+            //var url = "/Auth/Authenticate" 
+            
+            //$.ajax({    
+            //    type: "POST",
+            //    url: url,
+            //    data: JSON.stringify(payload),
+            //    dataType: "json",
+            //    contentType: "application/json",
+            //    success: function(result) {
+            //        localStorage.accessToken = result.access_token;
+            //        ValidAuth();
+            //        getUserPermissions();
+            //        setTimeout(()=>{
+            //        window.location = "/";
+            //        },100);
+            //    },  
+            //    error: function(jqXHR, textStatus, errorThrown) {  
+            //        console.log(textStatus+"          "+errorThrown + "     "+jqXHR);
+            //        InvalidAuth();
+            //}  
+            });
+
+            // Setting static value temporarily till accessToken is been not received from console
+            
+
+  //  localStorage.scopes = JSON.stringify([{"scopes":["view","edit","create"],"rsId":"460a5d16-9a1c-4081-9920-7579cc96c3bf","rsName":"workflow-definitions"},{"scopes":["view","edit","create"],"rsId":"a17ecabb-42bd-494f-a4de-8aa0486ccc06","rsName":"workflow-instances"}]);
+  //window.location = "/";
+  //      });
+
+
+        const getUserPermissions = () => {
+            var payload = {'request':{}};
+            var url = "/Auth/getuserpermissions?accessToken="+localStorage.accessToken;
+            $.ajax({        
+                type: "POSt",
+                url: url,
+                data: JSON.stringify(payload),
+                dataType: "json",
+                contentType: "application/json",
+                success: function(result) {
+                    localStorage.scopes = JSON.stringify(result);
+                    ValidAuth();
+                    return result;
+                },  
+                error: function(jqXHR, textStatus, errorThrown) {  
+                    console.log(" getPErm error" +textStatus+"          "+errorThrown + "     "+jqXHR);
+                    InvalidAuth();
+            }  
+            });
+        };
+
+        const InvalidAuth = () => {
+            $('#username').removeClass("is-valid");
+            $('#username').addClass("is-invalid");
+            $('#password').removeClass("is-valid");
+            $('#password').addClass("is-invalid");
+            toast.show();
+        }
+        const ValidAuth = () => {
+            $('#username').removeClass("is-invalid");
+            $('#username').addClass("is-valid");
+            $('#password').removeClass("is-invalid");
+            $('#password').addClass("is-valid");
+        }
+    });
+
+    
+</script>
