@@ -1,22 +1,14 @@
-using Elsa.Extensions;
-using Elsa.Persistence.MongoDb;
-using Elsa.Rebus.RabbitMq;
-using Elsa.Server.Activities;
+using Elsa.Persistence.EntityFramework.Core.Extensions;
+using Elsa.Persistence.EntityFramework.SqlServer;
 using Elsa.Server.Extensions;
-using Elsa.Server.IServices;
-using Elsa.Server.Models.Sandbox;
-using Elsa.Server.Services;
 using HealthChecks.UI.Client;
-using Medallion.Threading.Redis;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using StackExchange.Redis;
 using System;
 using System.IO;
 
@@ -34,38 +26,16 @@ namespace Elsa.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<SandboxSettings>(Configuration.GetSection("SandboxSettings"));
-            services.AddTransient<ISandboxService, SandboxService>();
             var elsaSection = Configuration.GetSection("Elsa");
 
             // Elsa services.
-            services.AddRedis(Configuration.GetConnectionString("Redis")); 
-            var redis = ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis"));
-            // Added AddDataProtection
-            services.AddDataProtection()
-               .PersistKeysToStackExchangeRedis(redis, "DataProtection-Keys")
-               .AddKeyManagementOptions(options =>
-               {
-                   options.NewKeyLifetime = new TimeSpan(3650, 0, 0, 0);
-                   options.AutoGenerateKeys = true;
-               });
             services
                 .AddElsa(elsa => elsa
-                    .UseMongoDbPersistence(options => options.ConnectionString = Configuration.GetConnectionString("ElsaDb"))
-                    .UseRabbitMq(Configuration.GetConnectionString("RabbitMq")) // Service Bus Broker
-                    .ConfigureDistributedLockProvider(options => options.UseProviderFactory(sp => name =>
-                    {
-                        var connection = sp.GetRequiredService<IConnectionMultiplexer>();
-                        return new RedisDistributedLock(name, connection.GetDatabase());
-                    })) // Distributed Lock Provider
-                        .UseRedisCacheSignal()  // Redis Cache Signal for Distributed Cache Signal Provider
-                    .AddQuartzTemporalActivities()  // Distributed Temporal Services
+                    .UseEntityFrameworkPersistence(ef => ef.UseSqlServer(Configuration.GetConnectionString("ElsaDb")))
                     .AddConsoleActivities()
                     .AddHttpActivities(elsaSection.GetSection("Server").Bind)
-                    .AddEmailActivities(elsaSection.GetSection("Smtp").Bind)
+                    //.AddEmailActivities(elsaSection.GetSection("Smtp").Bind)
                     .AddWorkflowsFrom<Startup>()
-                    .AddActivity<PanVerification>()
-                    .AddActivity<BankAccountVerification>()
                 );
 
             // Elsa API endpoints.

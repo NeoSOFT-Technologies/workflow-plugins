@@ -8,30 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Pages\getlocalstorage.html" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AspNetCore.HealthChecks.MongoDb" Version="5.0.1" />
-    <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="6.0.2" />
-    <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="6.0.4" />
     <PackageReference Include="AspNetCore.HealthChecks.UI" Version="5.0.1" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="5.0.1" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="5.0.1" />
     <PackageReference Include="AspNetCore.HealthChecks.Uris" Version="5.0.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="5.0.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.SqlServer.Storage" Version="3.1.2" />
     <PackageReference Include="Elsa" Version="2.6.0" />
     <PackageReference Include="Elsa.Activities.Email" Version="2.6.0" />
     <PackageReference Include="Elsa.Activities.Http" Version="2.6.0" />
-    <PackageReference Include="Elsa.Activities.Temporal.Quartz" Version="2.6.0" />
     <PackageReference Include="Elsa.Designer.Components.Web" Version="2.6.0" />
-    <PackageReference Include="Elsa.Persistence.MongoDb" Version="2.6.0" />
+	<PackageReference Include="Elsa.Persistence.EntityFramework.SqlServer" Version="2.6.0" />
     <PackageReference Include="Elsa.Server.Api" Version="2.6.0" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.5" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
-	<PackageReference Include="DistributedLock.Redis" Version="1.0.1" />
-	<PackageReference Include="Elsa.Providers.Redis" Version="2.6.0" />
-	<PackageReference Include="Elsa.Rebus.RabbitMq" Version="2.6.0" />
-	<PackageReference Include="StackExchange.Redis" Version="2.5.61" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

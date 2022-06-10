@@ -9,11 +9,9 @@ namespace Elsa.Server.Extensions
         public static IServiceCollection AddHealthcheckExtensionService(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddHealthChecks()
-                .AddMongoDb(configuration.GetValue<string>("ConnectionStrings:ElsaDb"), tags: new[] {
-                        "db",
-                        "all"})
-                .AddRabbitMQ(configuration.GetValue<string>("ConnectionStrings:RabbitMq"), name: "RabbitMQ", tags: new[] { "Service Bus Broker" })
-                .AddRedis(configuration.GetValue<string>("ConnectionStrings:Redis"), name: "Redis", tags: new[] { "Distributed Cache Signal Provider", "Distributed Lock Provider" });
+                .AddSqlServer(configuration["ConnectionStrings:ElsaDb"], tags: new[] {
+                            "db",
+                            "all"});
             services.AddHealthChecksUI(opt =>
             {
                 opt.SetEvaluationTimeInSeconds(15); //time in seconds between check
