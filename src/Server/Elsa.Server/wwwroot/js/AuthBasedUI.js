@@ -1,20 +1,40 @@
 ﻿$(document).ready(function () {
 
-    if (localStorage.scopes == null)
+    //if (localStorage.scopes == null)
+    //    window.location = "/login";
+
+    //localStorage.accessToken = "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJtTjJ1NE1hM2Qtc1BRcDBzYnZTUVp1UXpaT19jWDVTSHFuMTE3U1RaRF9jIn0.eyJleHAiOjE2NTQ4OTQyNjYsImlhdCI6MTY1NDg1ODI2NiwianRpIjoiZjE4YWZjMTctNTg4MC00NjRiLThkNTMtMGJlZDM1M2IzYzYyIiwiaXNzIjoiaHR0cHM6Ly9pYW0ta2V5Y2xvYWsubmVvc29mdHRlY2guY29tL2F1dGgvcmVhbG1zL21hc3RlciIsImF1ZCI6WyJUZW5hbnQxLXJlYWxtIiwibWFzdGVyLXJlYWxtIiwiYWNjb3VudCJdLCJzdWIiOiIzODM2ODc2YS0xMjVhLTQ5M2ItYjQzZC03YzAxMzE4ODVlMmIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJhZG1pbi1jbGkiLCJzZXNzaW9uX3N0YXRlIjoiMzcwMjJkMWMtZTFjMC00YWFiLWE5YzgtZWIyZGMyODVmNGY4IiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJjcmVhdGUtcmVhbG0iLCJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIm9mZmxpbmVfYWNjZXNzIiwiYWRtaW4iLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7IlRlbmFudDEtcmVhbG0iOnsicm9sZXMiOlsidmlldy1pZGVudGl0eS1wcm92aWRlcnMiLCJ2aWV3LXJlYWxtIiwibWFuYWdlLWlkZW50aXR5LXByb3ZpZGVycyIsImltcGVyc29uYXRpb24iLCJjcmVhdGUtY2xpZW50IiwibWFuYWdlLXVzZXJzIiwicXVlcnktcmVhbG1zIiwidmlldy1hdXRob3JpemF0aW9uIiwicXVlcnktY2xpZW50cyIsInF1ZXJ5LXVzZXJzIiwibWFuYWdlLWV2ZW50cyIsIm1hbmFnZS1yZWFsbSIsInZpZXctZXZlbnRzIiwidmlldy11c2VycyIsInZpZXctY2xpZW50cyIsIm1hbmFnZS1hdXRob3JpemF0aW9uIiwibWFuYWdlLWNsaWVudHMiLCJxdWVyeS1ncm91cHMiXX0sIm1hc3Rlci1yZWFsbSI6eyJyb2xlcyI6WyJ2aWV3LWlkZW50aXR5LXByb3ZpZGVycyIsInZpZXctcmVhbG0iLCJtYW5hZ2UtaWRlbnRpdHktcHJvdmlkZXJzIiwiaW1wZXJzb25hdGlvbiIsImNyZWF0ZS1jbGllbnQiLCJtYW5hZ2UtdXNlcnMiLCJxdWVyeS1yZWFsbXMiLCJ2aWV3LWF1dGhvcml6YXRpb24iLCJxdWVyeS1jbGllbnRzIiwicXVlcnktdXNlcnMiLCJtYW5hZ2UtZXZlbnRzIiwibWFuYWdlLXJlYWxtIiwidmlldy1ldmVudHMiLCJ2aWV3LXVzZXJzIiwidmlldy1jbGllbnRzIiwibWFuYWdlLWF1dGhvcml6YXRpb24iLCJtYW5hZ2UtY2xpZW50cyIsInF1ZXJ5LWdyb3VwcyJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiMzcwMjJkMWMtZTFjMC00YWFiLWE5YzgtZWIyZGMyODVmNGY4IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiU2FudG9zaCBTaGluZGUiLCJwZXJtaXNzaW9uIjpbImNyZWF0ZSIsInZpZXciLCJlZGl0IiwiZGVsZXRlIl0sInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIiwiZ2l2ZW5fbmFtZSI6IlNhbnRvc2giLCJmYW1pbHlfbmFtZSI6IlNoaW5kZSIsImVtYWlsIjoic2FudG9zaC5zaGluZGVAbmVvc29mdHRlY2guY29tIn0.I2Oc4qcGIKt9KoYCq-CNSM5Tr294Sb2_C8xAfliePtQCGt2tjGNGLKFeQI39cZWORNNgni-y1kouCjLe4tER6dgq2QHSV-5VRiiaXmEX0Z5ktGrRAsFF_G1O8QYlqgSxESPqE_2MHHV5fI7BsgTMcjRtQgV2yKtQi6hycxum33l0slrQoHwx6wO4oc38-iqcPovNrm0Vy1au-PtF9TGCK8uwDtliN5-7W8aLLRqCZSG2ykGOKZUJVaXxJLOClhhrN3l-tNH7FJU5RXsJaYiaToiBbptDqPqbxQwR-C7Y2LZbR2k5_ieCEvAOZryI2fUitgz260NFZtAg73Pm0S-Ulg";
+
+    if (localStorage.accessToken == null) {
         window.location = "/login";
- 
-    
-    var wfDefinitionPerm;
-    var wfInstancePerm;
+    }
+    else {
+        var token = localStorage.accessToken;
+        var jwtData = token.split('.')[1]
+        var decodedJwtJsonData = window.atob(jwtData)
+        var decodedJwtData = JSON.parse(decodedJwtJsonData)
+        console.log(decodedJwtData);
+        console.log(decodedJwtData.permission);
+        if (decodedJwtData.permission == null)
+            window.location = "/login";
+        //else
+        //    localStorage.permission = JSON.stringify(decodedJwtData.permission);
+    }
 
-    var tmp = JSON.parse(localStorage.scopes);
-    tmp.forEach((obj) => {
-        if (obj.rsName == 'workflow-definitions')
-            wfDefinitionPerm = obj.scopes;
+    var wfDefinitionPerm = decodedJwtData.permission;
+    var wfInstancePerm = decodedJwtData.permission;
 
-        if (obj.rsName == 'workflow-instances')
-            wfInstancePerm = obj.scopes;
-    });
+
+    console.log(wfDefinitionPerm.length);
+    console.log(wfInstancePerm.length);
+    //var tmp = JSON.parse(localStorage.scopes);
+    //tmp.forEach((obj) => {
+    //    if (obj.rsName == 'workflow-definitions')
+    //        wfDefinitionPerm = obj.scopes;
+
+    //    if (obj.rsName == 'workflow-instances')
+    //        wfInstancePerm = obj.scopes;
+    //});
 
     MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
@@ -286,6 +306,8 @@ function AuthorizationMiddlewarePlugin(elsaStudio) {
         e.service.register({
             onRequest(request) {
                 request.headers = { 'Authorization': 'Bearer ' + localStorage.accessToken, 'Accept': 'application/json', 'Content-Type': 'application/json;' }
+                console.log(request);
+                console.log(request.headers);
                 return request; 
             }
         });

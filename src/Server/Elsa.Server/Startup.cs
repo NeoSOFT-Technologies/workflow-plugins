@@ -19,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 using System;
@@ -80,23 +81,23 @@ namespace Elsa.Server
             services.AddRazorPages();
 
             services.AddHealthcheckExtensionService(Configuration);
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(options =>
-            //    {
-            //        options.RequireHttpsMetadata = false;
-            //        options.Authority = Configuration["Jwt:Authority"];
-            //        options.Audience = Configuration["Jwt:Audience"];
-            //        options.IncludeErrorDetails = true;
-            //        options.TokenValidationParameters = new TokenValidationParameters
-            //        {
-            //            ValidateAudience = false,
-            //            //ValidAudiences = new[] { "master-realm", "account" },
-            //            ValidateIssuer = true,
-            //            ValidIssuer = Configuration["Jwt:Authority"],
-            //            ValidateLifetime = true,
-            //            RequireExpirationTime = true
-            //        };
-            //    });
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.Authority = Configuration["Jwt:Authority"];
+                    options.Audience = Configuration["Jwt:Audience"];
+                    options.IncludeErrorDetails = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        //ValidAudiences = new[] { "master-realm", "account" },
+                        ValidateIssuer = true,
+                        ValidIssuer = Configuration["Jwt:Authority"],
+                        ValidateLifetime = true,
+                        RequireExpirationTime = true
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,6 +106,7 @@ namespace Elsa.Server
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                IdentityModelEventSource.ShowPII = true;
             }
             else
             {
@@ -129,9 +131,9 @@ namespace Elsa.Server
 
             app.UseAuthentication();
 
-            ////app.UseAuthorization();
+            app.UseAuthorization();
 
-            //app.UseAuthMiddleware();
+            app.UseAuthMiddleware();
 
             app.UseEndpoints(endpoints =>
             {
@@ -150,8 +152,8 @@ namespace Elsa.Server
                     Predicate = _ => true,
                     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
                 });
-                endpoints.MapControllers();
-                //endpoints.MapControllers().RequireAuthorization();
+                //endpoints.MapControllers();
+                endpoints.MapControllers().RequireAuthorization();
 
                 //map healthcheck ui endpoing - default is /healthchecks-ui/
                 endpoints.MapHealthChecksUI();

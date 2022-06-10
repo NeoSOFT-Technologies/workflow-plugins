@@ -16,9 +16,9 @@
             //var msg = JSON.parse(event.data);
             // var msgKey = Object.keys(msg)[0];
             if (event.data) {
-                localStorage.setItem("localstorage", JSON.stringify(event.data));
+                localStorage.setItem("accessToken", event.data["login"]);
             } else {
-                localStorage.removeItem("localstorage");
+                localStorage.removeItem("accessToken");
             }
         }
     });
