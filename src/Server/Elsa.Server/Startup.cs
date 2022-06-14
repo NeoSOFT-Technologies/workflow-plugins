@@ -34,7 +34,7 @@ namespace Elsa.Server
                     .UseEntityFrameworkPersistence(ef => ef.UseSqlServer(Configuration.GetConnectionString("ElsaDb")))
                     .AddConsoleActivities()
                     .AddHttpActivities(elsaSection.GetSection("Server").Bind)
-                    //.AddEmailActivities(elsaSection.GetSection("Smtp").Bind)
+                    .AddEmailActivities(elsaSection.GetSection("Smtp").Bind)
                     .AddWorkflowsFrom<Startup>()
                 );
 

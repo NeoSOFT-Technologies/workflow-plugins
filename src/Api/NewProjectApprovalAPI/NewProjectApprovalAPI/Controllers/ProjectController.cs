@@ -25,19 +25,19 @@ namespace NewProjectApprovalAPI.Controllers
         [HttpPost("AddProject")]
         public async Task<Project> Create(Project projectObj)
         {
-            var response = await _projectRepository.AddAsync(projectObj);
+            //var response = await _projectRepository.AddAsync(projectObj);
 
             using (HttpClient client = new HttpClient())
             {
-                string json = JsonConvert.SerializeObject(response);
+                string json = JsonConvert.SerializeObject(projectObj);
 
                 StringContent httpContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                HttpResponseMessage response1 = client.PostAsync("http://elsa.server:80/project-approval", httpContent).Result;
+                HttpResponseMessage response1 = client.PostAsync("http://localhost:8054/project-approval", httpContent).Result;
             }
 
 
-            return response;
+            return projectObj;
         }
 
         [HttpGet("GetManagerDetails")]
