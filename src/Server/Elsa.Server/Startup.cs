@@ -35,6 +35,7 @@ namespace Elsa.Server
                     .AddConsoleActivities()
                     .AddHttpActivities(elsaSection.GetSection("Server").Bind)
                     .AddEmailActivities(elsaSection.GetSection("Smtp").Bind)
+                    .AddQuartzTemporalActivities()
                     .AddWorkflowsFrom<Startup>()
                 );
 
