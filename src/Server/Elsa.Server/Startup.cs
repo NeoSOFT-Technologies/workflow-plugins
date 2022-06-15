@@ -76,7 +76,7 @@ namespace Elsa.Server
             services.AddKeyCloakServices(Configuration);
             // Elsa API endpoints.
             services.AddElsaApiEndpoints();
-            services.AddControllers();
+            //services.AddControllers();
             // For Dashboard.
             services.AddRazorPages();
 
@@ -133,7 +133,10 @@ namespace Elsa.Server
 
             app.UseAuthorization();
 
-            app.UseAuthMiddleware();
+            app.UseWhen(context => !context.Request.Path.StartsWithSegments("/login"), appBuilder =>
+            {
+                appBuilder.UseAuthMiddleware();
+            });
 
             app.UseEndpoints(endpoints =>
             {
@@ -153,7 +156,7 @@ namespace Elsa.Server
                     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
                 });
                 //endpoints.MapControllers();
-                endpoints.MapControllers().RequireAuthorization();
+                endpoints.MapControllers();
 
                 //map healthcheck ui endpoing - default is /healthchecks-ui/
                 endpoints.MapHealthChecksUI();

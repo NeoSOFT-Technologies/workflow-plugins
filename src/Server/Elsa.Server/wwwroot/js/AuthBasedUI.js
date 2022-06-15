@@ -13,8 +13,6 @@
         var jwtData = token.split('.')[1]
         var decodedJwtJsonData = window.atob(jwtData)
         var decodedJwtData = JSON.parse(decodedJwtJsonData)
-        console.log(decodedJwtData);
-        console.log(decodedJwtData.permission);
         if (decodedJwtData.permission == null)
             window.location = "/login";
         //else
@@ -24,23 +22,10 @@
     var wfDefinitionPerm = decodedJwtData.permission;
     var wfInstancePerm = decodedJwtData.permission;
 
-
-    console.log(wfDefinitionPerm.length);
-    console.log(wfInstancePerm.length);
-    //var tmp = JSON.parse(localStorage.scopes);
-    //tmp.forEach((obj) => {
-    //    if (obj.rsName == 'workflow-definitions')
-    //        wfDefinitionPerm = obj.scopes;
-
-    //    if (obj.rsName == 'workflow-instances')
-    //        wfInstancePerm = obj.scopes;
-    //});
-
     MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
     var observer = new MutationObserver(function (mutations, observer) {
-
-        //alert("mutation observer called");
+;
 
         //condition checks workflow definition page
         if (window.location.href.indexOf("/workflow-definitions") > -1) {
@@ -306,8 +291,6 @@ function AuthorizationMiddlewarePlugin(elsaStudio) {
         e.service.register({
             onRequest(request) {
                 request.headers = { 'Authorization': 'Bearer ' + localStorage.accessToken, 'Accept': 'application/json', 'Content-Type': 'application/json;' }
-                console.log(request);
-                console.log(request.headers);
                 return request; 
             }
         });

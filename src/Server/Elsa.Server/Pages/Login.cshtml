@@ -55,7 +55,7 @@
     $(document).ready(function(){
 
 
-        var dummyToken = "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJtTjJ1NE1hM2Qtc1BRcDBzYnZTUVp1UXpaT19jWDVTSHFuMTE3U1RaRF9jIn0.eyJleHAiOjE2NTQ4OTQyNjYsImlhdCI6MTY1NDg1ODI2NiwianRpIjoiZjE4YWZjMTctNTg4MC00NjRiLThkNTMtMGJlZDM1M2IzYzYyIiwiaXNzIjoiaHR0cHM6Ly9pYW0ta2V5Y2xvYWsubmVvc29mdHRlY2guY29tL2F1dGgvcmVhbG1zL21hc3RlciIsImF1ZCI6WyJUZW5hbnQxLXJlYWxtIiwibWFzdGVyLXJlYWxtIiwiYWNjb3VudCJdLCJzdWIiOiIzODM2ODc2YS0xMjVhLTQ5M2ItYjQzZC03YzAxMzE4ODVlMmIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJhZG1pbi1jbGkiLCJzZXNzaW9uX3N0YXRlIjoiMzcwMjJkMWMtZTFjMC00YWFiLWE5YzgtZWIyZGMyODVmNGY4IiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJjcmVhdGUtcmVhbG0iLCJkZWZhdWx0LXJvbGVzLW1hc3RlciIsIm9mZmxpbmVfYWNjZXNzIiwiYWRtaW4iLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7IlRlbmFudDEtcmVhbG0iOnsicm9sZXMiOlsidmlldy1pZGVudGl0eS1wcm92aWRlcnMiLCJ2aWV3LXJlYWxtIiwibWFuYWdlLWlkZW50aXR5LXByb3ZpZGVycyIsImltcGVyc29uYXRpb24iLCJjcmVhdGUtY2xpZW50IiwibWFuYWdlLXVzZXJzIiwicXVlcnktcmVhbG1zIiwidmlldy1hdXRob3JpemF0aW9uIiwicXVlcnktY2xpZW50cyIsInF1ZXJ5LXVzZXJzIiwibWFuYWdlLWV2ZW50cyIsIm1hbmFnZS1yZWFsbSIsInZpZXctZXZlbnRzIiwidmlldy11c2VycyIsInZpZXctY2xpZW50cyIsIm1hbmFnZS1hdXRob3JpemF0aW9uIiwibWFuYWdlLWNsaWVudHMiLCJxdWVyeS1ncm91cHMiXX0sIm1hc3Rlci1yZWFsbSI6eyJyb2xlcyI6WyJ2aWV3LWlkZW50aXR5LXByb3ZpZGVycyIsInZpZXctcmVhbG0iLCJtYW5hZ2UtaWRlbnRpdHktcHJvdmlkZXJzIiwiaW1wZXJzb25hdGlvbiIsImNyZWF0ZS1jbGllbnQiLCJtYW5hZ2UtdXNlcnMiLCJxdWVyeS1yZWFsbXMiLCJ2aWV3LWF1dGhvcml6YXRpb24iLCJxdWVyeS1jbGllbnRzIiwicXVlcnktdXNlcnMiLCJtYW5hZ2UtZXZlbnRzIiwibWFuYWdlLXJlYWxtIiwidmlldy1ldmVudHMiLCJ2aWV3LXVzZXJzIiwidmlldy1jbGllbnRzIiwibWFuYWdlLWF1dGhvcml6YXRpb24iLCJtYW5hZ2UtY2xpZW50cyIsInF1ZXJ5LWdyb3VwcyJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIiwic2lkIjoiMzcwMjJkMWMtZTFjMC00YWFiLWE5YzgtZWIyZGMyODVmNGY4IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiU2FudG9zaCBTaGluZGUiLCJwZXJtaXNzaW9uIjpbImNyZWF0ZSIsInZpZXciLCJlZGl0IiwiZGVsZXRlIl0sInByZWZlcnJlZF91c2VybmFtZSI6ImFkbWluIiwiZ2l2ZW5fbmFtZSI6IlNhbnRvc2giLCJmYW1pbHlfbmFtZSI6IlNoaW5kZSIsImVtYWlsIjoic2FudG9zaC5zaGluZGVAbmVvc29mdHRlY2guY29tIn0.I2Oc4qcGIKt9KoYCq-CNSM5Tr294Sb2_C8xAfliePtQCGt2tjGNGLKFeQI39cZWORNNgni-y1kouCjLe4tER6dgq2QHSV-5VRiiaXmEX0Z5ktGrRAsFF_G1O8QYlqgSxESPqE_2MHHV5fI7BsgTMcjRtQgV2yKtQi6hycxum33l0slrQoHwx6wO4oc38-iqcPovNrm0Vy1au-PtF9TGCK8uwDtliN5-7W8aLLRqCZSG2ykGOKZUJVaXxJLOClhhrN3l-tNH7FJU5RXsJaYiaToiBbptDqPqbxQwR-C7Y2LZbR2k5_ieCEvAOZryI2fUitgz260NFZtAg73Pm0S-Ulg";
+        var dummyToken = "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJtTjJ1NE1hM2Qtc1BRcDBzYnZTUVp1UXpaT19jWDVTSHFuMTE3U1RaRF9jIn0.eyJleHAiOjE2NTUyMzAyMzAsImlhdCI6MTY1NTE5NDIzMCwianRpIjoiZDViNWI1MmQtYzQwZi00ZDU0LTlhZDQtZDkxMDE1OWUxNjU0IiwiaXNzIjoiaHR0cHM6Ly9pYW0ta2V5Y2xvYWsubmVvc29mdHRlY2guY29tL2F1dGgvcmVhbG1zL21hc3RlciIsImF1ZCI6WyJUZW5hbnQxLXJlYWxtIiwibWFzdGVyLXJlYWxtIiwiYWNjb3VudCIsIlRlbmFudDItcmVhbG0iXSwic3ViIjoiMzgzNjg3NmEtMTI1YS00OTNiLWI0M2QtN2MwMTMxODg1ZTJiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiYWRtaW4tY2xpIiwic2Vzc2lvbl9zdGF0ZSI6ImNlNDU3Y2ZhLTJmOTItNGM4OC05MzgzLTI1YWMxMmRjOTE2YyIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsiY3JlYXRlLXJlYWxtIiwiZGVmYXVsdC1yb2xlcy1tYXN0ZXIiLCJvZmZsaW5lX2FjY2VzcyIsImFkbWluIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJUZW5hbnQxLXJlYWxtIjp7InJvbGVzIjpbInZpZXctcmVhbG0iLCJ2aWV3LWlkZW50aXR5LXByb3ZpZGVycyIsIm1hbmFnZS1pZGVudGl0eS1wcm92aWRlcnMiLCJpbXBlcnNvbmF0aW9uIiwiY3JlYXRlLWNsaWVudCIsIm1hbmFnZS11c2VycyIsInF1ZXJ5LXJlYWxtcyIsInZpZXctYXV0aG9yaXphdGlvbiIsInF1ZXJ5LWNsaWVudHMiLCJxdWVyeS11c2VycyIsIm1hbmFnZS1ldmVudHMiLCJtYW5hZ2UtcmVhbG0iLCJ2aWV3LWV2ZW50cyIsInZpZXctdXNlcnMiLCJ2aWV3LWNsaWVudHMiLCJtYW5hZ2UtYXV0aG9yaXphdGlvbiIsIm1hbmFnZS1jbGllbnRzIiwicXVlcnktZ3JvdXBzIl19LCJtYXN0ZXItcmVhbG0iOnsicm9sZXMiOlsidmlldy1pZGVudGl0eS1wcm92aWRlcnMiLCJ2aWV3LXJlYWxtIiwibWFuYWdlLWlkZW50aXR5LXByb3ZpZGVycyIsImltcGVyc29uYXRpb24iLCJjcmVhdGUtY2xpZW50IiwibWFuYWdlLXVzZXJzIiwicXVlcnktcmVhbG1zIiwidmlldy1hdXRob3JpemF0aW9uIiwicXVlcnktY2xpZW50cyIsInF1ZXJ5LXVzZXJzIiwibWFuYWdlLWV2ZW50cyIsIm1hbmFnZS1yZWFsbSIsInZpZXctZXZlbnRzIiwidmlldy11c2VycyIsInZpZXctY2xpZW50cyIsIm1hbmFnZS1hdXRob3JpemF0aW9uIiwibWFuYWdlLWNsaWVudHMiLCJxdWVyeS1ncm91cHMiXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfSwiVGVuYW50Mi1yZWFsbSI6eyJyb2xlcyI6WyJ2aWV3LXJlYWxtIiwidmlldy1pZGVudGl0eS1wcm92aWRlcnMiLCJtYW5hZ2UtaWRlbnRpdHktcHJvdmlkZXJzIiwiaW1wZXJzb25hdGlvbiIsImNyZWF0ZS1jbGllbnQiLCJtYW5hZ2UtdXNlcnMiLCJxdWVyeS1yZWFsbXMiLCJ2aWV3LWF1dGhvcml6YXRpb24iLCJxdWVyeS1jbGllbnRzIiwicXVlcnktdXNlcnMiLCJtYW5hZ2UtZXZlbnRzIiwibWFuYWdlLXJlYWxtIiwidmlldy1ldmVudHMiLCJ2aWV3LXVzZXJzIiwidmlldy1jbGllbnRzIiwibWFuYWdlLWF1dGhvcml6YXRpb24iLCJtYW5hZ2UtY2xpZW50cyIsInF1ZXJ5LWdyb3VwcyJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsInNpZCI6ImNlNDU3Y2ZhLTJmOTItNGM4OC05MzgzLTI1YWMxMmRjOTE2YyIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6IlNhbnRvc2ggU2hpbmRlIiwicGVybWlzc2lvbiI6WyJjcmVhdGUiLCJ2aWV3IiwiZWRpdCIsImRlbGV0ZSJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiIsImdpdmVuX25hbWUiOiJTYW50b3NoIiwiZmFtaWx5X25hbWUiOiJTaGluZGUiLCJlbWFpbCI6InNhbnRvc2guc2hpbmRlQG5lb3NvZnR0ZWNoLmNvbSJ9.mJ2hNmREiYpUb4Mid7qR9yyqnsKA6QeGoazK2lLNuUaW6sZ3u6AaGvW4LwKgu0U5Bw8O2YBhKNhbic3ejUit7KaJTfZtWs5LWXv48kPODXF0U9pP2xAPH94Qh_PTMAtvc7V57HOfJLvf9W6DNk5LL_AKnsaJ3zwfcerpauiCLIfPZ_hgAENXzqPPKdunIDaz-5VHBLRSQQMGKQVVgxiFPoAJAwJUuXPgpkz-PqtbT9DfdA1u-jnuHBJHcV1Ye9Jd4kMMaiaAmVxoAsZEstQTnE6cRMkB9l8dyh0zOwruf6AZsWl493JDNeedHZ6FJ_maIOpSQq5MnctEbmgufU9q1Q";
 
         var currentPath = window.location.pathname;
         var param = window.location.search;
@@ -74,65 +74,37 @@
             if(user == "admin" && pass == "admin")
             {
                   localStorage.accessToken = dummyToken;
+                  ValidAuth();
                   //getUserPermissions();
                    setTimeout(()=>{
                     window.location = "/";
                     },100);
             }
             else
-            {
                 InvalidAuth();
-            }
-            //var url = "/Auth/Authenticate" 
-            
-            //$.ajax({    
-            //    type: "POST",
-            //    url: url,
-            //    data: JSON.stringify(payload),
-            //    dataType: "json",
-            //    contentType: "application/json",
-            //    success: function(result) {
-            //        localStorage.accessToken = result.access_token;
-            //        ValidAuth();
-            //        getUserPermissions();
-            //        setTimeout(()=>{
-            //        window.location = "/";
-            //        },100);
-            //    },  
-            //    error: function(jqXHR, textStatus, errorThrown) {  
-            //        console.log(textStatus+"          "+errorThrown + "     "+jqXHR);
-            //        InvalidAuth();
-            //}  
             });
 
-            // Setting static value temporarily till accessToken is been not received from console
-            
 
-  //  localStorage.scopes = JSON.stringify([{"scopes":["view","edit","create"],"rsId":"460a5d16-9a1c-4081-9920-7579cc96c3bf","rsName":"workflow-definitions"},{"scopes":["view","edit","create"],"rsId":"a17ecabb-42bd-494f-a4de-8aa0486ccc06","rsName":"workflow-instances"}]);
-  //window.location = "/";
-  //      });
-
-
-        const getUserPermissions = () => {
-            var payload = {'request':{}};
-            var url = "/Auth/getuserpermissions?accessToken="+localStorage.accessToken;
-            $.ajax({        
-                type: "POSt",
-                url: url,
-                data: JSON.stringify(payload),
-                dataType: "json",
-                contentType: "application/json",
-                success: function(result) {
-                    localStorage.scopes = JSON.stringify(result);
-                    ValidAuth();
-                    return result;
-                },  
-                error: function(jqXHR, textStatus, errorThrown) {  
-                    console.log(" getPErm error" +textStatus+"          "+errorThrown + "     "+jqXHR);
-                    InvalidAuth();
-            }  
-            });
-        };
+        //const getUserPermissions = () => {
+        //    var payload = {'request':{}};
+        //    var url = "/Auth/getuserpermissions?accessToken="+localStorage.accessToken;
+        //    $.ajax({        
+        //        type: "POSt",
+        //        url: url,
+        //        data: JSON.stringify(payload),
+        //        dataType: "json",
+        //        contentType: "application/json",
+        //        success: function(result) {
+        //            localStorage.scopes = JSON.stringify(result);
+        //            ValidAuth();
+        //            return result;
+        //        },  
+        //        error: function(jqXHR, textStatus, errorThrown) {  
+        //            console.log(" getPErm error" +textStatus+"          "+errorThrown + "     "+jqXHR);
+        //            InvalidAuth();
+        //    }  
+        //    });
+        //};
 
         const InvalidAuth = () => {
             $('#username').removeClass("is-valid");
