@@ -1,0 +1,991 @@
+{
+  "$id": "1",
+  "definitionId": "9592893ec74e43938fe6e6b952659401",
+  "versionId": "c53cdf54f3254417b50d9366dda606d9",
+  "name": "UserRegistration",
+  "displayName": "User Registration",
+  "version": 5,
+  "variables": {
+    "$id": "2",
+    "data": {}
+  },
+  "customAttributes": {
+    "$id": "3",
+    "data": {}
+  },
+  "isSingleton": false,
+  "persistenceBehavior": "WorkflowBurst",
+  "deleteCompletedInstances": false,
+  "isPublished": true,
+  "isLatest": true,
+  "activities": [
+    {
+      "$id": "4",
+      "activityId": "5f86287d-f71a-44b7-be30-5c20bf39fec7",
+      "type": "HttpEndpoint",
+      "displayName": "Receive Post Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "5",
+          "name": "Path",
+          "expressions": {
+            "$id": "6",
+            "Literal": "/CreateUser"
+          }
+        },
+        {
+          "$id": "7",
+          "name": "Methods",
+          "expressions": {
+            "$id": "8",
+            "Json": "[\"POST\"]"
+          }
+        },
+        {
+          "$id": "9",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "10",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "11",
+          "name": "TargetType",
+          "expressions": {
+            "$id": "12"
+          }
+        },
+        {
+          "$id": "13",
+          "name": "Authorize",
+          "expressions": {
+            "$id": "14"
+          }
+        },
+        {
+          "$id": "15",
+          "name": "Policy",
+          "expressions": {
+            "$id": "16"
+          }
+        },
+        {
+          "$id": "17",
+          "name": "Schema",
+          "syntax": "Literal",
+          "expressions": {
+            "$id": "18",
+            "Literal": ""
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "19",
+      "activityId": "5428a02e-10f0-4e8e-a438-76dc50490f01",
+      "type": "SetVariable",
+      "displayName": "Set User Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "20",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "21",
+            "Literal": "User"
+          }
+        },
+        {
+          "$id": "22",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "23",
+            "JavaScript": "input.Body"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "24",
+      "activityId": "35ddccad-883f-4d75-aeba-da3ff6d7c86a",
+      "type": "SendEmail",
+      "displayName": "Send Activation Link Email",
+      "description": "Send an email containing an activation link.",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "25",
+          "name": "From",
+          "expressions": {
+            "$id": "26",
+            "Literal": "apoorv.rane.neosoft@gmail.com"
+          }
+        },
+        {
+          "$id": "27",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "28",
+            "Json": "",
+            "JavaScript": "[User.Email]"
+          }
+        },
+        {
+          "$id": "29",
+          "name": "Subject",
+          "expressions": {
+            "$id": "30",
+            "Literal": "Activate your account!"
+          }
+        },
+        {
+          "$id": "31",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "32"
+          }
+        },
+        {
+          "$id": "33",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "34",
+            "Liquid": "<p>Welcome, {{ Variables.User.Name }}!</p>\r\n<p>Please <a href=\"{{ \"Activate\" | signal_url }}\">activate your account </a> within the next 4 minutes.</p>"
+          }
+        },
+        {
+          "$id": "35",
+          "name": "Cc",
+          "expressions": {
+            "$id": "36"
+          }
+        },
+        {
+          "$id": "37",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "38"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "39",
+      "activityId": "a10755af-3e95-4a6f-ae39-62203478c0c8",
+      "type": "Fork",
+      "displayName": "Fork",
+      "description": "Split execution",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "40",
+          "name": "Branches",
+          "expressions": {
+            "$id": "41",
+            "Json": "[\"Activate\",\"Timeout\"]"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "42",
+      "activityId": "c8354d82-ec10-4a59-8571-cd400c8687ff",
+      "type": "SignalReceived",
+      "displayName": "Activation Link Clicked",
+      "description": "Wait for user to click the activation link.",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "43",
+          "name": "Signal",
+          "expressions": {
+            "$id": "44",
+            "Literal": "Activate"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "45",
+      "activityId": "6b174ba8-9b77-4028-b631-3818175fb985",
+      "type": "SendHttpRequest",
+      "name": "ActivateRequest",
+      "displayName": "Send Activate Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "46",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "47",
+            "Literal": "",
+            "Liquid": "http://localhost:5012/api/User/{{ Variables.User.Id }}"
+          }
+        },
+        {
+          "$id": "48",
+          "name": "Method",
+          "expressions": {
+            "$id": "49",
+            "Literal": "PUT"
+          }
+        },
+        {
+          "$id": "50",
+          "name": "Content",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "51",
+            "Liquid": "{{ Variables.User }}",
+            "JavaScript": "JSON.stringify(User)"
+          }
+        },
+        {
+          "$id": "52",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "53",
+            "Literal": "application/json"
+          }
+        },
+        {
+          "$id": "54",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "55",
+            "Literal": "true"
+          }
+        },
+        {
+          "$id": "56",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "57",
+            "Literal": ".NET Type"
+          }
+        },
+        {
+          "$id": "58",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "59"
+          }
+        },
+        {
+          "$id": "60",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "61",
+            "Json": "[]"
+          }
+        },
+        {
+          "$id": "62",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "63"
+          }
+        },
+        {
+          "$id": "64",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "65"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "66",
+      "activityId": "b25782d0-0ef4-4305-88ec-1373a0b36f7e",
+      "type": "SendEmail",
+      "displayName": "Send Activation Confirmation Email",
+      "description": "Send an email confirming that the account has been activated.",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "67",
+          "name": "From",
+          "expressions": {
+            "$id": "68",
+            "Literal": "apoorv.rane.neosoft@gmail.com"
+          }
+        },
+        {
+          "$id": "69",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "70",
+            "JavaScript": "[User.Email]"
+          }
+        },
+        {
+          "$id": "71",
+          "name": "Subject",
+          "expressions": {
+            "$id": "72",
+            "Literal": "Thanks for activating!"
+          }
+        },
+        {
+          "$id": "73",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "74"
+          }
+        },
+        {
+          "$id": "75",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "76",
+            "Liquid": "<p>Hi {{ Variables.User.Name }},</p>\r\n<p>Thanks for activating your account!</p>"
+          }
+        },
+        {
+          "$id": "77",
+          "name": "Cc",
+          "expressions": {
+            "$id": "78"
+          }
+        },
+        {
+          "$id": "79",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "80"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "81",
+      "activityId": "9ccd5953-327f-4b69-8e0d-409142b5af77",
+      "type": "WriteHttpResponse",
+      "displayName": "Display Activation Confirmation Page",
+      "description": "Display a page confirming that the account has been activated.",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "82",
+          "name": "Content",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "83",
+            "Liquid": "<p>Hi {{ Variables.User.Name }},</p>\r\n<p>Thanks for activating your account!</p>"
+          }
+        },
+        {
+          "$id": "84",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "85",
+            "Literal": "text/html"
+          }
+        },
+        {
+          "$id": "86",
+          "name": "StatusCode",
+          "expressions": {
+            "$id": "87"
+          }
+        },
+        {
+          "$id": "88",
+          "name": "CharSet",
+          "expressions": {
+            "$id": "89"
+          }
+        },
+        {
+          "$id": "90",
+          "name": "ResponseHeaders",
+          "expressions": {
+            "$id": "91"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "92",
+      "activityId": "59b136fd-58b5-41a1-b4f0-3c4b42748b92",
+      "type": "Timer",
+      "displayName": "Wait for 2 minutes",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "93",
+          "name": "Timeout",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "94",
+            "Literal": "00:02:30",
+            "Liquid": "00:02:30",
+            "JavaScript": "Duration.FromSeconds(30)"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "95",
+      "activityId": "7f2939d3-4f8d-448d-bc6f-2ae689dfb929",
+      "type": "SendEmail",
+      "displayName": "Send Reminder Email",
+      "description": "Send a reminder email that the user’s time is running out!",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "96",
+          "name": "From",
+          "expressions": {
+            "$id": "97",
+            "Literal": "apoorv.rane.neosoft@gmail.com"
+          }
+        },
+        {
+          "$id": "98",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "99",
+            "JavaScript": "[User.Email]"
+          }
+        },
+        {
+          "$id": "100",
+          "name": "Subject",
+          "expressions": {
+            "$id": "101",
+            "Literal": "Don’t forget to activate your account!"
+          }
+        },
+        {
+          "$id": "102",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "103"
+          }
+        },
+        {
+          "$id": "104",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "105",
+            "Liquid": "<p>Hi {{ Variables.User.Name }}!</p>\r\n<p>Please don’t forget to <a href=\"{{ \"Activate\" | signal_url }}\">activate your account </a> within the next 2 minutes.</p>"
+          }
+        },
+        {
+          "$id": "106",
+          "name": "Cc",
+          "expressions": {
+            "$id": "107"
+          }
+        },
+        {
+          "$id": "108",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "109"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "110",
+      "activityId": "c96b89eb-0040-4675-9dcc-9d33f3148c7a",
+      "type": "Timer",
+      "displayName": "Wait for 2 minutes",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "111",
+          "name": "Timeout",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "112",
+            "Literal": "00:02:30",
+            "JavaScript": "Duration.FromSeconds(30)"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "113",
+      "activityId": "a970e76a-fcb2-4ff0-817d-7ecf17719a1e",
+      "type": "SendHttpRequest",
+      "displayName": "Send Delete Request",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "114",
+          "name": "Url",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "115",
+            "Liquid": "http://localhost:5012/api/User/{{ Variables.User.Id }}"
+          }
+        },
+        {
+          "$id": "116",
+          "name": "Method",
+          "expressions": {
+            "$id": "117",
+            "Literal": "DELETE"
+          }
+        },
+        {
+          "$id": "118",
+          "name": "Content",
+          "expressions": {
+            "$id": "119"
+          }
+        },
+        {
+          "$id": "120",
+          "name": "ContentType",
+          "expressions": {
+            "$id": "121",
+            "Literal": "application/json"
+          }
+        },
+        {
+          "$id": "122",
+          "name": "ReadContent",
+          "expressions": {
+            "$id": "123"
+          }
+        },
+        {
+          "$id": "124",
+          "name": "ResponseContentParserName",
+          "expressions": {
+            "$id": "125"
+          }
+        },
+        {
+          "$id": "126",
+          "name": "ResponseContentTargetType",
+          "expressions": {
+            "$id": "127"
+          }
+        },
+        {
+          "$id": "128",
+          "name": "SupportedStatusCodes",
+          "expressions": {
+            "$id": "129"
+          }
+        },
+        {
+          "$id": "130",
+          "name": "Authorization",
+          "expressions": {
+            "$id": "131"
+          }
+        },
+        {
+          "$id": "132",
+          "name": "RequestHeaders",
+          "expressions": {
+            "$id": "133"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "134",
+      "activityId": "a03eab93-1c49-4596-bab2-4d9efc9ef067",
+      "type": "SendEmail",
+      "displayName": "Send Account Deleted Email",
+      "description": "Send the user an email confirming that their account has been deleted.",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "135",
+          "name": "From",
+          "expressions": {
+            "$id": "136",
+            "Literal": "apoorv.rane.neosoft@gmail.com"
+          }
+        },
+        {
+          "$id": "137",
+          "name": "To",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "138",
+            "JavaScript": "[User.Email]"
+          }
+        },
+        {
+          "$id": "139",
+          "name": "Subject",
+          "expressions": {
+            "$id": "140",
+            "Literal": "Sorry to see you go"
+          }
+        },
+        {
+          "$id": "141",
+          "name": "Attachments",
+          "expressions": {
+            "$id": "142"
+          }
+        },
+        {
+          "$id": "143",
+          "name": "Body",
+          "syntax": "Liquid",
+          "expressions": {
+            "$id": "144",
+            "Liquid": "<p>Hi {{ Variables.User.Name }},</p>\r\n<p>We’re sorry to see you go. We look forward to having you again!</p>"
+          }
+        },
+        {
+          "$id": "145",
+          "name": "Cc",
+          "expressions": {
+            "$id": "146"
+          }
+        },
+        {
+          "$id": "147",
+          "name": "Bcc",
+          "expressions": {
+            "$id": "148"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "149",
+      "activityId": "8ffa9ffa-c2b9-4e15-9e0e-39f82777d585",
+      "type": "Finish",
+      "displayName": "Finish",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "150",
+          "name": "ActivityOutput",
+          "expressions": {
+            "$id": "151"
+          }
+        },
+        {
+          "$id": "152",
+          "name": "OutcomeNames",
+          "expressions": {
+            "$id": "153"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "154",
+      "activityId": "90d1d66a-2712-453b-aef4-95560dda0f42",
+      "type": "Timer",
+      "displayName": "Retry TImer",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "155",
+          "name": "Timeout",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "156",
+            "JavaScript": "Duration.FromSeconds(30)"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "157",
+      "activityId": "b5e4b263-fd47-4e6f-8d2e-bd387ad5b24c",
+      "type": "If",
+      "displayName": "If/Else",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "158",
+          "name": "Condition",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "159",
+            "JavaScript": "!User.isActive && !isActivated"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "160",
+      "activityId": "39222e24-a3e1-45c1-b10c-6dd2df119175",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "161",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "162",
+            "Literal": "isActivated"
+          }
+        },
+        {
+          "$id": "163",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "164",
+            "JavaScript": "true"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "165",
+      "activityId": "580233ba-073a-4523-8446-7444a69679f2",
+      "type": "SetVariable",
+      "displayName": "Set Variable",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "166",
+          "name": "VariableName",
+          "expressions": {
+            "$id": "167",
+            "Literal": "isActivated"
+          }
+        },
+        {
+          "$id": "168",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "169",
+            "JavaScript": "false"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    },
+    {
+      "$id": "170",
+      "activityId": "d2230aac-10ec-450b-80bb-3665cd3371ee",
+      "type": "Correlate",
+      "displayName": "Correlate",
+      "persistWorkflow": false,
+      "loadWorkflowContext": false,
+      "saveWorkflowContext": false,
+      "properties": [
+        {
+          "$id": "171",
+          "name": "Value",
+          "syntax": "JavaScript",
+          "expressions": {
+            "$id": "172",
+            "JavaScript": "User.Id"
+          }
+        }
+      ],
+      "propertyStorageProviders": {}
+    }
+  ],
+  "connections": [
+    {
+      "$id": "173",
+      "sourceActivityId": "5f86287d-f71a-44b7-be30-5c20bf39fec7",
+      "targetActivityId": "5428a02e-10f0-4e8e-a438-76dc50490f01",
+      "outcome": "Done"
+    },
+    {
+      "$id": "174",
+      "sourceActivityId": "5428a02e-10f0-4e8e-a438-76dc50490f01",
+      "targetActivityId": "35ddccad-883f-4d75-aeba-da3ff6d7c86a",
+      "outcome": "Done"
+    },
+    {
+      "$id": "175",
+      "sourceActivityId": "b25782d0-0ef4-4305-88ec-1373a0b36f7e",
+      "targetActivityId": "9ccd5953-327f-4b69-8e0d-409142b5af77",
+      "outcome": "Done"
+    },
+    {
+      "$id": "176",
+      "sourceActivityId": "a10755af-3e95-4a6f-ae39-62203478c0c8",
+      "targetActivityId": "59b136fd-58b5-41a1-b4f0-3c4b42748b92",
+      "outcome": "Timeout"
+    },
+    {
+      "$id": "177",
+      "sourceActivityId": "7f2939d3-4f8d-448d-bc6f-2ae689dfb929",
+      "targetActivityId": "c96b89eb-0040-4675-9dcc-9d33f3148c7a",
+      "outcome": "Done"
+    },
+    {
+      "$id": "178",
+      "sourceActivityId": "c96b89eb-0040-4675-9dcc-9d33f3148c7a",
+      "targetActivityId": "a970e76a-fcb2-4ff0-817d-7ecf17719a1e",
+      "outcome": "Done"
+    },
+    {
+      "$id": "179",
+      "sourceActivityId": "a970e76a-fcb2-4ff0-817d-7ecf17719a1e",
+      "targetActivityId": "a03eab93-1c49-4596-bab2-4d9efc9ef067",
+      "outcome": "Done"
+    },
+    {
+      "$id": "180",
+      "sourceActivityId": "a03eab93-1c49-4596-bab2-4d9efc9ef067",
+      "targetActivityId": "8ffa9ffa-c2b9-4e15-9e0e-39f82777d585",
+      "outcome": "Done"
+    },
+    {
+      "$id": "181",
+      "sourceActivityId": "90d1d66a-2712-453b-aef4-95560dda0f42",
+      "targetActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
+      "outcome": "Done"
+    },
+    {
+      "$id": "182",
+      "sourceActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
+      "targetActivityId": "90d1d66a-2712-453b-aef4-95560dda0f42",
+      "outcome": "Error"
+    },
+    {
+      "$id": "183",
+      "sourceActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
+      "targetActivityId": "90d1d66a-2712-453b-aef4-95560dda0f42",
+      "outcome": "Unsupported Status Code"
+    },
+    {
+      "$id": "184",
+      "sourceActivityId": "c8354d82-ec10-4a59-8571-cd400c8687ff",
+      "targetActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
+      "outcome": "Done"
+    },
+    {
+      "$id": "185",
+      "sourceActivityId": "59b136fd-58b5-41a1-b4f0-3c4b42748b92",
+      "targetActivityId": "b5e4b263-fd47-4e6f-8d2e-bd387ad5b24c",
+      "outcome": "Done"
+    },
+    {
+      "$id": "186",
+      "sourceActivityId": "b5e4b263-fd47-4e6f-8d2e-bd387ad5b24c",
+      "targetActivityId": "7f2939d3-4f8d-448d-bc6f-2ae689dfb929",
+      "outcome": "True"
+    },
+    {
+      "$id": "187",
+      "sourceActivityId": "39222e24-a3e1-45c1-b10c-6dd2df119175",
+      "targetActivityId": "b25782d0-0ef4-4305-88ec-1373a0b36f7e",
+      "outcome": "Done"
+    },
+    {
+      "$id": "188",
+      "sourceActivityId": "35ddccad-883f-4d75-aeba-da3ff6d7c86a",
+      "targetActivityId": "580233ba-073a-4523-8446-7444a69679f2",
+      "outcome": "Done"
+    },
+    {
+      "$id": "189",
+      "sourceActivityId": "a10755af-3e95-4a6f-ae39-62203478c0c8",
+      "targetActivityId": "c8354d82-ec10-4a59-8571-cd400c8687ff",
+      "outcome": "Activate"
+    },
+    {
+      "$id": "190",
+      "sourceActivityId": "580233ba-073a-4523-8446-7444a69679f2",
+      "targetActivityId": "d2230aac-10ec-450b-80bb-3665cd3371ee",
+      "outcome": "Done"
+    },
+    {
+      "$id": "191",
+      "sourceActivityId": "d2230aac-10ec-450b-80bb-3665cd3371ee",
+      "targetActivityId": "a10755af-3e95-4a6f-ae39-62203478c0c8",
+      "outcome": "Done"
+    },
+    {
+      "$id": "192",
+      "sourceActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
+      "targetActivityId": "39222e24-a3e1-45c1-b10c-6dd2df119175",
+      "outcome": "Done"
+    },
+    {
+      "$id": "193",
+      "sourceActivityId": "a10755af-3e95-4a6f-ae39-62203478c0c8",
+      "targetActivityId": "8ffa9ffa-c2b9-4e15-9e0e-39f82777d585",
+      "outcome": "Reject"
+    },
+    {
+      "$id": "194",
+      "sourceActivityId": "9ccd5953-327f-4b69-8e0d-409142b5af77",
+      "targetActivityId": "8ffa9ffa-c2b9-4e15-9e0e-39f82777d585",
+      "outcome": "Done"
+    }
+  ],
+  "id": "c53cdf54f3254417b50d9366dda606d9"
+}

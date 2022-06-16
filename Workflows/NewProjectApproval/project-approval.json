@@ -1,10 +1,10 @@
 {
   "$id": "1",
-  "definitionId": "8143f96802f74760af6f522f63c3a446",
-  "versionId": "1b8243674fe24bd1b267b4157a286516",
+  "definitionId": "cc831e8a374f4f64a0579f2a23eaa964",
+  "versionId": "1bee33e45c364b50ba068212704082e7",
   "name": "ProjectApproval",
   "displayName": "Project Approval",
-  "version": 37,
+  "version": 4,
   "variables": {
     "$id": "2",
     "data": {}
@@ -122,7 +122,7 @@
           "syntax": "Liquid",
           "expressions": {
             "$id": "24",
-            "Liquid": "https://localhost:44300/api/Project/GetManagerDetails?projectTechnology={{Variables.Project.ProjectTechnology}}"
+            "Liquid": "http://localhost:5011/api/Project/GetManagerDetails?projectTechnology={{Variables.Project.ProjectTechnology}}"
           }
         },
         {
@@ -238,10 +238,9 @@
         {
           "$id": "49",
           "name": "From",
-          "syntax": "JavaScript",
           "expressions": {
             "$id": "50",
-            "Literal": "",
+            "Literal": "apoorv.rane.neosoft@gmail.com",
             "JavaScript": "Project.SubmitterEmail"
           }
         },
@@ -328,11 +327,10 @@
         {
           "$id": "67",
           "name": "From",
-          "syntax": "JavaScript",
           "expressions": {
             "$id": "68",
-            "Literal": "vaibhav.kulkarni@neosoftmail.com",
-            "JavaScript": "Managers.deptManagerEmail"
+            "Literal": "apoorv.rane.neosoft@gmail.com",
+            "JavaScript": "Project.SubmitterEmail"
           }
         },
         {
@@ -419,11 +417,10 @@
         {
           "$id": "85",
           "name": "From",
-          "syntax": "JavaScript",
           "expressions": {
             "$id": "86",
-            "Literal": "vaibhav.kulkarni@neosoftmail.com",
-            "JavaScript": "Managers.deptManagerEmail",
+            "Literal": "apoorv.rane.neosoft@gmail.com",
+            "JavaScript": "Project.SubmitterEmail",
             "Liquid": ""
           }
         },
@@ -492,11 +489,10 @@
         {
           "$id": "100",
           "name": "From",
-          "syntax": "JavaScript",
           "expressions": {
             "$id": "101",
-            "JavaScript": "Managers.itManagerEmail",
-            "Literal": "neha.haridas@neosoftmail.com"
+            "JavaScript": "Project.SubmitterEmail",
+            "Literal": "apoorv.rane.neosoft@gmail.com"
           }
         },
         {
@@ -668,11 +664,10 @@
         {
           "$id": "132",
           "name": "From",
-          "syntax": "JavaScript",
           "expressions": {
             "$id": "133",
-            "Literal": "vaibhav.kulkarni@neosoftmail.com",
-            "JavaScript": "Managers.deptManagerEmail"
+            "Literal": "apoorv.rane.neosoft@gmail.com",
+            "JavaScript": "Project.SubmitterEmail"
           }
         },
         {
@@ -739,11 +734,10 @@
         {
           "$id": "147",
           "name": "From",
-          "syntax": "JavaScript",
           "expressions": {
             "$id": "148",
-            "Literal": "vaibhav.kulkarni@neosoftmail.com",
-            "JavaScript": "Managers.deptManagerEmail"
+            "Literal": "apoorv.rane.neosoft@gmail.com",
+            "JavaScript": "Project.SubmitterEmail"
           }
         },
         {
@@ -963,10 +957,10 @@
         {
           "$id": "195",
           "name": "From",
-          "syntax": "JavaScript",
           "expressions": {
             "$id": "196",
-            "JavaScript": "Managers.itManagerEmail"
+            "JavaScript": "Project.SubmitterEmail",
+            "Literal": "apoorv.rane.neosoft@gmail.com"
           }
         },
         {
@@ -1154,5 +1148,5 @@
       "outcome": "Done"
     }
   ],
-  "id": "1b8243674fe24bd1b267b4157a286516"
+  "id": "1bee33e45c364b50ba068212704082e7"
 }

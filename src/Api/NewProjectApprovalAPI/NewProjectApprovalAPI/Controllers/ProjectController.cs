@@ -47,24 +47,24 @@ namespace NewProjectApprovalAPI.Controllers
 
             if (projectTechnology == ".net")
             {
-                managerDetails.DeptManagerName = "Apoorv Rane";
+                managerDetails.DeptManagerName = "Neha Haridas";
                 managerDetails.DeptManagerEmail = "apoorv.rane@neosoftmail.com";
-                managerDetails.ITManagerName = "Shivam Gupta";
-                managerDetails.ITManagerEmail = "gupta.shivam@neosoftmail.com";
+                managerDetails.ITManagerName = "Vaibhav Kulkarni";
+                managerDetails.ITManagerEmail = "apoorv.rane@neosoftmail.com";
             }
             else if(projectTechnology == "java")
             {
                 managerDetails.DeptManagerName = "Sumit";
                 managerDetails.DeptManagerEmail = "apoorv.rane@neosoftmail.com";
                 managerDetails.ITManagerName = "Santosh Shinde";
-                managerDetails.ITManagerEmail = "gupta.shivam@neosoftmail.com";
+                managerDetails.ITManagerEmail = "apoorv.rane@neosoftmail.com";
             }
             else
             {
                 managerDetails.DeptManagerName = "Tushar";
                 managerDetails.DeptManagerEmail = "apoorv.rane@neosoftmail.com";
                 managerDetails.ITManagerName = "Sagar";
-                managerDetails.ITManagerEmail = "gupta.shivam@neosoftmail.com";
+                managerDetails.ITManagerEmail = "apoorv.rane@neosoftmail.com";
             }
             return Ok(managerDetails);
         }
