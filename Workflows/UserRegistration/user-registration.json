@@ -1,10 +1,10 @@
 {
   "$id": "1",
   "definitionId": "9592893ec74e43938fe6e6b952659401",
-  "versionId": "c8e8940a4c7d481883fa2592fe23d21e",
+  "versionId": "e1b6ac958ab9474fb4c1d60bea66bc05",
   "name": "UserRegistration",
   "displayName": "User Registration",
-  "version": 6,
+  "version": 7,
   "variables": {
     "$id": "2",
     "data": {}
@@ -809,150 +809,123 @@
         }
       ],
       "propertyStorageProviders": {}
-    },
-    {
-      "$id": "167",
-      "activityId": "d2230aac-10ec-450b-80bb-3665cd3371ee",
-      "type": "Correlate",
-      "displayName": "Correlate",
-      "persistWorkflow": false,
-      "loadWorkflowContext": false,
-      "saveWorkflowContext": false,
-      "properties": [
-        {
-          "$id": "168",
-          "name": "Value",
-          "syntax": "JavaScript",
-          "expressions": {
-            "$id": "169",
-            "JavaScript": "User.Id"
-          }
-        }
-      ],
-      "propertyStorageProviders": {}
     }
   ],
   "connections": [
     {
-      "$id": "170",
+      "$id": "167",
       "sourceActivityId": "5f86287d-f71a-44b7-be30-5c20bf39fec7",
       "targetActivityId": "5428a02e-10f0-4e8e-a438-76dc50490f01",
       "outcome": "Done"
     },
     {
-      "$id": "171",
+      "$id": "168",
       "sourceActivityId": "5428a02e-10f0-4e8e-a438-76dc50490f01",
       "targetActivityId": "35ddccad-883f-4d75-aeba-da3ff6d7c86a",
       "outcome": "Done"
     },
     {
-      "$id": "172",
+      "$id": "169",
       "sourceActivityId": "b25782d0-0ef4-4305-88ec-1373a0b36f7e",
       "targetActivityId": "9ccd5953-327f-4b69-8e0d-409142b5af77",
       "outcome": "Done"
     },
     {
-      "$id": "173",
+      "$id": "170",
       "sourceActivityId": "a10755af-3e95-4a6f-ae39-62203478c0c8",
       "targetActivityId": "59b136fd-58b5-41a1-b4f0-3c4b42748b92",
       "outcome": "Timeout"
     },
     {
-      "$id": "174",
+      "$id": "171",
       "sourceActivityId": "7f2939d3-4f8d-448d-bc6f-2ae689dfb929",
       "targetActivityId": "c96b89eb-0040-4675-9dcc-9d33f3148c7a",
       "outcome": "Done"
     },
     {
-      "$id": "175",
+      "$id": "172",
       "sourceActivityId": "c96b89eb-0040-4675-9dcc-9d33f3148c7a",
       "targetActivityId": "a970e76a-fcb2-4ff0-817d-7ecf17719a1e",
       "outcome": "Done"
     },
     {
-      "$id": "176",
+      "$id": "173",
       "sourceActivityId": "a970e76a-fcb2-4ff0-817d-7ecf17719a1e",
       "targetActivityId": "a03eab93-1c49-4596-bab2-4d9efc9ef067",
       "outcome": "Done"
     },
     {
-      "$id": "177",
+      "$id": "174",
       "sourceActivityId": "a03eab93-1c49-4596-bab2-4d9efc9ef067",
       "targetActivityId": "8ffa9ffa-c2b9-4e15-9e0e-39f82777d585",
       "outcome": "Done"
     },
     {
-      "$id": "178",
+      "$id": "175",
       "sourceActivityId": "c8354d82-ec10-4a59-8571-cd400c8687ff",
       "targetActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
       "outcome": "Done"
     },
     {
-      "$id": "179",
+      "$id": "176",
       "sourceActivityId": "59b136fd-58b5-41a1-b4f0-3c4b42748b92",
       "targetActivityId": "b5e4b263-fd47-4e6f-8d2e-bd387ad5b24c",
       "outcome": "Done"
     },
     {
-      "$id": "180",
+      "$id": "177",
       "sourceActivityId": "b5e4b263-fd47-4e6f-8d2e-bd387ad5b24c",
       "targetActivityId": "7f2939d3-4f8d-448d-bc6f-2ae689dfb929",
       "outcome": "True"
     },
     {
-      "$id": "181",
+      "$id": "178",
       "sourceActivityId": "39222e24-a3e1-45c1-b10c-6dd2df119175",
       "targetActivityId": "b25782d0-0ef4-4305-88ec-1373a0b36f7e",
       "outcome": "Done"
     },
     {
-      "$id": "182",
+      "$id": "179",
       "sourceActivityId": "35ddccad-883f-4d75-aeba-da3ff6d7c86a",
       "targetActivityId": "580233ba-073a-4523-8446-7444a69679f2",
       "outcome": "Done"
     },
     {
-      "$id": "183",
+      "$id": "180",
       "sourceActivityId": "a10755af-3e95-4a6f-ae39-62203478c0c8",
       "targetActivityId": "c8354d82-ec10-4a59-8571-cd400c8687ff",
       "outcome": "Activate"
     },
     {
-      "$id": "184",
-      "sourceActivityId": "580233ba-073a-4523-8446-7444a69679f2",
-      "targetActivityId": "d2230aac-10ec-450b-80bb-3665cd3371ee",
-      "outcome": "Done"
-    },
-    {
-      "$id": "185",
-      "sourceActivityId": "d2230aac-10ec-450b-80bb-3665cd3371ee",
-      "targetActivityId": "a10755af-3e95-4a6f-ae39-62203478c0c8",
-      "outcome": "Done"
-    },
-    {
-      "$id": "186",
+      "$id": "181",
       "sourceActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
       "targetActivityId": "39222e24-a3e1-45c1-b10c-6dd2df119175",
       "outcome": "Done"
     },
     {
-      "$id": "187",
+      "$id": "182",
       "sourceActivityId": "a10755af-3e95-4a6f-ae39-62203478c0c8",
       "targetActivityId": "8ffa9ffa-c2b9-4e15-9e0e-39f82777d585",
       "outcome": "Reject"
     },
     {
-      "$id": "188",
+      "$id": "183",
       "sourceActivityId": "9ccd5953-327f-4b69-8e0d-409142b5af77",
       "targetActivityId": "8ffa9ffa-c2b9-4e15-9e0e-39f82777d585",
       "outcome": "Done"
     },
     {
-      "$id": "189",
+      "$id": "184",
       "sourceActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
       "targetActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
       "outcome": "Error"
+    },
+    {
+      "$id": "185",
+      "sourceActivityId": "580233ba-073a-4523-8446-7444a69679f2",
+      "targetActivityId": "a10755af-3e95-4a6f-ae39-62203478c0c8",
+      "outcome": "Done"
     }
   ],
-  "id": "c8e8940a4c7d481883fa2592fe23d21e"
+  "id": "e1b6ac958ab9474fb4c1d60bea66bc05"
 }
