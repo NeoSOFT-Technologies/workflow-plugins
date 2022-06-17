@@ -1,10 +1,10 @@
 {
   "$id": "1",
   "definitionId": "9592893ec74e43938fe6e6b952659401",
-  "versionId": "c53cdf54f3254417b50d9366dda606d9",
+  "versionId": "c8e8940a4c7d481883fa2592fe23d21e",
   "name": "UserRegistration",
   "displayName": "User Registration",
-  "version": 5,
+  "version": 6,
   "variables": {
     "$id": "2",
     "data": {}
@@ -733,27 +733,6 @@
     },
     {
       "$id": "154",
-      "activityId": "90d1d66a-2712-453b-aef4-95560dda0f42",
-      "type": "Timer",
-      "displayName": "Retry TImer",
-      "persistWorkflow": false,
-      "loadWorkflowContext": false,
-      "saveWorkflowContext": false,
-      "properties": [
-        {
-          "$id": "155",
-          "name": "Timeout",
-          "syntax": "JavaScript",
-          "expressions": {
-            "$id": "156",
-            "JavaScript": "Duration.FromSeconds(30)"
-          }
-        }
-      ],
-      "propertyStorageProviders": {}
-    },
-    {
-      "$id": "157",
       "activityId": "b5e4b263-fd47-4e6f-8d2e-bd387ad5b24c",
       "type": "If",
       "displayName": "If/Else",
@@ -762,11 +741,11 @@
       "saveWorkflowContext": false,
       "properties": [
         {
-          "$id": "158",
+          "$id": "155",
           "name": "Condition",
           "syntax": "JavaScript",
           "expressions": {
-            "$id": "159",
+            "$id": "156",
             "JavaScript": "!User.isActive && !isActivated"
           }
         }
@@ -774,7 +753,7 @@
       "propertyStorageProviders": {}
     },
     {
-      "$id": "160",
+      "$id": "157",
       "activityId": "39222e24-a3e1-45c1-b10c-6dd2df119175",
       "type": "SetVariable",
       "displayName": "Set Variable",
@@ -783,19 +762,19 @@
       "saveWorkflowContext": false,
       "properties": [
         {
-          "$id": "161",
+          "$id": "158",
           "name": "VariableName",
           "expressions": {
-            "$id": "162",
+            "$id": "159",
             "Literal": "isActivated"
           }
         },
         {
-          "$id": "163",
+          "$id": "160",
           "name": "Value",
           "syntax": "JavaScript",
           "expressions": {
-            "$id": "164",
+            "$id": "161",
             "JavaScript": "true"
           }
         }
@@ -803,7 +782,7 @@
       "propertyStorageProviders": {}
     },
     {
-      "$id": "165",
+      "$id": "162",
       "activityId": "580233ba-073a-4523-8446-7444a69679f2",
       "type": "SetVariable",
       "displayName": "Set Variable",
@@ -812,19 +791,19 @@
       "saveWorkflowContext": false,
       "properties": [
         {
-          "$id": "166",
+          "$id": "163",
           "name": "VariableName",
           "expressions": {
-            "$id": "167",
+            "$id": "164",
             "Literal": "isActivated"
           }
         },
         {
-          "$id": "168",
+          "$id": "165",
           "name": "Value",
           "syntax": "JavaScript",
           "expressions": {
-            "$id": "169",
+            "$id": "166",
             "JavaScript": "false"
           }
         }
@@ -832,7 +811,7 @@
       "propertyStorageProviders": {}
     },
     {
-      "$id": "170",
+      "$id": "167",
       "activityId": "d2230aac-10ec-450b-80bb-3665cd3371ee",
       "type": "Correlate",
       "displayName": "Correlate",
@@ -841,11 +820,11 @@
       "saveWorkflowContext": false,
       "properties": [
         {
-          "$id": "171",
+          "$id": "168",
           "name": "Value",
           "syntax": "JavaScript",
           "expressions": {
-            "$id": "172",
+            "$id": "169",
             "JavaScript": "User.Id"
           }
         }
@@ -855,137 +834,125 @@
   ],
   "connections": [
     {
-      "$id": "173",
+      "$id": "170",
       "sourceActivityId": "5f86287d-f71a-44b7-be30-5c20bf39fec7",
       "targetActivityId": "5428a02e-10f0-4e8e-a438-76dc50490f01",
       "outcome": "Done"
     },
     {
-      "$id": "174",
+      "$id": "171",
       "sourceActivityId": "5428a02e-10f0-4e8e-a438-76dc50490f01",
       "targetActivityId": "35ddccad-883f-4d75-aeba-da3ff6d7c86a",
       "outcome": "Done"
     },
     {
-      "$id": "175",
+      "$id": "172",
       "sourceActivityId": "b25782d0-0ef4-4305-88ec-1373a0b36f7e",
       "targetActivityId": "9ccd5953-327f-4b69-8e0d-409142b5af77",
       "outcome": "Done"
     },
     {
-      "$id": "176",
+      "$id": "173",
       "sourceActivityId": "a10755af-3e95-4a6f-ae39-62203478c0c8",
       "targetActivityId": "59b136fd-58b5-41a1-b4f0-3c4b42748b92",
       "outcome": "Timeout"
     },
     {
-      "$id": "177",
+      "$id": "174",
       "sourceActivityId": "7f2939d3-4f8d-448d-bc6f-2ae689dfb929",
       "targetActivityId": "c96b89eb-0040-4675-9dcc-9d33f3148c7a",
       "outcome": "Done"
     },
     {
-      "$id": "178",
+      "$id": "175",
       "sourceActivityId": "c96b89eb-0040-4675-9dcc-9d33f3148c7a",
       "targetActivityId": "a970e76a-fcb2-4ff0-817d-7ecf17719a1e",
       "outcome": "Done"
     },
     {
-      "$id": "179",
+      "$id": "176",
       "sourceActivityId": "a970e76a-fcb2-4ff0-817d-7ecf17719a1e",
       "targetActivityId": "a03eab93-1c49-4596-bab2-4d9efc9ef067",
       "outcome": "Done"
     },
     {
-      "$id": "180",
+      "$id": "177",
       "sourceActivityId": "a03eab93-1c49-4596-bab2-4d9efc9ef067",
       "targetActivityId": "8ffa9ffa-c2b9-4e15-9e0e-39f82777d585",
       "outcome": "Done"
     },
     {
-      "$id": "181",
-      "sourceActivityId": "90d1d66a-2712-453b-aef4-95560dda0f42",
-      "targetActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
-      "outcome": "Done"
-    },
-    {
-      "$id": "182",
-      "sourceActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
-      "targetActivityId": "90d1d66a-2712-453b-aef4-95560dda0f42",
-      "outcome": "Error"
-    },
-    {
-      "$id": "183",
-      "sourceActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
-      "targetActivityId": "90d1d66a-2712-453b-aef4-95560dda0f42",
-      "outcome": "Unsupported Status Code"
-    },
-    {
-      "$id": "184",
+      "$id": "178",
       "sourceActivityId": "c8354d82-ec10-4a59-8571-cd400c8687ff",
       "targetActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
       "outcome": "Done"
     },
     {
-      "$id": "185",
+      "$id": "179",
       "sourceActivityId": "59b136fd-58b5-41a1-b4f0-3c4b42748b92",
       "targetActivityId": "b5e4b263-fd47-4e6f-8d2e-bd387ad5b24c",
       "outcome": "Done"
     },
     {
-      "$id": "186",
+      "$id": "180",
       "sourceActivityId": "b5e4b263-fd47-4e6f-8d2e-bd387ad5b24c",
       "targetActivityId": "7f2939d3-4f8d-448d-bc6f-2ae689dfb929",
       "outcome": "True"
     },
     {
-      "$id": "187",
+      "$id": "181",
       "sourceActivityId": "39222e24-a3e1-45c1-b10c-6dd2df119175",
       "targetActivityId": "b25782d0-0ef4-4305-88ec-1373a0b36f7e",
       "outcome": "Done"
     },
     {
-      "$id": "188",
+      "$id": "182",
       "sourceActivityId": "35ddccad-883f-4d75-aeba-da3ff6d7c86a",
       "targetActivityId": "580233ba-073a-4523-8446-7444a69679f2",
       "outcome": "Done"
     },
     {
-      "$id": "189",
+      "$id": "183",
       "sourceActivityId": "a10755af-3e95-4a6f-ae39-62203478c0c8",
       "targetActivityId": "c8354d82-ec10-4a59-8571-cd400c8687ff",
       "outcome": "Activate"
     },
     {
-      "$id": "190",
+      "$id": "184",
       "sourceActivityId": "580233ba-073a-4523-8446-7444a69679f2",
       "targetActivityId": "d2230aac-10ec-450b-80bb-3665cd3371ee",
       "outcome": "Done"
     },
     {
-      "$id": "191",
+      "$id": "185",
       "sourceActivityId": "d2230aac-10ec-450b-80bb-3665cd3371ee",
       "targetActivityId": "a10755af-3e95-4a6f-ae39-62203478c0c8",
       "outcome": "Done"
     },
     {
-      "$id": "192",
+      "$id": "186",
       "sourceActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
       "targetActivityId": "39222e24-a3e1-45c1-b10c-6dd2df119175",
       "outcome": "Done"
     },
     {
-      "$id": "193",
+      "$id": "187",
       "sourceActivityId": "a10755af-3e95-4a6f-ae39-62203478c0c8",
       "targetActivityId": "8ffa9ffa-c2b9-4e15-9e0e-39f82777d585",
       "outcome": "Reject"
     },
     {
-      "$id": "194",
+      "$id": "188",
       "sourceActivityId": "9ccd5953-327f-4b69-8e0d-409142b5af77",
       "targetActivityId": "8ffa9ffa-c2b9-4e15-9e0e-39f82777d585",
       "outcome": "Done"
+    },
+    {
+      "$id": "189",
+      "sourceActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
+      "targetActivityId": "6b174ba8-9b77-4028-b631-3818175fb985",
+      "outcome": "Error"
     }
   ],
-  "id": "c53cdf54f3254417b50d9366dda606d9"
+  "id": "c8e8940a4c7d481883fa2592fe23d21e"
 }
