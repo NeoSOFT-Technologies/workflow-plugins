@@ -1,10 +1,10 @@
 {
   "$id": "1",
   "definitionId": "9592893ec74e43938fe6e6b952659401",
-  "versionId": "e1b6ac958ab9474fb4c1d60bea66bc05",
+  "versionId": "420fe5c3646b48a3bc7b4ef6cd787473",
   "name": "UserRegistration",
   "displayName": "User Registration",
-  "version": 7,
+  "version": 8,
   "variables": {
     "$id": "2",
     "data": {}
@@ -746,7 +746,7 @@
           "syntax": "JavaScript",
           "expressions": {
             "$id": "156",
-            "JavaScript": "!User.isActive && !isActivated"
+            "JavaScript": "!isActivated"
           }
         }
       ],
@@ -927,5 +927,5 @@
       "outcome": "Done"
     }
   ],
-  "id": "e1b6ac958ab9474fb4c1d60bea66bc05"
+  "id": "420fe5c3646b48a3bc7b4ef6cd787473"
 }
