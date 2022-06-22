@@ -118,12 +118,12 @@ namespace Elsa.Server
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseFileServer(new FileServerOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(env.ContentRootPath, "Pages")),
-                    RequestPath = "/html"
-            });
+            //app.UseFileServer(new FileServerOptions
+            //{
+            //    FileProvider = new PhysicalFileProvider(
+            //        Path.Combine(env.ContentRootPath, "Pages")),
+            //        RequestPath = "/html"
+            //});
 
             app.UseHttpActivities();
 

@@ -22,7 +22,7 @@ namespace Elsa.Server.Middleware
         {
            _logger.LogInformation("Auth Middleware initiated");
 
-            if (context.Request.Path == "/")
+            if (context.Request.Path == "/" || context.Request.Path == "/getlocalstorage")
                 goto skipAuth;
 
             string accessToken = context.Request.Headers["Authorization"];
