@@ -1,13 +1,14 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-    <h1>Get Local Storage</h1>
+﻿@page
+@model Elsa.Server.Pages.GetLocalStorageModel
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@{
+}
+
+
+ <h1>Get Local Storage</h1>
     <script>
-    var PERMITTED_DOMAIN = "http://localhost:4004";
+        var PERMITTED_DOMAIN = "@Configuration.GetSection("ConsoleHost").Value";
     /**
         * Receiving message from other domain
         */
@@ -23,5 +24,3 @@
         }
     });
     </script>
-</body>
-</html>
