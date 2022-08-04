@@ -64,4 +64,5 @@
 ![MultiNode2](https://user-images.githubusercontent.com/80381121/147354133-5acaeb8f-d6e1-44c1-85b1-36a29e19311c.png)
 
 
+![Blank board](https://user-images.githubusercontent.com/80381121/182845904-bd80e06c-2542-42c1-a5b8-3a3aa605d6a0.png)
 
